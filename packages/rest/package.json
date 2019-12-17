@@ -2,6 +2,7 @@
   "name": "@owliehq/neatsio",
   "version": "0.0.1-development",
   "description": "Generate REST API from your Sequelize / Mongoose models",
+  "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/rest",
   "keywords": [],
   "main": "dist/neatsio-rest.js",
   "module": "dist/neatsio-rest.js",
