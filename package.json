@@ -1,0 +1,40 @@
+{
+  "name": "root",
+  "private": true,
+  "author": "HEN Xavier",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owliehq/neatsio"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^7.1.2",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^2.1.0",
+    "semantic-release": "^15.13.19",
+    "husky": "^1.0.1",
+    "lerna": "^3.16.4"
+  },
+  "scripts": {
+    "commit": "git-cz",
+    "semantic-release": "semantic-release"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "npm run test:prod && npm run build",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
