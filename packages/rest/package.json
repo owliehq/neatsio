@@ -1,7 +1,7 @@
 {
   "name": "@owliehq/neatsio",
-  "version": "0.0.0-development",
-  "description": "",
+  "version": "0.0.1-development",
+  "description": "Generate REST API from your Sequelize / Mongoose models",
   "keywords": [],
   "main": "dist/neatsio-rest.js",
   "module": "dist/neatsio-rest.js",
@@ -10,9 +10,12 @@
     "dist"
   ],
   "author": "HEN Xavier",
+  "bugs": {
+    "url": "https://github.com/owliehq/neatsio/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/owliehq/neatsio"
+    "url": "git+https://github.com/owliehq/neatsio.git"
   },
   "license": "MIT",
   "engines": {
@@ -30,7 +33,6 @@
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "semantic-release": "semantic-release"
   },
-
   "lint-staged": {
     "{src,test}/**/*.ts": [
       "prettier --write",
@@ -64,7 +66,6 @@
       "src/*.{js,ts}"
     ]
   },
-
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
