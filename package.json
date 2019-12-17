@@ -20,13 +20,6 @@
     "commit": "git-cz",
     "semantic-release": "semantic-release"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "npm run test:prod && npm run build",
-      "pre-commit": "lint-staged"
-    }
-  },
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
