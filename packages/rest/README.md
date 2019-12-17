@@ -1,6 +1,6 @@
 # Neatsio REST
 
-[![Build Status](https://travis-ci.org/neatsio/rest.svg?branch=master)](https://travis-ci.org/neatsio/rest) [![Dependencies](https://david-dm.org/neatsio/rest.svg)](https://david-dm.org/neatsio/rest) [![Coverage Status](https://coveralls.io/repos/github/neatsio/rest/badge.svg?branch=master)](https://coveralls.io/github/neatsio/rest?branch=master)
+[![Dependencies](https://david-dm.org/neatsio/rest.svg)](https://david-dm.org/neatsio/rest) [![Coverage Status](https://coveralls.io/repos/github/neatsio/rest/badge.svg?branch=master)](https://coveralls.io/github/neatsio/rest?branch=master)
 
 When using Neatsio REST lib, you can create REST APIs in seconds. Built on top of ExpressJS, Neatsio REST removes your boilerplate work time. Focus on models and business logic, the lib generate automatically endpoints based on mongoose/sequelize schemas. Save your time and enjoy with your new REST routes.
 
@@ -15,9 +15,9 @@ This lib is opinionated, some features or development orientation are due to per
 - CRUD endpoints generated from Mongoose (partially) or Sequelize schema
 - Support of query paramaters to handle filtering, pagination, sorting, and sub-populating
 - Handle express middlewares
+- Hooks
 - **[TODO]** Options, options, options everywhere...
 - **[TODO]** Authorization & role by route-level or document-level
-- **[TODO]** Hooks
 - **[TODO]** Addition of routes based on generated ones
 - **[TODO]** Plugins?
 - Written in typescript
@@ -28,7 +28,7 @@ This lib is opinionated, some features or development orientation are due to per
 ### 1. Install Neatsio REST
 
 ```
-$ npm install --save @neatsio/rest
+$ npm install --save @owliehq/neatsio
 $ npm install --save express body-parser sequelize
 
 [OPTIONAL FOR TESTING]
@@ -40,7 +40,7 @@ $ npm install --save sqlite3
 ```js
 const express = require('express')
 const bodyParser = require('body-parser')
-const neatsioRest = require('@neatsio/rest')
+const neatsioRest = require('@owliehq/neatsio')
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize({
