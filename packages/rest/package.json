@@ -28,7 +28,7 @@
     "test:watch": "jest --runInBand --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "semantic-release": "^15.13.19"
+    "semantic-release": "semantic-release"
   },
 
   "lint-staged": {
