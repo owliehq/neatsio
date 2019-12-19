@@ -8,8 +8,10 @@ import People from './models/people'
 import Car from './models/car'
 import Brand from './models/brand'
 import Role from './models/role'
+import Factory from './models/factory'
 
 import { auth } from './middlewares'
+
 
 // Create express app
 const app: express.Application = express()
@@ -20,7 +22,9 @@ neatsio.registryModel(Car)
 neatsio.registryModel(Brand)
 
 neatsio.registryModel(Role, {
-  middlewares: [auth]
+  middlewares: {
+    before: [auth]
+  }
   /*triggers: {
     create() {
       return {
@@ -28,6 +32,10 @@ neatsio.registryModel(Role, {
       }
     }
   }*/
+})
+
+neatsio.registryModel(Factory, {
+
 })
 
 app.use(bodyParser.json())

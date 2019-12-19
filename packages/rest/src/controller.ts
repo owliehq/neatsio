@@ -38,7 +38,7 @@ export default class Controller {
   /**
    *
    */
-  private middlewares: Array<any>
+  private middlewares: any
 
   /**
    *
@@ -57,7 +57,7 @@ export default class Controller {
     this.router = router
     this.routeName = pluralize.plural(this.service.modelName).toLowerCase()
 
-    this.middlewares = params.middlewares ? params.middlewares : []
+    this.middlewares = params.middlewares ? params.middlewares : {}
     this.customRoutes = params.routes ? params.routes : []
   }
 
@@ -67,7 +67,7 @@ export default class Controller {
    * @public
    */
   public buildRoutes() {
-    this.buildCustomMiddlewares()
+    this.buildCustomBeforeMiddlewares()
     this.buildQueryParserMiddleware()
 
     this.buildCustomRoutes()
@@ -78,13 +78,19 @@ export default class Controller {
     this.buildBulkPutRoute()
     this.buildOnePutRoute()
     this.buildOneDeleteRoute()
+
+    this.buildCustomAfterMiddlewares()
   }
 
   /**
    *
    */
-  private buildCustomMiddlewares() {
-    if (this.middlewares.length) this.router.use(this.mainRoute, this.middlewares)
+  private buildCustomBeforeMiddlewares() {
+    if (this.middlewares?.before?.length) this.router.use(this.mainRoute, this.middlewares.before)
+  }
+
+  private buildCustomAfterMiddlewares() {
+    if (this.middlewares?.after?.length) this.router.use(this.mainRoute, this.middlewares.after)
   }
 
   /**

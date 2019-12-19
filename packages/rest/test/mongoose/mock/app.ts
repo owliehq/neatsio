@@ -29,7 +29,9 @@ neatsio.registryModel(Car)
 neatsio.registryModel(People)
 
 neatsio.registryModel(Role, {
-  middlewares: [auth]
+  middlewares: {
+    before: [auth]
+  }
 })
 
 app.use(bodyParser.json())
