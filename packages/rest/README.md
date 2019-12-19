@@ -1,6 +1,6 @@
 # Neatsio REST
 
-[![Dependencies](https://david-dm.org/neatsio/rest.svg)](https://david-dm.org/neatsio/rest) [![Coverage Status](https://coveralls.io/repos/github/neatsio/rest/badge.svg?branch=master)](https://coveralls.io/github/neatsio/rest?branch=master)
+[![Dependencies](https://david-dm.org/owliehq/neatsio/status.svg?path=packages/rest)]https://david-dm.org/owliehq/neatsio?path=packages/rest) [![Coverage Status](https://coveralls.io/repos/github/neatsio/rest/badge.svg?branch=master)](https://coveralls.io/github/neatsio/rest?branch=master)
 
 When using Neatsio REST lib, you can create REST APIs in seconds. Built on top of ExpressJS, Neatsio REST removes your boilerplate work time. Focus on models and business logic, the lib generate automatically endpoints based on mongoose/sequelize schemas. Save your time and enjoy with your new REST routes.
 

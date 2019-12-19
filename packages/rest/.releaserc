@@ -1,3 +1,13 @@
 {
-  "tagFormat": "rest-v${version}"
+  "tagFormat": "rest-v${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/github",
+    "@semantic-release/npm",
+    ["@semantic-release/git", {
+      "assets": ["package.json"],
+      "message": "chore(release): bump to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }]
+  ]
 }
