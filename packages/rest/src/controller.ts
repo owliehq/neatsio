@@ -89,6 +89,9 @@ export default class Controller {
     if (this.middlewares?.before?.length) this.router.use(this.mainRoute, this.middlewares.before)
   }
 
+  /**
+   *
+   */
   private buildCustomAfterMiddlewares() {
     if (this.middlewares?.after?.length) this.router.use(this.mainRoute, this.middlewares.after)
   }

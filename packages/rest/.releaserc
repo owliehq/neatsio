@@ -7,7 +7,7 @@
     "@semantic-release/npm",
     ["@semantic-release/git", {
       "assets": ["package.json"],
-      "message": "chore(release): bump to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      "message": "chore(release): bump \"@owliehq/neatsio\" to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     }]
   ]
 }
