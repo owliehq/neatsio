@@ -1,0 +1,14 @@
+{
+    "name": "docs",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+      "dev": "vuepress dev",
+      "build": "vuepress build"
+    },
+    "license": "MIT",
+    "dependencies": {
+      "vuepress": "^1.2.0",
+      "vuepress-plugin-clean-urls": "^1.1.1"
+    }
+  }
