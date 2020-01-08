@@ -66,7 +66,7 @@ User.init(
 const app = express()
 
 // Register your model
-neatsioRest.registryModel(User)
+neatsioRest.registerModel(User)
 
 // Bodyparsing is needed to handle payloads on POST / PUT routes
 app.use(bodyParser.json())

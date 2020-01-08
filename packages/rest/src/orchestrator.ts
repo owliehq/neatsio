@@ -43,7 +43,7 @@ export default class Orchestrator {
    * Init and create afferent controller (by model name)
    * @public
    */
-  public registryModel<M extends sequelize.Model>(model: NeatsioModel<M>, controllerParams?: any) {
+  public registerModel<M extends sequelize.Model>(model: NeatsioModel<M>, controllerParams?: any) {
     const service = modelIdentifier.getServiceFromModel(model)
     this.controllers[service.modelName] = new Controller(service, this.router, controllerParams)
   }

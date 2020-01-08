@@ -16,12 +16,12 @@ import { auth } from './middlewares'
 // Create express app
 const app: express.Application = express()
 
-neatsio.registryModel(User)
-neatsio.registryModel(People)
-neatsio.registryModel(Car)
-neatsio.registryModel(Brand)
+neatsio.registerModel(User)
+neatsio.registerModel(People)
+neatsio.registerModel(Car)
+neatsio.registerModel(Brand)
 
-neatsio.registryModel(Role, {
+neatsio.registerModel(Role, {
   middlewares: {
     before: [auth]
   }
@@ -34,7 +34,7 @@ neatsio.registryModel(Role, {
   }*/
 })
 
-neatsio.registryModel(Factory, {
+neatsio.registerModel(Factory, {
 
 })
 

@@ -10,7 +10,7 @@ import { auth } from './middlewares'
 // Create express app
 const app: express.Application = express()
 
-neatsio.registryModel(User, {
+neatsio.registerModel(User, {
   routes: [
     {
       method: 'GET',
@@ -24,11 +24,11 @@ neatsio.registryModel(User, {
   ]
 })
 
-neatsio.registryModel(Car)
+neatsio.registerModel(Car)
 
-neatsio.registryModel(People)
+neatsio.registerModel(People)
 
-neatsio.registryModel(Role, {
+neatsio.registerModel(Role, {
   middlewares: {
     before: [auth]
   }
