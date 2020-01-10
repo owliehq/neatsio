@@ -1,4 +1,4 @@
-import { Op } from 'sequelize'
+import { Op, fn, col, where } from 'sequelize'
 import * as pluralize from 'pluralize'
 import * as dot from 'dot-prop'
 
@@ -167,6 +167,25 @@ export default class QueryParser {
       const converted = Object.keys(conditions).reduce((result: any, prop) => {
         const value = conditions[prop]
         const key = sequelizeOperators[prop] ? sequelizeOperators[prop] : prop
+
+        if(key === '$near') {
+
+          const radius = value.radius || 10
+
+          if(value.lat && value.lng) {
+            const within = fn(
+              'ST_DWithin',
+              col('position'),
+              fn('ST_GeometryFromText', `POINT(${value.lat} ${value.lng})`),
+              radius
+            )
+
+            // @ts-ignore
+            result[Op.and] = where(within, true)
+          }
+
+          return result
+        }
 
         result[key] = convert(value)
 
