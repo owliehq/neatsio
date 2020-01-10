@@ -30,7 +30,7 @@
     "test": "jest --coverage --runInBand",
     "test:nocoverage": "jest --runInBand",
     "test:watch": "jest --runInBand --watch",
-    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "test:prod": "npm run lint && npm run test:nocoverage -- --no-cache",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "semantic-release": "semantic-release"
   },
