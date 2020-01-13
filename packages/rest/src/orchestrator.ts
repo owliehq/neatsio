@@ -78,6 +78,8 @@ export default class Orchestrator {
       (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
         const status = err.statusCode || 500
 
+        console.error(err)
+
         if (status === 500) err = HttpError.InternalServerError()
         res.status(status).json(err)
       }

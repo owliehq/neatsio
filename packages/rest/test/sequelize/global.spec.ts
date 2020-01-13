@@ -36,7 +36,7 @@ describe('Sequelize: Crash database handling', () => {
           .set('Accept', 'application/json')
           .expect(500)
           .then(response => {
-            expect(response.body.statusCode).toBe(500)
+            expect(response.status).toBe(500)
             expect(response.body.message).toBe('Internal Server Error')
           })
       })
