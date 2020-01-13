@@ -166,15 +166,18 @@ export default class QueryParser {
       //
       const converted = Object.keys(conditions).reduce((result: any, prop) => {
         const value = conditions[prop]
-        const key = sequelizeOperators[prop] ? sequelizeOperators[prop] : prop
+        const key = sequelizeOperators[prop] || prop
 
-        if(key === '$near') {
-          const radius = value.radius || 10
-          if(value.lat && value.lng) {
+        if(value.hasOwnProperty('$near')) {
+          const nearParams = value.$near
+
+          const radius = nearParams.radius || 10
+
+          if(nearParams.lat && nearParams.lng) {
             const within = fn(
               'ST_DWithin',
-              col(value.field),
-              fn('ST_GeometryFromText', `POINT(${value.lat} ${value.lng})`),
+              col(key),
+              fn('ST_GeometryFromText', `POINT(${nearParams.lat} ${nearParams.lng})`),
               radius
             )
 
