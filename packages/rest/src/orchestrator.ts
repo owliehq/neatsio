@@ -73,7 +73,7 @@ export default class Orchestrator {
   private buildErrorRouteHandler() {
     // Catch errors that could be thrown everywhere in the lib
     // Carefull: express routes only
-    this.router.use(
+    /*this.router.use(
       '/',
       (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
         const status = err.statusCode || 500
@@ -89,7 +89,7 @@ export default class Orchestrator {
     // with the request, result to 404 error
     this.router.use('/', (req, res) => {
       res.status(404).send(HttpError.NotFound())
-    })
+    })*/
   }
 
   /**
