@@ -9,6 +9,7 @@ import Car from './models/car'
 import Brand from './models/brand'
 import Role from './models/role'
 import Factory from './models/factory'
+import Team from './models/team'
 
 import { auth } from './middlewares'
 
@@ -20,23 +21,47 @@ neatsio.registerModel(User)
 neatsio.registerModel(People)
 neatsio.registerModel(Car)
 neatsio.registerModel(Brand)
+neatsio.registerModel(Factory)
 
 neatsio.registerModel(Role, {
   middlewares: {
-    before: [auth]
+    before: [auth],
   }
-  /*triggers: {
-    create() {
-      return {
-        middlewares: [auth]
-      }
-    }
-  }*/
 })
 
-neatsio.registerModel(Factory, {
-
+neatsio.registerModel(Team, {
+  middlewares: {
+    getOne: {
+      before: [auth],
+      after: []
+    },
+    getMany: {
+      before: [],
+      after: []
+    },
+    createOne: {
+      before: [auth],
+      after: []
+    },
+    createBulk: {
+      before: [auth],
+      after: []
+    },
+    updateOne: {
+      before: [auth],
+      after: []
+    },
+    updateBulk: {
+      before: [auth],
+      after: []
+    },
+    deleteOne: {
+      before: [auth],
+      after: []
+    },
+  }
 })
+
 
 app.use(bodyParser.json())
 app.use('/api', neatsio.routes)

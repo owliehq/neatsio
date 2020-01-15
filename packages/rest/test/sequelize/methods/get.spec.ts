@@ -10,7 +10,7 @@ import User from '../mocks/models/user'
 import Car from '../mocks/models/car'
 import Brand from '../mocks/models/brand'
 import Role from '../mocks/models/role'
-import { response } from 'express'
+import Team from '../mocks/models/team'
 
 // May require additional time for downloading MongoDB binaries
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000
@@ -652,6 +652,58 @@ describe('Sequelize: GET Method & Routes', () => {
           .set('Accept', 'application/json')
           .set('Authorization', 'notOkToken')
           .expect(403)
+      })
+    })
+  })
+
+  describe('GET /api/teams', () => {
+    describe('Before middleware', () => {
+      beforeAll(async () => {
+        await sequelize.sync({ force: true })
+
+        await Team.create({
+          name: 'Administrators'
+        })
+
+        await Team.create({
+          name: 'Sales'
+        })
+
+        await Team.create({
+          name: 'HR'
+        })
+      })
+
+      afterAll(async () => {
+        await Team.destroy({ where: {}, truncate: true, restartIdentity: true })
+      })
+
+      it('should return all teams', () => {
+        return request(app)
+          .get('/api/teams')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body).toHaveLength(3)
+          })
+      })
+
+      it('should return a 401 on get one team without token', () => {
+        return request(app)
+          .get('/api/teams/1')
+          .set('Accept', 'application/json')
+          .expect(401)
+      })
+
+      it('should return team with correct token', () => {
+        return request(app)
+          .get('/api/teams/1')
+          .set('Accept', 'application/json')
+          .set('Authorization', 'abc')
+          .expect(200)
+          .then(response => {
+            expect(response.body.name).toBe('Administrators')
+          })
       })
     })
   })

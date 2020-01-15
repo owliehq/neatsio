@@ -128,7 +128,9 @@ export default class Controller {
       return res.status(200).json(response)
     })
 
-    this.router.get(this.mainRouteWithId, callback)
+    const beforeMiddlewares = this.middlewares?.getOne?.before || []
+
+    this.router.get(this.mainRouteWithId, [...beforeMiddlewares, callback])
   }
 
   /**
@@ -143,7 +145,9 @@ export default class Controller {
       return res.status(200).json(response)
     })
 
-    this.router.get(this.mainRoute, callback)
+    const beforeMiddlewares = this.middlewares?.getMany?.before || []
+
+    this.router.get(this.mainRoute, [...beforeMiddlewares, callback])
   }
 
   /**
@@ -155,7 +159,9 @@ export default class Controller {
       return res.status(201).json(response)
     })
 
-    this.router.post(this.mainRoute, callback)
+    const beforeMiddlewares = this.middlewares?.createOne?.before || []
+
+    this.router.post(this.mainRoute, [...beforeMiddlewares, callback])
   }
 
   /**
@@ -167,7 +173,9 @@ export default class Controller {
       return res.status(201).json(response)
     })
 
-    this.router.post(this.mainRouteWithBulk, callback)
+    const beforeMiddlewares = this.middlewares?.createBulk?.before || []
+
+    this.router.post(this.mainRouteWithBulk, [...beforeMiddlewares, callback])
   }
 
   /**
@@ -179,7 +187,9 @@ export default class Controller {
       return res.status(200).json(response)
     })
 
-    this.router.put(this.mainRouteWithId, callback)
+    const beforeMiddlewares = this.middlewares?.updateOne?.before || []
+
+    this.router.put(this.mainRouteWithId, [...beforeMiddlewares, callback])
   }
 
   /**
@@ -191,7 +201,9 @@ export default class Controller {
       return res.status(200).json(response)
     })
 
-    this.router.put(this.mainRouteWithBulk, callback)
+    const beforeMiddlewares = this.middlewares?.updateBulk?.before || []
+
+    this.router.put(this.mainRouteWithBulk, [...beforeMiddlewares, callback])
   }
 
   /**
@@ -203,9 +215,15 @@ export default class Controller {
       return res.status(200).json()
     })
 
-    this.router.delete(this.mainRouteWithId, callback)
+    const beforeMiddlewares = this.middlewares?.deleteOne?.before || []
+
+    this.router.delete(this.mainRouteWithId, [...beforeMiddlewares, callback])
   }
 
+  /**
+   *
+   * @param models
+   */
   public setRegisteredModels(models: any) {
     this.models = models
   }
