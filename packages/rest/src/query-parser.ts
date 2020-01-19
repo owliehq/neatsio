@@ -168,12 +168,12 @@ export default class QueryParser {
         const value = conditions[prop]
         const key = sequelizeOperators[prop] || prop
 
-        if(value.hasOwnProperty('$near')) {
+        if (value.hasOwnProperty('$near')) {
           const nearParams = value.$near
 
           const radius = nearParams.radius || 10
 
-          if(nearParams.lat && nearParams.lng) {
+          if (nearParams.lat && nearParams.lng) {
             const within = fn(
               'ST_DWithin',
               col(key),
