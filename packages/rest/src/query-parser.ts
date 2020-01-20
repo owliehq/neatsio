@@ -1,9 +1,9 @@
-import { Op, fn, col, where } from 'sequelize'
+import { Op, fn, col, where, Model } from 'sequelize'
 import * as pluralize from 'pluralize'
 import * as dot from 'dot-prop'
 
 import HttpError from './http-error'
-import { isPlainObject, normalizePath, deconstructPath } from './utils'
+import { isPlainObject, normalizePath, deconstructPath, NeatsioModel } from './utils'
 
 /**
  *
@@ -18,7 +18,9 @@ export default class QueryParser {
 
   private models?: any
 
-  constructor(query: any, models?: any) {
+  private model?: any
+
+  constructor(query: any, model: any, models?: any) {
     this.parseConditions(query.$conditions)
     this.parseSelect(query.$select)
     this.parseLimit(query.$limit)
@@ -26,6 +28,7 @@ export default class QueryParser {
     this.parseSort(query.$sort)
     this.parsePopulate(query.$populate)
 
+    this.model = model
     this.models = models ? models : []
   }
 
@@ -228,21 +231,31 @@ export default class QueryParser {
 
     paths.forEach(path => dot.set(treePaths, path, true))
 
-    const toIncludePropertyRecursive = (tree: any): any => {
+    const toIncludePropertyRecursive = (tree: any, modelCheck: any): any => {
+      const currentModel = modelCheck as { new (): Model } & typeof Model
+
       return Object.keys(tree).map(entry => {
-        const modelName = pluralize.singular(entry)
-        const model = this.models[modelName]
+        let extractedModel: typeof Model | undefined
+
+        for (let [attribute, association] of Object.entries(currentModel.associations)) {
+          if (pluralize.singular(attribute) === pluralize.singular(entry)) {
+            extractedModel = association.target
+            break
+          }
+        }
+
+        const model = extractedModel
 
         return tree[entry] === true
           ? { model }
           : {
               model,
-              include: toIncludePropertyRecursive(tree[entry])
+              include: toIncludePropertyRecursive(tree[entry], model)
             }
       })
     }
 
-    return toIncludePropertyRecursive(treePaths)
+    return toIncludePropertyRecursive(treePaths, this.model)
   }
 }
 

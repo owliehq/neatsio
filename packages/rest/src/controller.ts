@@ -20,8 +20,8 @@ const defaultDeletePropertiesCallback = (result: any) => {
 }
 
 function isFunction(functionToCheck: any) {
-  return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
- }
+  return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
+}
 
 export default class Controller {
   /**
@@ -74,7 +74,9 @@ export default class Controller {
     this.middlewares = params.middlewares ? params.middlewares : {}
     this.customRoutes = params.routes ? params.routes : []
 
-    this.deletePropertiesCallback = isFunction(params.deletePropertiesCallback) ? params.deletePropertiesCallback : defaultDeletePropertiesCallback
+    this.deletePropertiesCallback = isFunction(params.deletePropertiesCallback)
+      ? params.deletePropertiesCallback
+      : defaultDeletePropertiesCallback
   }
 
   /**
@@ -117,7 +119,7 @@ export default class Controller {
    */
   private buildQueryParserMiddleware() {
     const middleware = AsyncWrapper(async (req, res, next) => {
-      req.parsedQuery = new QueryParser(req.query, this.models)
+      req.parsedQuery = new QueryParser(req.query, this.service.model, this.models)
       return next()
     })
 
