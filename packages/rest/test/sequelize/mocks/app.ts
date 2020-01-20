@@ -65,7 +65,6 @@ neatsio.registerModel(Team, {
 neatsio.registerModel(Article, {
   deletePropertiesCallback: (entry: any) => {
     delete entry.notation
-    console.error(entry)
     return entry
   }
 })
