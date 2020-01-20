@@ -15,29 +15,13 @@ declare global {
   }
 }
 
-function stringify(value: any, replacer: any, spaces: any, escape: any) {
-  // v8 checks arguments.length for optimizing simple call
-  // https://bugs.chromium.org/p/v8/issues/detail?id=4730
-  var json = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value)
-
-  if (escape) {
-    json = json.replace(/[<>&]/g, function(c) {
-      switch (c.charCodeAt(0)) {
-        case 0x3c:
-          return '\\u003c'
-        case 0x3e:
-          return '\\u003e'
-        case 0x26:
-          return '\\u0026'
-        /* istanbul ignore next: unreachable default */
-        default:
-          return c
-      }
-    })
-  }
-
-  return json
+const defaultDeletePropertiesCallback = (result: any) => {
+  return result
 }
+
+function isFunction(functionToCheck: any) {
+  return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+ }
 
 export default class Controller {
   /**
@@ -73,7 +57,7 @@ export default class Controller {
   /**
    *
    */
-  private deletePropertiesCallback: any
+  private deletePropertiesCallback?: any
 
   /**
    *
@@ -90,11 +74,7 @@ export default class Controller {
     this.middlewares = params.middlewares ? params.middlewares : {}
     this.customRoutes = params.routes ? params.routes : []
 
-    this.deletePropertiesCallback =
-      params.deletePropertiesCallback ||
-      function(result: any) {
-        return new Promise(resolve => resolve(result))
-      }
+    this.deletePropertiesCallback = isFunction(params.deletePropertiesCallback) ? params.deletePropertiesCallback : defaultDeletePropertiesCallback
   }
 
   /**
@@ -160,16 +140,14 @@ export default class Controller {
   private async deleteProperties(result: any) {
     result = JSON.parse(JSON.stringify(result))
 
-    console.error(result)
-
-    if (result.length) {
+    if (Array.isArray(result)) {
       const promises = result.map((entry: any) => {
-        return this.deletePropertiesCallback(entry)
+        return this.deletePropertiesCallback ? this.deletePropertiesCallback(entry) : entry
       })
       return Promise.all(promises)
     }
 
-    return this.deletePropertiesCallback(result)
+    return this.deletePropertiesCallback ? this.deletePropertiesCallback(result) : result
   }
 
   /**
@@ -180,7 +158,6 @@ export default class Controller {
   private buildGetOneRoute() {
     const callback = AsyncWrapper(async (req, res) => {
       let response = await this.service.findById(req.params.id, req.parsedQuery)
-
       response = await this.deleteProperties(response)
 
       return res.status(200).json(response)
@@ -199,7 +176,8 @@ export default class Controller {
    */
   private buildGetManyRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.find(req.parsedQuery)
+      let response = await this.service.find(req.parsedQuery)
+      response = await this.deleteProperties(response)
       return res.status(200).json(response)
     })
 
@@ -213,7 +191,8 @@ export default class Controller {
    */
   private buildOnePostRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.createOne(req.body)
+      let response = await this.service.createOne(req.body)
+      response = await this.deleteProperties(response)
       return res.status(201).json(response)
     })
 
@@ -227,7 +206,7 @@ export default class Controller {
    */
   private buildBulkPostRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.createBulk(req.body)
+      let response = await this.service.createBulk(req.body)
       return res.status(201).json(response)
     })
 
@@ -241,7 +220,8 @@ export default class Controller {
    */
   private buildOnePutRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.updateOne(req.params.id, req.body)
+      let response = await this.service.updateOne(req.params.id, req.body)
+      response = await this.deleteProperties(response)
       return res.status(200).json(response)
     })
 
@@ -255,7 +235,7 @@ export default class Controller {
    */
   private buildBulkPutRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.updateBulk(req.body, req.parsedQuery)
+      let response = await this.service.updateBulk(req.body, req.parsedQuery)
       return res.status(200).json(response)
     })
 

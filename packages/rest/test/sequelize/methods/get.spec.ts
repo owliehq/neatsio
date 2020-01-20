@@ -749,7 +749,7 @@ describe('Sequelize: GET Method & Routes', () => {
           .then(response => {
             expect(response.body).toHaveLength(2)
             expect(response.body[0].name).toBe('News 1')
-            //expect(response.body[0].notation).toBeUndefined()
+            expect(response.body[0].notation).toBeUndefined()
           })
       })
     })
