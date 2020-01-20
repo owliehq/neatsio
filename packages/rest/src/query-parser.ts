@@ -247,9 +247,10 @@ export default class QueryParser {
         const model = extractedModel
 
         return tree[entry] === true
-          ? { model }
+          ? { model, as: entry }
           : {
               model,
+              as: entry,
               include: toIncludePropertyRecursive(tree[entry], model)
             }
       })
