@@ -11,6 +11,7 @@ import Car from '../mocks/models/car'
 import Brand from '../mocks/models/brand'
 import Role from '../mocks/models/role'
 import Team from '../mocks/models/team'
+import Article from '../mocks/models/article'
 
 // May require additional time for downloading MongoDB binaries
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000
@@ -703,6 +704,52 @@ describe('Sequelize: GET Method & Routes', () => {
           .expect(200)
           .then(response => {
             expect(response.body.name).toBe('Administrators')
+          })
+      })
+    })
+  })
+
+  describe('GET /api/articles', () => {
+    describe('Deleted values', () => {
+      beforeAll(async () => {
+        await sequelize.sync({ force: true })
+
+        // tslint:disable-next-line: await-promise
+        await Article.create({
+          name: 'News 1',
+          notation: 12
+        })
+
+        await Article.create({
+          name: 'News 2',
+          notation: 5
+        })
+      })
+
+      afterAll(async () => {
+        await Article.destroy({ where: {}, truncate: true, restartIdentity: true })
+      })
+
+      it('should return first article without notation field', () => {
+        return request(app)
+          .get('/api/articles/1')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body.name).toBe('News 1')
+            expect(response.body.notation).toBeUndefined()
+          })
+      })
+
+      it('should return all articles without notation field', () => {
+        return request(app)
+          .get('/api/articles')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body).toHaveLength(2)
+            expect(response.body[0].name).toBe('News 1')
+            //expect(response.body[0].notation).toBeUndefined()
           })
       })
     })

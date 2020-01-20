@@ -10,9 +10,9 @@ import Brand from './models/brand'
 import Role from './models/role'
 import Factory from './models/factory'
 import Team from './models/team'
+import Article from './models/article'
 
 import { auth } from './middlewares'
-
 
 // Create express app
 const app: express.Application = express()
@@ -25,7 +25,7 @@ neatsio.registerModel(Factory)
 
 neatsio.registerModel(Role, {
   middlewares: {
-    before: [auth],
+    before: [auth]
   }
 })
 
@@ -58,10 +58,17 @@ neatsio.registerModel(Team, {
     deleteOne: {
       before: [auth],
       after: []
-    },
+    }
   }
 })
 
+neatsio.registerModel(Article, {
+  deletePropertiesCallback: (entry: any) => {
+    delete entry.notation
+    console.error(entry)
+    return entry
+  }
+})
 
 app.use(bodyParser.json())
 app.use('/api', neatsio.routes)

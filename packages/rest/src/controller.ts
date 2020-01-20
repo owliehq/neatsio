@@ -10,8 +10,33 @@ declare global {
   namespace Express {
     interface Request {
       parsedQuery: any
+      results?: any
     }
   }
+}
+
+function stringify(value: any, replacer: any, spaces: any, escape: any) {
+  // v8 checks arguments.length for optimizing simple call
+  // https://bugs.chromium.org/p/v8/issues/detail?id=4730
+  var json = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value)
+
+  if (escape) {
+    json = json.replace(/[<>&]/g, function(c) {
+      switch (c.charCodeAt(0)) {
+        case 0x3c:
+          return '\\u003c'
+        case 0x3e:
+          return '\\u003e'
+        case 0x26:
+          return '\\u0026'
+        /* istanbul ignore next: unreachable default */
+        default:
+          return c
+      }
+    })
+  }
+
+  return json
 }
 
 export default class Controller {
@@ -47,6 +72,11 @@ export default class Controller {
 
   /**
    *
+   */
+  private deletePropertiesCallback: any
+
+  /**
+   *
    * @param model
    * @param router
    */
@@ -59,6 +89,12 @@ export default class Controller {
 
     this.middlewares = params.middlewares ? params.middlewares : {}
     this.customRoutes = params.routes ? params.routes : []
+
+    this.deletePropertiesCallback =
+      params.deletePropertiesCallback ||
+      function(result: any) {
+        return new Promise(resolve => resolve(result))
+      }
   }
 
   /**
@@ -118,13 +154,35 @@ export default class Controller {
   }
 
   /**
+   *
+   * @param result
+   */
+  private async deleteProperties(result: any) {
+    result = JSON.parse(JSON.stringify(result))
+
+    console.error(result)
+
+    if (result.length) {
+      const promises = result.map((entry: any) => {
+        return this.deletePropertiesCallback(entry)
+      })
+      return Promise.all(promises)
+    }
+
+    return this.deletePropertiesCallback(result)
+  }
+
+  /**
    * Populate the main router with GET /models/:id route
    *
    * @private
    */
   private buildGetOneRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.findById(req.params.id, req.parsedQuery)
+      let response = await this.service.findById(req.params.id, req.parsedQuery)
+
+      response = await this.deleteProperties(response)
+
       return res.status(200).json(response)
     })
 
