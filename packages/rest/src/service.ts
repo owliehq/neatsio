@@ -17,6 +17,11 @@ export default abstract class Service {
 
   /**
    *
+   */
+  abstract async count(query: QueryParser): Promise<any>
+
+  /**
+   *
    * @param body
    */
   abstract async createOne(body: any): Promise<any>

@@ -53,6 +53,23 @@ export default class SequelizeService<M extends Model> extends Service {
 
   /**
    *
+   */
+  public async count(query: QueryParser) {
+    const queryParams = query.toSequelizeParams()
+
+    delete queryParams.attributes
+    delete queryParams.include
+    delete queryParams.limit
+    delete queryParams.offset
+    delete queryParams.order
+
+    const result = await this.model.count(queryParams)
+
+    return result
+  }
+
+  /**
+   *
    * @param body
    */
   public async createOne(body: any) {

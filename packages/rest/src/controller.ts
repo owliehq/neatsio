@@ -89,6 +89,7 @@ export default class Controller {
     this.buildQueryParserMiddleware()
 
     this.buildCustomRoutes()
+    this.buildCountRoute()
     this.buildGetOneRoute()
     this.buildGetManyRoute()
     this.buildBulkPostRoute()
@@ -186,6 +187,20 @@ export default class Controller {
     const beforeMiddlewares = this.middlewares?.getMany?.before || []
 
     this.router.get(this.mainRoute, [...beforeMiddlewares, callback])
+  }
+
+  /**
+   *
+   */
+  private buildCountRoute() {
+    const callback = AsyncWrapper(async (req, res) => {
+      const response = await this.service.count(req.parsedQuery)
+      return res.status(200).json(response)
+    })
+
+    const beforeMiddlewares = this.middlewares?.count?.before || []
+
+    this.router.get(this.mainRouteWithCount, [...beforeMiddlewares, callback])
   }
 
   /**
@@ -296,5 +311,12 @@ export default class Controller {
    */
   private get mainRouteWithBulk() {
     return this.mainRoute + '/bulk'
+  }
+
+  /**
+   *
+   */
+  private get mainRouteWithCount() {
+    return this.mainRoute + '/count'
   }
 }

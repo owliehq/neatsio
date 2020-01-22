@@ -236,7 +236,7 @@ describe('Sequelize: GET Method & Routes', () => {
           })
       })
 
-      it('should get one user with specific email and display only the lastname', () => {
+      it('should return two users via $or condition with specific email and display only the lastname', () => {
         const query = {
           $conditions: {
             $or: [{ email: 'john.doe@acme.com' }, { email: 'enora.plira@acme.com' }]
@@ -250,6 +250,22 @@ describe('Sequelize: GET Method & Routes', () => {
           .expect(200)
           .then(response => {
             expect(response.body).toHaveLength(2)
+          })
+      })
+
+      it('should get count value via /count request with conditions', () => {
+        const query = {
+          $conditions: {
+            $or: [{ email: 'john.doe@acme.com' }, { email: 'enora.plira@acme.com' }]
+          }
+        }
+
+        return request(app)
+          .get('/api/users/count' + stringify(query))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body).toBe(2)
           })
       })
 

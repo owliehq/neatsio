@@ -58,6 +58,14 @@ export default class MongooseService extends Service {
 
   /**
    *
+   * @param queryParser
+   */
+  public async count(queryParser: QueryParser) {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   *
    * @param body
    */
   public async createOne(body: any) {
