@@ -16,12 +16,8 @@ This lib is opinionated, some features or development orientation are due to per
 - Support of query paramaters to handle filtering, pagination, sorting, and sub-populating
 - Handle express middlewares
 - Hooks
-- **[TODO]** Options, options, options everywhere...
-- **[TODO]** Authorization & role by route-level or document-level
-- **[TODO]** Addition of routes based on generated ones
-- **[TODO]** Plugins?
+- Customs routes
 - Written in typescript
-- ...more to come
 
 ## Getting Started
 
@@ -102,13 +98,13 @@ POST http://localhost:3000/api/users
 GET http://localhost:3000/api/users/1
 
 # Get user's lastname by ID
-GET http://localhost:3000/api/users/1?$select='lastname'
+GET http://localhost:3000/api/users/1?$select=lastname
 
 # Get users lastname order by email DESC
-GET http://localhost:3000/api/users?$select='lastname'&sort='-email'
+GET http://localhost:3000/api/users?$select=lastname&sort=-email
 
 # Get users populated with embed models with conditions
-GET http://localhost:3000/api/users?$populate='posts.comments'&$conditions={"$or":[{"$email:"john@acme.com"},{"id":2}]}
+GET http://localhost:3000/api/users?$populate=posts.comments&$conditions={"$or":[{"$email:"john@acme.com"},{"id":2}]}
 
 # Update user
 PUT http://localhost:3000/api/users/1
