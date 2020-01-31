@@ -1,6 +1,6 @@
 {
   "name": "@owliehq/async-wrapper",
-  "version": "1.0.0",
+  "version": "1.6.0",
   "description": "Async wrapper for express",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/async-wrapper",
   "keywords": [],
