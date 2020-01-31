@@ -19,6 +19,7 @@ const getUsers = () =>
     ])
   })
 
+// Get as async RequestHandler
 const userRoute = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const users = await getUsers()
   res.status(200).json(users)
