@@ -3,6 +3,7 @@ import sequelize from '../db'
 
 import Car from './car'
 import Role from './role'
+import Article from './article'
 
 /**
  *
@@ -52,5 +53,8 @@ User.init(
 User.hasMany(Car)
 Car.belongsTo(User)
 User.belongsTo(Role)
+
+User.hasMany(Article)
+Article.belongsTo(User)
 
 export default User

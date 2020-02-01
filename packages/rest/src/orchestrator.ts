@@ -98,4 +98,19 @@ export default class Orchestrator {
       return result
     }, {})
   }
+
+  /**
+   *
+   */
+  public get servicesOptions() {
+    return Object.values(this.controllers).reduce((result: any, controller) => {
+      const { hiddenAttributes } = controller.service
+
+      result[controller.service.modelName] = {
+        hiddenAttributes
+      }
+
+      return result
+    }, {})
+  }
 }

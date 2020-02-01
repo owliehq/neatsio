@@ -725,7 +725,7 @@ describe('Sequelize: GET Method & Routes', () => {
     })
   })
 
-  describe('GET /api/articles', () => {
+  /*describe('GET /api/articles', () => {
     describe('Deleted values', () => {
       beforeAll(async () => {
         await sequelize.sync({ force: true })
@@ -769,7 +769,7 @@ describe('Sequelize: GET Method & Routes', () => {
           })
       })
     })
-  })
+  })*/
 
   /*describe('GET /api/users/{id}/{associatedModel}', () => {
     describe('With HasMany relationship', () => {

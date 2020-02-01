@@ -115,6 +115,14 @@ export default class SequelizeService<M extends Model> extends Service {
 
   /**
    *
+   * @param attributes
+   */
+  public setHiddenAttributes(attributes: any): void {
+    this.hiddenAttributes = attributes
+  }
+
+  /**
+   *
    * @param id
    */
   public async deleteOne(id: string) {

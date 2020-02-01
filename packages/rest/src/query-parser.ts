@@ -2,6 +2,7 @@ import { Op, fn, col, where, Model } from 'sequelize'
 import * as pluralize from 'pluralize'
 import * as dot from 'dot-prop'
 
+import currentOrchestrator from './neatsio-rest'
 import HttpError from './http-error'
 import { isPlainObject, normalizePath, deconstructPath, NeatsioModel } from './utils'
 
@@ -59,7 +60,7 @@ export default class QueryParser {
       order: []
     }
 
-    if (this.select) params.attributes = this.convertSelectToSequelize()
+    params.attributes = this.convertSelectToSequelize()
     if (this.conditions) params.where = this.convertConditionsToSequelize()
     if (this.limit) params.limit = this.limit
     if (this.skip) params.offset = this.skip
@@ -85,7 +86,7 @@ export default class QueryParser {
     try {
       this.conditions = conditions ? JSON.parse(conditions) : {}
     } catch (err) {
-      throw HttpError.BadRequest()
+      throw HttpError.BadRequest('Malformatted JSON')
     }
   }
 
@@ -206,7 +207,25 @@ export default class QueryParser {
    *
    */
   private convertSelectToSequelize() {
-    return this.select.split(' ')
+    const selection = this.select?.length ? this.select.split(' ') : []
+
+    const currentModel = this.model as { new (): Model } & typeof Model
+
+    let attributes = undefined
+
+    if (currentModel) {
+      const { hiddenAttributes } = currentOrchestrator.servicesOptions[currentModel.name]
+
+      const currentAttributes = Object.keys(currentModel.rawAttributes)
+
+      attributes = currentAttributes
+        .filter(x => !hiddenAttributes.includes(x))
+        .concat(hiddenAttributes.filter((x: any) => !currentAttributes.includes(x)))
+
+      if (selection.length) attributes = attributes.filter(x => selection.includes(x))
+    }
+
+    return attributes
   }
 
   /**
@@ -244,14 +263,28 @@ export default class QueryParser {
           }
         }
 
+        //
         const model = extractedModel
 
+        let attributes = undefined
+
+        if (model) {
+          const { hiddenAttributes } = currentOrchestrator.servicesOptions[model.name]
+
+          const currentAttributes = Object.keys(model.rawAttributes)
+
+          attributes = currentAttributes
+            .filter(x => !hiddenAttributes.includes(x))
+            .concat(hiddenAttributes.filter((x: any) => !currentAttributes.includes(x)))
+        }
+
         return tree[entry] === true
-          ? { model, as: entry }
+          ? { model, as: entry, attributes }
           : {
               model,
               as: entry,
-              include: toIncludePropertyRecursive(tree[entry], model)
+              include: toIncludePropertyRecursive(tree[entry], model),
+              attributes
             }
       })
     }

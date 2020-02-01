@@ -1,7 +1,15 @@
 import QueryParser from './query-parser'
 
 export default abstract class Service {
+  /**
+   *
+   */
   public readonly model: any
+
+  /**
+   *
+   */
+  public hiddenAttributes: any
 
   /**
    *
@@ -44,6 +52,12 @@ export default abstract class Service {
    * @param query
    */
   abstract async updateBulk(body: any, query?: QueryParser): Promise<any>
+
+  /**
+   *
+   * @param attributes
+   */
+  abstract setHiddenAttributes(attributes: any): void
 
   /**
    *

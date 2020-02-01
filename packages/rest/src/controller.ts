@@ -55,9 +55,14 @@ export default class Controller {
   private models: Array<any> = []
 
   /**
-   *
+   * @deprecated
    */
   private deletePropertiesCallback?: any
+
+  /**
+   *
+   */
+  private hiddenAttributes: any
 
   /**
    *
@@ -74,9 +79,12 @@ export default class Controller {
     this.middlewares = params.middlewares ? params.middlewares : {}
     this.customRoutes = params.routes ? params.routes : []
 
+    // @deprecated
     this.deletePropertiesCallback = isFunction(params.deletePropertiesCallback)
       ? params.deletePropertiesCallback
       : defaultDeletePropertiesCallback
+
+    this.service.setHiddenAttributes(params.hiddenAttributes || [])
   }
 
   /**
@@ -138,6 +146,7 @@ export default class Controller {
 
   /**
    *
+   * @deprecated
    * @param result
    */
   private async deleteProperties(result: any) {
@@ -152,6 +161,11 @@ export default class Controller {
 
     return this.deletePropertiesCallback ? this.deletePropertiesCallback(result) : result
   }
+
+  /**
+   *
+   */
+  private selectAttributes() {}
 
   /**
    * Populate the main router with GET /models/:id route

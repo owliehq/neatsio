@@ -104,6 +104,14 @@ export default class MongooseService extends Service {
 
   /**
    *
+   * @param attributes
+   */
+  setHiddenAttributes(attributes: any): void {
+    this.hiddenAttributes = attributes
+  }
+
+  /**
+   *
    * @param id
    */
   public async deleteOne(id: string): Promise<any> {

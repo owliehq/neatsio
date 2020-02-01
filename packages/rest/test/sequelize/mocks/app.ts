@@ -63,10 +63,7 @@ neatsio.registerModel(Team, {
 })
 
 neatsio.registerModel(Article, {
-  deletePropertiesCallback: (entry: any) => {
-    delete entry.notation
-    return entry
-  }
+  hiddenAttributes: ['notation']
 })
 
 app.use(bodyParser.json())
