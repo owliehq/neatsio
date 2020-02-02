@@ -1,6 +1,6 @@
 import { Model } from 'sequelize'
 
-import HttpError from '../http-error'
+import { HttpError } from '@owliehq/http-errors'
 import Service from '../service'
 import QueryParser from '../query-parser'
 
