@@ -214,7 +214,7 @@ export default class QueryParser {
     let attributes = undefined
 
     if (currentModel) {
-      const { hiddenAttributes } = currentOrchestrator.servicesOptions[currentModel.name]
+      const { hiddenAttributes } = currentOrchestrator.servicesOptions[currentModel.name.toLowerCase()]
 
       const currentAttributes = Object.keys(currentModel.rawAttributes)
 
