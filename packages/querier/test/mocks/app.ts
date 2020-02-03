@@ -1,8 +1,6 @@
 import * as express from 'express'
 import neatsio from '@owliehq/neatsio'
 
-import Querier from '../../src/querier'
-
 import User from './models/user'
 import Car from './models/car'
 import Brand from './models/brand'
