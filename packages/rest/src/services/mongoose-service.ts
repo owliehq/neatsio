@@ -79,7 +79,6 @@ export default class MongooseService extends Service {
    * @param body
    */
   public async updateOne(id: string, body: any) {
-    // tslint:disable-next-line: await-promise
     await this.model.updateOne({ _id: id }, body)
     const updated = await this.findById(id)
     return updated
@@ -115,7 +114,6 @@ export default class MongooseService extends Service {
    * @param id
    */
   public async deleteOne(id: string): Promise<any> {
-    // tslint:disable-next-line: await-promise
     await this.model.deleteOne({ _id: id })
     return { deletedAt: new Date() }
   }

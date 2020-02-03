@@ -32,10 +32,10 @@ function stringify(query: {}) {
 describe('Sequelize: GET Method & Routes', () => {
   //
   beforeAll(async done => {
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.authenticate()
 
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.sync({ force: true })
 
     done()
@@ -43,7 +43,7 @@ describe('Sequelize: GET Method & Routes', () => {
 
   //
   afterAll(async done => {
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.close()
 
     try {
@@ -149,10 +149,10 @@ describe('Sequelize: GET Method & Routes', () => {
      */
     describe('With some entries to conditionals & restrictive tests', () => {
       beforeAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await sequelize.sync({ force: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create({
           firstname: 'John',
           lastname: 'DOE',
@@ -160,7 +160,7 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create({
           firstname: 'Alan',
           lastname: 'SMITH',
@@ -168,7 +168,7 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create({
           firstname: 'Enora',
           lastname: 'PLIRA',
@@ -178,7 +178,7 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 
@@ -368,26 +368,26 @@ describe('Sequelize: GET Method & Routes', () => {
      */
     describe('With subdocuments wanted to be populate', () => {
       beforeAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await sequelize.sync({ force: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Brand.create({
           name: 'RENAULT'
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.create({
           name: 'Member'
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.create({
           name: 'Admin',
           write: true
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create(
           {
             firstname: 'John',
@@ -411,7 +411,7 @@ describe('Sequelize: GET Method & Routes', () => {
           }
         )
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create({
           firstname: 'Alan',
           lastname: 'SMITH',
@@ -420,7 +420,7 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create(
           {
             firstname: 'Enora',
@@ -446,16 +446,16 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Brand.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Car.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 
@@ -615,21 +615,21 @@ describe('Sequelize: GET Method & Routes', () => {
      */
     describe('Restrictive usage by middlewares', () => {
       beforeAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await sequelize.sync({ force: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.create({
           name: 'Member'
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.create({
           name: 'Admin',
           write: true
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create({
           firstname: 'John',
           lastname: 'DOE',
@@ -638,7 +638,7 @@ describe('Sequelize: GET Method & Routes', () => {
           roleId: 1
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create({
           firstname: 'John',
           lastname: 'DOE',
@@ -649,10 +649,10 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 
@@ -730,7 +730,7 @@ describe('Sequelize: GET Method & Routes', () => {
       beforeAll(async () => {
         await sequelize.sync({ force: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Article.create({
           name: 'News 1',
           notation: 12
@@ -774,26 +774,26 @@ describe('Sequelize: GET Method & Routes', () => {
   /*describe('GET /api/users/{id}/{associatedModel}', () => {
     describe('With HasMany relationship', () => {
       beforeAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await sequelize.sync({ force: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Brand.create({
           name: 'RENAULT'
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.create({
           name: 'Member'
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.create({
           name: 'Admin',
           write: true
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create(
           {
             firstname: 'John',
@@ -817,7 +817,7 @@ describe('Sequelize: GET Method & Routes', () => {
           }
         )
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create({
           firstname: 'Alan',
           lastname: 'SMITH',
@@ -826,7 +826,7 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        // tslint:disable-next-line: await-promise
+        
         await User.create(
           {
             firstname: 'Enora',
@@ -852,16 +852,16 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        // tslint:disable-next-line: await-promise
+        
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Car.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Brand.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        // tslint:disable-next-line: await-promise
+        
         await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 

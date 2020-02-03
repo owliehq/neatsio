@@ -46,14 +46,14 @@ describe('Mongoose: PUT Method & Routes', () => {
         name: 'Member'
       })
 
-      // tslint:disable-next-line: await-promise
+      
       await Role.create({
         _id: '5cfd81600000000000000001',
         name: 'Admin',
         write: true
       })
 
-      // tslint:disable-next-line: await-promise
+      
       await User.create({
         _id: '5cfd81600000000000000100',
         firstname: 'John',

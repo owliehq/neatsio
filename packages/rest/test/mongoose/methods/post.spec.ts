@@ -31,13 +31,13 @@ describe('Mongoose: POST Method & Routes', () => {
         name: 'Member'
       })
 
-      // tslint:disable-next-line: await-promise
+
       await Role.create({
         name: 'Admin',
         write: true
       })
 
-      // tslint:disable-next-line: await-promise
+
       await User.create({
         firstname: 'John',
         lastname: 'DOE',

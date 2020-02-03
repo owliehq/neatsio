@@ -13,17 +13,17 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000
 describe('Sequelize: POST Method & Routes', () => {
   //
   beforeAll(async done => {
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.authenticate()
 
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.sync({ force: true })
 
     done()
   })
 
   afterAll(async done => {
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.close()
 
     try {
@@ -38,7 +38,7 @@ describe('Sequelize: POST Method & Routes', () => {
   //
   describe('DELETE /api/users/1', () => {
     beforeAll(async done => {
-      // tslint:disable-next-line: await-promise
+      
       await User.create({
         firstname: 'John',
         lastname: 'DOE',

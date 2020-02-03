@@ -26,10 +26,8 @@ export default class SequelizeService<M extends Model> extends Service {
     if (query) {
       const { include } = query.toSequelizeParams()
 
-      // tslint:disable-next-line: await-promise
       result = await this.model.findByPk(id, { include })
     } else {
-      // tslint:disable-next-line: await-promise
       result = await this.model.findByPk(id)
     }
 
@@ -45,7 +43,6 @@ export default class SequelizeService<M extends Model> extends Service {
     //
     const queryParams = query.toSequelizeParams()
 
-    // tslint:disable-next-line: await-promise
     const { count, rows } = await this.model.findAndCountAll(queryParams)
 
     return rows
@@ -73,7 +70,6 @@ export default class SequelizeService<M extends Model> extends Service {
    * @param body
    */
   public async createOne(body: any) {
-    // tslint:disable-next-line: await-promise
     const created = await this.model.create(body)
     return created
   }
@@ -83,7 +79,6 @@ export default class SequelizeService<M extends Model> extends Service {
    * @param body
    */
   public async createBulk(body: any) {
-    // tslint:disable-next-line: await-promise
     await this.model.bulkCreate(body)
   }
 
@@ -94,7 +89,6 @@ export default class SequelizeService<M extends Model> extends Service {
   public async updateOne(id: string, body: any) {
     const entityBeforeUpdate = await this.findById(id)
 
-    // tslint:disable-next-line: await-promise
     const updated = await entityBeforeUpdate.update(body)
     return updated
   }
@@ -109,7 +103,6 @@ export default class SequelizeService<M extends Model> extends Service {
 
     const restriction = where ? { where } : { where: { 1: 1 } }
 
-    // tslint:disable-next-line: await-promise
     await this.model.update(body, restriction)
   }
 
@@ -128,7 +121,6 @@ export default class SequelizeService<M extends Model> extends Service {
   public async deleteOne(id: string) {
     const entityBeforeDeletion = await this.findById(id)
 
-    // tslint:disable-next-line: await-promise
     await entityBeforeDeletion.destroy()
   }
 

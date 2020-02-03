@@ -8,10 +8,10 @@ import sequelize from './mocks/db'
 describe('Sequelize: Crash database handling', () => {
   //
   beforeAll(async done => {
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.authenticate()
 
-    // tslint:disable-next-line: await-promise
+    
     await sequelize.close()
 
     done()

@@ -27,7 +27,7 @@ describe('Mongoose: DELETE Method & Routes', () => {
 
   describe('DELETE /api/users/:id', () => {
     beforeAll(async () => {
-      // tslint:disable-next-line: await-promise
+
       await User.create({
         _id: '5cfd81600000000000000001',
         firstname: 'John',
