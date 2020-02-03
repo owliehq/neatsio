@@ -67,6 +67,12 @@ export default abstract class Service {
 
   /**
    *
+   * @param model
+   */
+  protected abstract removeHiddenAttributesFromEntity(model: any): any
+
+  /**
+   *
    */
   abstract get associations(): Array<any>
 

@@ -71,7 +71,7 @@ export default class SequelizeService<M extends Model> extends Service {
    */
   public async createOne(body: any) {
     const created = await this.model.create(body)
-    return created
+    return this.removeHiddenAttributesFromEntity(created)
   }
 
   /**
@@ -90,7 +90,7 @@ export default class SequelizeService<M extends Model> extends Service {
     const entityBeforeUpdate = await this.findById(id)
 
     const updated = await entityBeforeUpdate.update(body)
-    return updated
+    return this.removeHiddenAttributesFromEntity(updated)
   }
 
   /**
@@ -108,6 +108,16 @@ export default class SequelizeService<M extends Model> extends Service {
 
   /**
    *
+   * @param id
+   */
+  public async deleteOne(id: string) {
+    const entityBeforeDeletion = await this.findById(id)
+
+    await entityBeforeDeletion.destroy()
+  }
+
+  /**
+   *
    * @param attributes
    */
   public setHiddenAttributes(attributes: any): void {
@@ -116,12 +126,16 @@ export default class SequelizeService<M extends Model> extends Service {
 
   /**
    *
-   * @param id
+   * @param model
    */
-  public async deleteOne(id: string) {
-    const entityBeforeDeletion = await this.findById(id)
+  protected removeHiddenAttributesFromEntity(entity: Model) {
+    const values: any = entity.toJSON()
 
-    await entityBeforeDeletion.destroy()
+    this.hiddenAttributes.forEach((attribute: string) => {
+      if (values[attribute]) delete values[attribute]
+    })
+
+    return values
   }
 
   /**

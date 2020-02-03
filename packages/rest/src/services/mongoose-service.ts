@@ -120,6 +120,14 @@ export default class MongooseService extends Service {
 
   /**
    *
+   * @param model
+   */
+  protected removeHiddenAttributesFromEntity(model: any) {
+    return model
+  }
+
+  /**
+   *
    */
   public get associations() {
     // TODO

@@ -46,66 +46,111 @@ describe('Sequelize: Options model tests', () => {
   })
 
   describe('Hidden properties', () => {
-    beforeAll(async () => {
-      await sequelize.sync({ force: true })
+    describe('Method: GET', () => {
+      beforeAll(async () => {
+        await sequelize.sync({ force: true })
 
-      await User.create({
-        firstname: 'John',
-        lastname: 'DOE',
-        email: 'john.doe@acme.com',
-        active: true
-      })
-
-      await Article.create({
-        name: '1st article',
-        notation: 5,
-        userId: 1
-      })
-
-      await Article.create({
-        name: '2nd article',
-        notation: 3,
-        userId: 1
-      })
-
-      await Article.create({
-        name: '3rd article',
-        notation: 1,
-        userId: 1
-      })
-    })
-
-    afterAll(async () => {
-      await User.destroy({ where: {}, truncate: true, restartIdentity: true })
-      await Article.destroy({ where: {}, truncate: true, restartIdentity: true })
-    })
-
-    it('should return articles without notation', () => {
-      return request(app)
-        .get('/api/articles')
-        .set('Accept', 'application/json')
-        .expect(200)
-        .then(response => {
-          expect(response.body).toHaveLength(3)
-          expect(response.body[0].notation).toBeUndefined()
-          expect(response.body[0].name).toBe('1st article')
+        await User.create({
+          firstname: 'John',
+          lastname: 'DOE',
+          email: 'john.doe@acme.com',
+          active: true
         })
+
+        await Article.create({
+          name: '1st article',
+          notation: 5,
+          userId: 1
+        })
+
+        await Article.create({
+          name: '2nd article',
+          notation: 3,
+          userId: 1
+        })
+
+        await Article.create({
+          name: '3rd article',
+          notation: 1,
+          userId: 1
+        })
+      })
+
+      afterAll(async () => {
+        await User.destroy({ where: {}, truncate: true, restartIdentity: true })
+        await Article.destroy({ where: {}, truncate: true, restartIdentity: true })
+      })
+
+      it('should return articles without notation', () => {
+        return request(app)
+          .get('/api/articles')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body).toHaveLength(3)
+            expect(response.body[0].notation).toBeUndefined()
+            expect(response.body[0].name).toBe('1st article')
+          })
+      })
+
+      it('should return populated articles without notation on user', () => {
+        const query = {
+          $populate: 'articles'
+        }
+
+        return request(app)
+          .get('/api/users/1' + stringify(query))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body.articles).toHaveLength(3)
+            expect(response.body.articles[0].notation).toBeUndefined()
+            expect(response.body.articles[0].name).toBe('1st article')
+          })
+      })
     })
 
-    it('should return populated articles without notation on user', () => {
-      const query = {
-        $populate: 'articles'
-      }
+    describe('Method: POST', () => {
+      beforeAll(async () => {
+        await sequelize.sync({ force: true })
+      })
 
-      return request(app)
-        .get('/api/users/1' + stringify(query))
-        .set('Accept', 'application/json')
-        .expect(200)
-        .then(response => {
-          expect(response.body.articles).toHaveLength(3)
-          expect(response.body.articles[0].notation).toBeUndefined()
-          expect(response.body.articles[0].name).toBe('1st article')
-        })
+      afterAll(async () => {
+        await Article.destroy({ where: {}, truncate: true, restartIdentity: true })
+      })
+
+      it('should return only authorized attributes after creating an article', () => {
+        const body = {
+          name: 'Created article',
+          notation: 4
+        }
+
+        return request(app)
+          .post('/api/articles')
+          .send(body)
+          .set('Accept', 'application/json')
+          .expect(201)
+          .then(response => {
+            expect(response.body.notation).toBeUndefined()
+            expect(response.body.name).toBe('Created article')
+          })
+      })
+
+      it('should return only authorized attributes after updating an article', () => {
+        const body = {
+          notation: 3
+        }
+
+        return request(app)
+          .put('/api/articles/1')
+          .send(body)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body.notation).toBeUndefined()
+            expect(response.body.name).toBe('Created article')
+          })
+      })
     })
   })
 })
