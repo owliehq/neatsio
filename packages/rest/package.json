@@ -1,6 +1,6 @@
 {
   "name": "@owliehq/neatsio",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Generate REST API from your Sequelize / Mongoose models",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/rest",
   "keywords": [],
