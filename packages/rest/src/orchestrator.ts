@@ -107,7 +107,7 @@ export default class Orchestrator {
       const { hiddenAttributes } = controller.service
 
       result[controller.service.modelName] = {
-        hiddenAttributes
+        hiddenAttributes: hiddenAttributes || []
       }
 
       return result
