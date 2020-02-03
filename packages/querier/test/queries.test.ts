@@ -14,22 +14,180 @@ import User from './mocks/models/user'
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000
 
 describe('Build some queries object', () => {
-  it('should have $select', () => {
-    const querier = new Querier()
+  describe('Params: $select', () => {
+    it('should have $select', () => {
+      const query = Querier.query({ encode: false })
+        .select('lastname')
+        .generate()
 
-    const query = querier.select('lastname').generate()
+      expect(query.$select).toBe('lastname')
+    })
 
-    expect(query.$select).toBe('lastname')
+    it('should have ability of multiple select', () => {
+      const query = Querier.query({ encode: false })
+        .select('lastname')
+        .select('firstname')
+        .generate()
+
+      expect(query.$select).toBe('lastname firstname')
+    })
+
+    it('should have ability to add negative select', () => {
+      const query = Querier.query({ encode: false })
+        .select('lastname')
+        .unselect('firstname')
+        .generate()
+
+      expect(query.$select).toBe('lastname -firstname')
+    })
+
+    it('should return negative when select and unselect next same attribute', () => {
+      const query = Querier.query({ encode: false })
+        .select('lastname')
+        .unselect('lastname')
+        .generate()
+
+      expect(query.$select).toBe('-lastname')
+    })
+
+    it('should return selected after an unselect', () => {
+      const query = Querier.query({ encode: false })
+        .unselect('lastname')
+        .select('lastname')
+        .generate()
+
+      expect(query.$select).toBe('lastname')
+    })
+  })
+
+  describe('Params: $conditions', () => {
+    it('should have $conditions params with correct values by raw conditions', () => {
+      const query = Querier.query({ encode: false })
+        .rawConditions({
+          lastname: 'DOE'
+        })
+        .generate()
+
+      expect(query.$conditions).toMatchObject({
+        lastname: 'DOE'
+      })
+    })
+
+    it('should have multiple & complex $conditions from raw conditions', () => {
+      const query = Querier.query({ encode: false })
+        .rawConditions({
+          lastname: 'DOE',
+          firstname: {
+            $or: ['John', 'Jane']
+          }
+        })
+        .generate()
+
+      expect(query.$conditions).toMatchObject({
+        lastname: 'DOE',
+        firstname: {
+          $or: ['John', 'Jane']
+        }
+      })
+    })
+  })
+
+  describe('Params: $limit', () => {
+    it('should have $limit param', () => {
+      const query = Querier.query({ encode: false })
+        .limit(10)
+        .generate()
+
+      expect(query.$limit).toBe(10)
+    })
+  })
+
+  describe('Params: $skip', () => {
+    it('should have $skip param', () => {
+      const query = Querier.query({ encode: false })
+        .skip(10)
+        .generate()
+
+      expect(query.$skip).toBe(10)
+    })
+  })
+
+  describe('Params: $skip & limit via page', () => {
+    it('should have $skip & $limit param when page is active', () => {
+      const query = Querier.query({ encode: false, resultsPerPage: 20 })
+        .page(2)
+        .generate()
+
+      expect(query).toMatchObject({
+        $limit: 20,
+        $skip: 20
+      })
+    })
+
+    it('should have $skip & $limit param when page is active but without resultPerPage option', () => {
+      const query = Querier.query({ encode: false })
+        .page(4)
+        .generate()
+
+      expect(query).toMatchObject({
+        $limit: 10,
+        $skip: 30
+      })
+    })
+  })
+
+  describe('Params: $sort', () => {
+    it('should have $sort param by sorting desc', () => {
+      const query = Querier.query({ encode: false })
+        .sortDesc('lastname')
+        .generate()
+
+      expect(query.$sort).toBe('-lastname')
+    })
+
+    it('should have $sort param by sorting asc', () => {
+      const query = Querier.query({ encode: false })
+        .sort('lastname')
+        .generate()
+
+      expect(query.$sort).toBe('lastname')
+    })
+  })
+
+  describe('Mixed params', () => {
+    it('should return complex query', () => {
+      const query = Querier.query({ encode: false, resultsPerPage: 25 })
+        .page(4)
+        .sortDesc('lastname')
+        .rawConditions({
+          firstname: {
+            $or: ['Joe', 'Jane']
+          }
+        })
+        .select('lastname')
+        .select('firstname')
+        .generate()
+
+      expect(query).toMatchObject({
+        $limit: 25,
+        $skip: 75,
+        $sort: '-lastname',
+        $conditions: {
+          firstname: {
+            $or: ['Joe', 'Jane']
+          }
+        },
+        $select: 'lastname firstname'
+      })
+    })
   })
 })
 
 describe('Build some query strings', () => {
   it('should be string result', () => {
-    const baseUrl = '/users'
-
-    const querier = new Querier({ baseUrl })
-
-    const query = querier.select('lastname').generate({ withBaseUrl: true })
+    const query = Querier.query({ baseUrl: '/users', encode: false })
+      .select('lastname')
+      .generate({ withBaseUrl: true })
 
     expect(query).toBe('/users?$select=lastname')
   })

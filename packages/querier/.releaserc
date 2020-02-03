@@ -1,5 +1,5 @@
 {
-  "tagFormat": "http-errors-v${version}",
+  "tagFormat": "querier-v${version}",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/github",
