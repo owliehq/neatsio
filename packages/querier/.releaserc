@@ -1,0 +1,12 @@
+{
+  "tagFormat": "http-errors-v${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/github",
+    "@semantic-release/npm",
+    ["@semantic-release/git", {
+      "assets": ["package.json"],
+      "message": "chore(release): bump \"@owliehq/querier\" to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }]
+  ]
+}
