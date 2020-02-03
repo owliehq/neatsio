@@ -15,10 +15,6 @@ declare global {
   }
 }
 
-const defaultDeletePropertiesCallback = (result: any) => {
-  return result
-}
-
 function isFunction(functionToCheck: any) {
   return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
 }
@@ -78,11 +74,6 @@ export default class Controller {
 
     this.middlewares = params.middlewares ? params.middlewares : {}
     this.customRoutes = params.routes ? params.routes : []
-
-    // @deprecated
-    this.deletePropertiesCallback = isFunction(params.deletePropertiesCallback)
-      ? params.deletePropertiesCallback
-      : defaultDeletePropertiesCallback
 
     this.service.setHiddenAttributes(params.hiddenAttributes || [])
   }
@@ -145,38 +136,13 @@ export default class Controller {
   }
 
   /**
-   *
-   * @deprecated
-   * @param result
-   */
-  private async deleteProperties(result: any) {
-    result = JSON.parse(JSON.stringify(result))
-
-    if (Array.isArray(result)) {
-      const promises = result.map((entry: any) => {
-        return this.deletePropertiesCallback ? this.deletePropertiesCallback(entry) : entry
-      })
-      return Promise.all(promises)
-    }
-
-    return this.deletePropertiesCallback ? this.deletePropertiesCallback(result) : result
-  }
-
-  /**
-   *
-   */
-  private selectAttributes() {}
-
-  /**
    * Populate the main router with GET /models/:id route
    *
    * @private
    */
   private buildGetOneRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      let response = await this.service.findById(req.params.id, req.parsedQuery)
-      response = await this.deleteProperties(response)
-
+      const response = await this.service.findById(req.params.id, req.parsedQuery)
       return res.status(200).json(response)
     })
 
@@ -193,8 +159,7 @@ export default class Controller {
    */
   private buildGetManyRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      let response = await this.service.find(req.parsedQuery)
-      response = await this.deleteProperties(response)
+      const response = await this.service.find(req.parsedQuery)
       return res.status(200).json(response)
     })
 
@@ -222,8 +187,7 @@ export default class Controller {
    */
   private buildOnePostRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      let response = await this.service.createOne(req.body)
-      response = await this.deleteProperties(response)
+      const response = await this.service.createOne(req.body)
       return res.status(201).json(response)
     })
 
@@ -237,7 +201,7 @@ export default class Controller {
    */
   private buildBulkPostRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      let response = await this.service.createBulk(req.body)
+      const response = await this.service.createBulk(req.body)
       return res.status(201).json(response)
     })
 
@@ -251,8 +215,7 @@ export default class Controller {
    */
   private buildOnePutRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      let response = await this.service.updateOne(req.params.id, req.body)
-      response = await this.deleteProperties(response)
+      const response = await this.service.updateOne(req.params.id, req.body)
       return res.status(200).json(response)
     })
 
@@ -266,7 +229,7 @@ export default class Controller {
    */
   private buildBulkPutRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      let response = await this.service.updateBulk(req.body, req.parsedQuery)
+      const response = await this.service.updateBulk(req.body, req.parsedQuery)
       return res.status(200).json(response)
     })
 
