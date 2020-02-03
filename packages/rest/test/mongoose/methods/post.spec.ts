@@ -31,12 +31,10 @@ describe('Mongoose: POST Method & Routes', () => {
         name: 'Member'
       })
 
-
       await Role.create({
         name: 'Admin',
         write: true
       })
-
 
       await User.create({
         firstname: 'John',

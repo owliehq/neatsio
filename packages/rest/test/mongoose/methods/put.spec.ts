@@ -46,14 +46,12 @@ describe('Mongoose: PUT Method & Routes', () => {
         name: 'Member'
       })
 
-      
       await Role.create({
         _id: '5cfd81600000000000000001',
         name: 'Admin',
         write: true
       })
 
-      
       await User.create({
         _id: '5cfd81600000000000000100',
         firstname: 'John',

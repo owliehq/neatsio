@@ -30,17 +30,14 @@ function stringify(query: {}) {
 describe('Sequelize: PUT Method & Routes', () => {
   //
   beforeAll(async done => {
-    
     await sequelize.authenticate()
 
-    
     await sequelize.sync({ force: true })
 
     done()
   })
 
   afterAll(async done => {
-    
     await sequelize.close()
 
     try {
@@ -55,18 +52,15 @@ describe('Sequelize: PUT Method & Routes', () => {
   //
   describe('PUT /api/users/1', () => {
     beforeAll(async done => {
-      
       await Role.create({
         name: 'Member'
       })
 
-      
       await Role.create({
         name: 'Admin',
         write: true
       })
 
-      
       await User.create({
         firstname: 'John',
         lastname: 'DOE',
@@ -79,10 +73,8 @@ describe('Sequelize: PUT Method & Routes', () => {
     })
 
     afterAll(async () => {
-      
       await User.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-      
       await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
     })
 
@@ -212,21 +204,17 @@ describe('Sequelize: PUT Method & Routes', () => {
 
   describe('PUT /api/users/bulk', () => {
     beforeAll(async done => {
-      
       await sequelize.sync({ force: true })
 
-      
       await Role.create({
         name: 'Member'
       })
 
-      
       await Role.create({
         name: 'Admin',
         write: true
       })
 
-      
       await User.create({
         firstname: 'John',
         lastname: 'DOE',
@@ -235,7 +223,6 @@ describe('Sequelize: PUT Method & Routes', () => {
         roleId: 1
       })
 
-      
       await User.create({
         firstname: 'Jane',
         lastname: 'DOZEN',
@@ -244,7 +231,6 @@ describe('Sequelize: PUT Method & Routes', () => {
         roleId: 2
       })
 
-      
       await User.create({
         firstname: 'Edouard',
         lastname: 'CALINGO',
@@ -253,7 +239,6 @@ describe('Sequelize: PUT Method & Routes', () => {
         roleId: 1
       })
 
-      
       await User.create({
         firstname: 'Edouard',
         lastname: 'CALINGO',
@@ -310,15 +295,12 @@ describe('Sequelize: PUT Method & Routes', () => {
 
   describe('PUT /api/role', () => {
     beforeAll(async done => {
-      
       await sequelize.sync({ force: true })
 
-      
       await Role.create({
         name: 'Member'
       })
 
-      
       await Role.create({
         name: 'Admin',
         write: true
@@ -328,7 +310,6 @@ describe('Sequelize: PUT Method & Routes', () => {
     })
 
     afterAll(async () => {
-      
       await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
     })
 

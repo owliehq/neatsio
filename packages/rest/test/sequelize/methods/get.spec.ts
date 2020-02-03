@@ -32,10 +32,8 @@ function stringify(query: {}) {
 describe('Sequelize: GET Method & Routes', () => {
   //
   beforeAll(async done => {
-    
     await sequelize.authenticate()
 
-    
     await sequelize.sync({ force: true })
 
     done()
@@ -43,7 +41,6 @@ describe('Sequelize: GET Method & Routes', () => {
 
   //
   afterAll(async done => {
-    
     await sequelize.close()
 
     try {
@@ -149,10 +146,8 @@ describe('Sequelize: GET Method & Routes', () => {
      */
     describe('With some entries to conditionals & restrictive tests', () => {
       beforeAll(async () => {
-        
         await sequelize.sync({ force: true })
 
-        
         await User.create({
           firstname: 'John',
           lastname: 'DOE',
@@ -160,7 +155,6 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        
         await User.create({
           firstname: 'Alan',
           lastname: 'SMITH',
@@ -168,7 +162,6 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        
         await User.create({
           firstname: 'Enora',
           lastname: 'PLIRA',
@@ -178,7 +171,6 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 
@@ -368,26 +360,21 @@ describe('Sequelize: GET Method & Routes', () => {
      */
     describe('With subdocuments wanted to be populate', () => {
       beforeAll(async () => {
-        
         await sequelize.sync({ force: true })
 
-        
         await Brand.create({
           name: 'RENAULT'
         })
 
-        
         await Role.create({
           name: 'Member'
         })
 
-        
         await Role.create({
           name: 'Admin',
           write: true
         })
 
-        
         await User.create(
           {
             firstname: 'John',
@@ -411,7 +398,6 @@ describe('Sequelize: GET Method & Routes', () => {
           }
         )
 
-        
         await User.create({
           firstname: 'Alan',
           lastname: 'SMITH',
@@ -420,7 +406,6 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        
         await User.create(
           {
             firstname: 'Enora',
@@ -446,16 +431,12 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        
         await Brand.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        
         await Car.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        
         await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 
@@ -615,21 +596,17 @@ describe('Sequelize: GET Method & Routes', () => {
      */
     describe('Restrictive usage by middlewares', () => {
       beforeAll(async () => {
-        
         await sequelize.sync({ force: true })
 
-        
         await Role.create({
           name: 'Member'
         })
 
-        
         await Role.create({
           name: 'Admin',
           write: true
         })
 
-        
         await User.create({
           firstname: 'John',
           lastname: 'DOE',
@@ -638,7 +615,6 @@ describe('Sequelize: GET Method & Routes', () => {
           roleId: 1
         })
 
-        
         await User.create({
           firstname: 'John',
           lastname: 'DOE',
@@ -649,10 +625,8 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        
         await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 

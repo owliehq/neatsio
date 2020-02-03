@@ -8,10 +8,8 @@ import sequelize from './mocks/db'
 describe('Sequelize: Crash database handling', () => {
   //
   beforeAll(async done => {
-    
     await sequelize.authenticate()
 
-    
     await sequelize.close()
 
     done()
