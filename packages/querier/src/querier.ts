@@ -31,6 +31,7 @@ export class Querier {
   private $limit?: number
   private $skip?: number
   private $sort: Array<string> = []
+  private $populate: Array<string> = []
 
   constructor(options?: QuerierOptions) {
     if (options?.baseUrl) this.baseUrl = options.baseUrl
@@ -115,6 +116,11 @@ export class Querier {
     return this
   }
 
+  public populate(input: string): Querier {
+    this.$populate.push(input)
+    return this
+  }
+
   /**
    *
    */
@@ -124,13 +130,15 @@ export class Querier {
     const $skip = this.cleanSkip()
     const $limit = this.cleanLimit()
     const $sort = this.cleanSort()
+    const $populate = this.cleanPopulate()
 
     const result = cleanObject({
       $select,
       $conditions,
       $skip,
       $limit,
-      $sort
+      $sort,
+      $populate
     })
 
     return this.stringify ? this.generateString(result) : result
@@ -153,6 +161,13 @@ export class Querier {
 
     const stringified = qs.stringify(query, { encode: this.encode })
     return (this.baseUrl || '') + `?${stringified}`
+  }
+
+  /**
+   *
+   */
+  private cleanPopulate(): string | undefined {
+    return this.$populate.length ? this.$populate.join(' ') : undefined
   }
 
   /**

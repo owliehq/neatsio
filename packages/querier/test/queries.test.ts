@@ -154,6 +154,34 @@ describe('Build some queries object', () => {
     })
   })
 
+  describe('Params: $populate', () => {
+    it('should have $populate param', () => {
+      const query = Querier.query({ stringify: false })
+        .populate('role')
+        .generate()
+
+      expect(query.$populate).toBe('role')
+    })
+
+    it('should have $populate param with multiple call', () => {
+      const query = Querier.query({ stringify: false })
+        .populate('role')
+        .populate('manager')
+        .generate()
+
+      expect(query.$populate).toBe('role manager')
+    })
+
+    it('should have $populate param with multiple call and subpopulate', () => {
+      const query = Querier.query({ stringify: false })
+        .populate('role')
+        .populate('manager.team')
+        .generate()
+
+      expect(query.$populate).toBe('role manager.team')
+    })
+  })
+
   describe('Mixed params', () => {
     it('should return complex query', () => {
       const query = Querier.query({ encode: false, resultsPerPage: 25, stringify: false })
