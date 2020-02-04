@@ -33,7 +33,6 @@ export class Querier {
   private $sort: Array<string> = []
 
   constructor(options?: QuerierOptions) {
-    //console.log(options)
     if (options?.baseUrl) this.baseUrl = options.baseUrl
     if (options?.encode) this.encode = options.encode
     if (options?.resultsPerPage) this.$limit = options.resultsPerPage
@@ -133,8 +132,6 @@ export class Querier {
       $limit,
       $sort
     })
-
-    console.log(this.stringify)
 
     return this.stringify ? this.generateString(result) : result
   }
