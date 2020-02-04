@@ -1,27 +1,17 @@
 import { ErrorRequestHandler } from 'express'
 
-interface OptionsErrorFactoryObject {
-  message?: string
-  error?: Error
-}
-
-type OptionsErrorFactory = OptionsErrorFactoryObject | string | undefined
-
-function prepareHttpError(statusCode: number, defaultMessage: string, options: OptionsErrorFactory) {
-  if (typeof options === 'string' || !options) return new HttpError(statusCode, options || defaultMessage)
-  return new HttpError(statusCode, options.message || defaultMessage, options.error)
-}
+import pad from './utils/pad'
 
 /**
  *
  */
 export class HttpError extends Error {
-  /**
-   *
-   * @param status
-   * @param message
-   */
-  public constructor(public statusCode: number, public message: string, public parentError?: Error) {
+  constructor(
+    public statusCode: number,
+    public message: string,
+    public errorCode?: number,
+    public parentError?: Error
+  ) {
     super(message)
 
     if (parentError) this.stack = parentError.stack
@@ -138,15 +128,22 @@ export const errorsMiddleware = (options?: any) => {
     const statusCode = err.statusCode || 500
 
     let stack = undefined
+    let errorCode = undefined
 
-    //if (options.debugServer) console.error(err)
+    if (options.debugServer) console.error(err)
 
     if (options.debugClient) stack = err.stack
 
     if (statusCode === 500) err = HttpError.InternalServerError()
 
+    if (err.errorCode) {
+      const code = err.errorCode.toString().padStart(5, '0')
+      errorCode = `E${code}`
+    }
+
     res.status(statusCode).json({
       statusCode,
+      errorCode,
       message: err.message,
       stack
     })
@@ -154,3 +151,22 @@ export const errorsMiddleware = (options?: any) => {
 
   return errorHandler
 }
+
+/**
+ *
+ * @param statusCode
+ * @param defaultMessage
+ * @param options
+ */
+function prepareHttpError(statusCode: number, defaultMessage: string, options: OptionsErrorFactory) {
+  if (typeof options === 'string' || !options) return new HttpError(statusCode, options || defaultMessage)
+  return new HttpError(statusCode, options.message || defaultMessage, options.errorCode, options.error)
+}
+
+export interface OptionsErrorFactoryObject {
+  message?: string
+  error?: Error
+  errorCode?: number
+}
+
+export type OptionsErrorFactory = OptionsErrorFactoryObject | string | undefined
