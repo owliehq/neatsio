@@ -24,6 +24,7 @@ const cleanObject = (obj: any) => {
 export class Querier {
   private baseUrl?: string
   private encode: boolean = false
+  private stringify: boolean = true
 
   private $select: Array<string> = []
   private $conditions: any = {}
@@ -32,9 +33,11 @@ export class Querier {
   private $sort: Array<string> = []
 
   constructor(options?: QuerierOptions) {
+    //console.log(options)
     if (options?.baseUrl) this.baseUrl = options.baseUrl
     if (options?.encode) this.encode = options.encode
     if (options?.resultsPerPage) this.$limit = options.resultsPerPage
+    if (options?.stringify === false) this.stringify = options.stringify
   }
 
   /**
@@ -116,7 +119,7 @@ export class Querier {
   /**
    *
    */
-  public generate(options?: GenerateOptions): any {
+  public generate(): any {
     const $select = this.cleanSelect()
     const $conditions = this.cleanConditions()
     const $skip = this.cleanSkip()
@@ -131,9 +134,9 @@ export class Querier {
       $sort
     })
 
-    if (!options) return this.generateString(result)
+    console.log(this.stringify)
 
-    return options?.stringify ? this.generateString(result) : result
+    return this.stringify ? this.generateString(result) : result
   }
 
   /**
@@ -202,9 +205,6 @@ export class Querier {
 export interface QuerierOptions {
   baseUrl?: string
   encode?: boolean
-  resultsPerPage?: number
-}
-
-export interface GenerateOptions {
   stringify?: boolean
+  resultsPerPage?: number
 }
