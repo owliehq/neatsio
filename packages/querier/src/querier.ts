@@ -134,12 +134,13 @@ export class Querier {
 
     const result = cleanObject({
       $select,
-      $conditions,
       $skip,
       $limit,
       $sort,
       $populate
     })
+
+    if ($conditions) result.$conditions = $conditions
 
     return this.stringify ? this.generateString(result) : result
   }

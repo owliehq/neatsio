@@ -188,8 +188,8 @@ describe('Build some queries object', () => {
         .page(4)
         .sortDesc('lastname')
         .rawConditions({
-          firstname: {
-            $or: ['Joe', 'Jane']
+          notation: {
+            $and: [{ $lt: 1 }, { $gt: 4 }]
           }
         })
         .select('lastname')
@@ -201,8 +201,8 @@ describe('Build some queries object', () => {
         $skip: 75,
         $sort: '-lastname',
         $conditions: {
-          firstname: {
-            $or: ['Joe', 'Jane']
+          notation: {
+            $and: [{ $lt: 1 }, { $gt: 4 }]
           }
         },
         $select: 'lastname firstname'
@@ -219,6 +219,32 @@ describe('Build some query strings', () => {
 
     expect(query).toBe('/users?$select=lastname')
   })
+
+  /*it('should return complex query', () => {
+    const query = Querier.query({ resultsPerPage: 25 })
+      .page(4)
+      .sortDesc('lastname')
+      .rawConditions({
+        notation: {
+          $and: [{ $lt: 1 }, { $gt: 4 }]
+        }
+      })
+      .select('lastname')
+      .select('firstname')
+      .generate()
+
+    expect(query).toMatchObject({
+      $limit: 25,
+      $skip: 75,
+      $sort: '-lastname',
+      $conditions: {
+        notation: {
+          $and: [{ $lt: 1 }, { $gt: 4 }]
+        }
+      },
+      $select: 'lastname firstname'
+    })
+  })*/
 })
 
 /**
