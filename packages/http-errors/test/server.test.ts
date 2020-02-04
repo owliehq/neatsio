@@ -46,6 +46,17 @@ describe('Server start normally without debug', () => {
           expect(response.body.errorCode).toBe('E00001')
         })
     })
+
+    it('should return 406 Not Acceptable with details', () => {
+      return request(app)
+        .get('/notacceptable')
+        .set('Accept', 'application/json')
+        .expect(406)
+        .then(response => {
+          expect(response.body.message).toBe('Not Acceptable')
+          expect(response.body.details).toMatchObject({ errors: ['error a', 'error b'] })
+        })
+    })
   })
 })
 

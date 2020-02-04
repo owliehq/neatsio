@@ -15,7 +15,7 @@ const anyErrorHandler = (req: express.Request, res: express.Response) => {
   try {
     throw new Error('Some error message')
   } catch (error) {
-    throw HttpError.NotAcceptable({ error, errorCode: 1 })
+    throw HttpError.NotAcceptable({ error, errorCode: 1, details: { errors: ['error a', 'error b'] } })
   }
 }
 

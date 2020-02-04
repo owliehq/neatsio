@@ -7,6 +7,7 @@ export class HttpError extends Error {
   constructor(
     public statusCode: number,
     public message: string,
+    public details?: any,
     public errorCode?: number,
     public parentError?: Error
   ) {
@@ -125,24 +126,19 @@ export const errorsMiddleware = (options?: any) => {
   const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     const statusCode = err.statusCode || 500
 
-    let stack = undefined
-    let errorCode = undefined
-
     if (options.debugServer) console.error(err)
-
-    if (options.debugClient) stack = err.stack
-
     if (statusCode === 500) err = HttpError.InternalServerError()
 
-    if (err.errorCode) {
-      const code = err.errorCode.toString().padStart(5, '0')
-      errorCode = `E${code}`
-    }
+    const { message } = err
+    const stack = options.debugClient ? err.stack : undefined
+    const errorCode = err.errorCode ? 'E' + err.errorCode.toString().padStart(5, '0') : undefined
+    const details = err.details || undefined
 
     res.status(statusCode).json({
       statusCode,
       errorCode,
-      message: err.message,
+      message,
+      details,
       stack
     })
   }
@@ -158,12 +154,13 @@ export const errorsMiddleware = (options?: any) => {
  */
 function prepareHttpError(statusCode: number, defaultMessage: string, options: OptionsErrorFactory) {
   if (typeof options === 'string' || !options) return new HttpError(statusCode, options || defaultMessage)
-  return new HttpError(statusCode, options.message || defaultMessage, options.errorCode, options.error)
+  return new HttpError(statusCode, options.message || defaultMessage, options.details, options.errorCode, options.error)
 }
 
 export interface OptionsErrorFactoryObject {
   message?: string
   error?: Error
+  details?: any
   errorCode?: number
 }
 
