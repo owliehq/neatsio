@@ -93,8 +93,6 @@ describe('Server start normally with debug', () => {
         .expect(406)
         .then(response => {
           expect(response.body.message).toBe('Not Acceptable')
-
-          console.log(response.body.stack)
         })
     })
   })

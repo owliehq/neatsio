@@ -131,6 +131,8 @@ export class Querier {
       $sort
     })
 
+    if (!options) return this.generateString(result)
+
     return options?.stringify ? this.generateString(result) : result
   }
 
