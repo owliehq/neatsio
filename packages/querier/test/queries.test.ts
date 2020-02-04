@@ -18,7 +18,7 @@ describe('Build some queries object', () => {
     it('should have $select', () => {
       const query = Querier.query({ encode: false })
         .select('lastname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$select).toBe('lastname')
     })
@@ -27,7 +27,7 @@ describe('Build some queries object', () => {
       const query = Querier.query({ encode: false })
         .select('lastname')
         .select('firstname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$select).toBe('lastname firstname')
     })
@@ -36,7 +36,7 @@ describe('Build some queries object', () => {
       const query = Querier.query({ encode: false })
         .select('lastname')
         .unselect('firstname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$select).toBe('lastname -firstname')
     })
@@ -45,7 +45,7 @@ describe('Build some queries object', () => {
       const query = Querier.query({ encode: false })
         .select('lastname')
         .unselect('lastname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$select).toBe('-lastname')
     })
@@ -54,7 +54,7 @@ describe('Build some queries object', () => {
       const query = Querier.query({ encode: false })
         .unselect('lastname')
         .select('lastname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$select).toBe('lastname')
     })
@@ -66,7 +66,7 @@ describe('Build some queries object', () => {
         .rawConditions({
           lastname: 'DOE'
         })
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$conditions).toMatchObject({
         lastname: 'DOE'
@@ -81,7 +81,7 @@ describe('Build some queries object', () => {
             $or: ['John', 'Jane']
           }
         })
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$conditions).toMatchObject({
         lastname: 'DOE',
@@ -96,7 +96,7 @@ describe('Build some queries object', () => {
     it('should have $limit param', () => {
       const query = Querier.query({ encode: false })
         .limit(10)
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$limit).toBe(10)
     })
@@ -106,7 +106,7 @@ describe('Build some queries object', () => {
     it('should have $skip param', () => {
       const query = Querier.query({ encode: false })
         .skip(10)
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$skip).toBe(10)
     })
@@ -116,7 +116,7 @@ describe('Build some queries object', () => {
     it('should have $skip & $limit param when page is active', () => {
       const query = Querier.query({ encode: false, resultsPerPage: 20 })
         .page(2)
-        .generate()
+        .generate({ stringify: false })
 
       expect(query).toMatchObject({
         $limit: 20,
@@ -127,7 +127,7 @@ describe('Build some queries object', () => {
     it('should have $skip & $limit param when page is active but without resultPerPage option', () => {
       const query = Querier.query({ encode: false })
         .page(4)
-        .generate()
+        .generate({ stringify: false })
 
       expect(query).toMatchObject({
         $limit: 10,
@@ -140,7 +140,7 @@ describe('Build some queries object', () => {
     it('should have $sort param by sorting desc', () => {
       const query = Querier.query({ encode: false })
         .sortDesc('lastname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$sort).toBe('-lastname')
     })
@@ -148,7 +148,7 @@ describe('Build some queries object', () => {
     it('should have $sort param by sorting asc', () => {
       const query = Querier.query({ encode: false })
         .sort('lastname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query.$sort).toBe('lastname')
     })
@@ -166,7 +166,7 @@ describe('Build some queries object', () => {
         })
         .select('lastname')
         .select('firstname')
-        .generate()
+        .generate({ stringify: false })
 
       expect(query).toMatchObject({
         $limit: 25,
@@ -187,7 +187,7 @@ describe('Build some query strings', () => {
   it('should be string result', () => {
     const query = Querier.query({ baseUrl: '/users', encode: false })
       .select('lastname')
-      .generate({ withBaseUrl: true })
+      .generate()
 
     expect(query).toBe('/users?$select=lastname')
   })

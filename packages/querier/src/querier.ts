@@ -123,15 +123,34 @@ export class Querier {
     const $limit = this.cleanLimit()
     const $sort = this.cleanSort()
 
-    const result = {
+    const result = cleanObject({
       $select,
       $conditions,
       $skip,
       $limit,
       $sort
-    }
+    })
 
-    return options?.withBaseUrl ? this.generateString(result) : result
+    return options?.stringify ? this.generateString(result) : result
+  }
+
+  /**
+   *
+   */
+  private generateString(query: any) {
+    query = Object.keys(query).reduce((result: any, key: string) => {
+      const value = query[key]
+      const type = typeof value
+
+      result[key] = type === 'object' ? JSON.stringify(value) : value
+
+      return result
+    }, {})
+
+    if (!Object.keys(query).length) return ''
+
+    const stringified = qs.stringify(query, { encode: this.encode })
+    return (this.baseUrl || '') + `?${stringified}`
   }
 
   /**
@@ -171,27 +190,6 @@ export class Querier {
 
   /**
    *
-   */
-  private generateString(query: any) {
-    query = cleanObject(query)
-
-    query = Object.keys(query).reduce((result: any, key: string) => {
-      const value = query[key]
-      const type = typeof value
-
-      result[key] = type === 'object' ? JSON.stringify(value) : value
-
-      return result
-    }, {})
-
-    if (!Object.keys(query).length) return ''
-
-    const stringified = qs.stringify(query, { encode: this.encode })
-    return `${this.baseUrl}?${stringified}`
-  }
-
-  /**
-   *
    * @param options
    */
   public static query(options: QuerierOptions) {
@@ -206,5 +204,5 @@ export interface QuerierOptions {
 }
 
 export interface GenerateOptions {
-  withBaseUrl?: boolean
+  stringify?: boolean
 }
