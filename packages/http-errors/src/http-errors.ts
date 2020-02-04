@@ -1,7 +1,5 @@
 import { ErrorRequestHandler } from 'express'
 
-import pad from './utils/pad'
-
 /**
  *
  */
