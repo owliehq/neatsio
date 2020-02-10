@@ -153,7 +153,10 @@ export default class QueryParser {
       $iLike: Op.iLike,
       $notILike: Op.notILike,
       $or: Op.or,
-      $and: Op.and
+      $and: Op.and,
+      $contains: Op.contains,
+      $contained: Op.contained,
+      $overlap: Op.overlap
     }
 
     /**
