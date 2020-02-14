@@ -47,7 +47,7 @@ export default class QueryParser {
     if (this.conditions) params.conditions = this.conditions
     if (this.limit) params.options.limit = this.limit
     if (this.skip) params.options.skip = this.skip
-    if (this.sort) params.options.sort = this.sort
+    if (this.sort || this.specialSort.length) params.options.sort = this.sort
     if (this.populate) params.populate = this.populate
 
     return params
