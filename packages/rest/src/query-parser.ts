@@ -17,8 +17,9 @@ export default class QueryParser {
   private select?: any
   private populate?: any
 
-  private models?: any
+  private specialSort: any[] = []
 
+  private models?: any
   private model?: any
 
   constructor(query: any, model: any, models?: any) {
@@ -190,6 +191,13 @@ export default class QueryParser {
 
             // @ts-ignore
             result[Op.and] = where(within, true)
+
+            const order = [
+              fn('ST_Distance', col(key), fn('ST_GeometryFromText', `POINT(${nearParams.lat} ${nearParams.lng})`)),
+              'ASC'
+            ]
+
+            this.specialSort.push(order)
           }
 
           return result
@@ -238,10 +246,13 @@ export default class QueryParser {
     const fields = this.sort.split(' ')
 
     //
-    return fields.map((field: string) => {
-      const order = field.startsWith('-') ? 'DESC' : 'ASC'
-      return order === 'DESC' ? [field.substring(1), order] : [field, order]
-    })
+    return [
+      ...fields.map((field: string) => {
+        const order = field.startsWith('-') ? 'DESC' : 'ASC'
+        return order === 'DESC' ? [field.substring(1), order] : [field, order]
+      }),
+      ...this.specialSort
+    ]
   }
 
   /**
