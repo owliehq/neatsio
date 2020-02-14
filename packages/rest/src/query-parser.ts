@@ -47,7 +47,7 @@ export default class QueryParser {
     if (this.conditions) params.conditions = this.conditions
     if (this.limit) params.options.limit = this.limit
     if (this.skip) params.options.skip = this.skip
-    if (this.sort || this.specialSort.length) params.options.sort = this.sort
+    if (this.sort) params.options.sort = this.sort
     if (this.populate) params.populate = this.populate
 
     return params
@@ -65,7 +65,7 @@ export default class QueryParser {
     if (this.conditions) params.where = this.convertConditionsToSequelize()
     if (this.limit) params.limit = this.limit
     if (this.skip) params.offset = this.skip
-    if (this.sort) params.order = this.convertSortToSequelize()
+    if (this.sort || this.specialSort.length) params.order = this.convertSortToSequelize()
     if (this.populate) params.include = this.convertPopulateToSequelize()
 
     return params
