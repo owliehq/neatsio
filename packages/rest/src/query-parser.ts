@@ -243,7 +243,7 @@ export default class QueryParser {
    *
    */
   private convertSortToSequelize() {
-    const fields = this.sort.split(' ')
+    const fields = this.sort ? this.sort.split(' ') : []
 
     //
     return [
