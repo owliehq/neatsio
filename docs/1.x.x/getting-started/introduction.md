@@ -6,7 +6,7 @@ It uses and is written in Typescript, but also can be used on pure JS. Some exte
 
 Neatsio's purpose is to eliminate boilerplate code when you're editing a CRUD API based on models. Some query helpers are bring to you to avoid writing hundreds lines of code with no real value. See queries section.
 
-## First installation
+## Installation
 
 To play with Neatsio, you're invited to create or start with an express environment project. If you have no idea how to complete this first step, please take a look at [Express documentation](https://expressjs.com/en/starter/hello-world.html) before continue here.
 
@@ -35,6 +35,8 @@ app.listen(3000, () => {
   console.log('API listen on port 3000')
 })
 ```
+
+## First model (Sequelize)
 
 At this moment, you don't have set or configure any model to Neatsio, so Neatsio doesn't bring any routes to your API. We need to start with a first model.
 
