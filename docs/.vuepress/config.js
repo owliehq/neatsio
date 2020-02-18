@@ -10,6 +10,10 @@ module.exports = {
           notFoundPath: '/404.html',
         },
       ],
+      '@vuepress/last-updated',
+      '@vuepress/back-to-top',
+      '@vuepress/plugin-nprogress',
+      'vuepress-plugin-smooth-scroll'
     ],
     themeConfig: {
       sidebar: [
