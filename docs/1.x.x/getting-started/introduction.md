@@ -4,7 +4,7 @@ Neatsio exposes an express router which build automatically routes from your Seq
 
 It uses and is written in Typescript, but also can be used on pure JS. Some extensions are available (http errors, async, ...)
 
-Neatsio's purpose is to eliminate boilerplate code when you're editing a CRUD API based on models. Some query helpers are bring to you to avoid writing hundreds lines of code with no real value. See queries section.
+Neatsio's purpose is to eliminate boilerplate code when you're editing a CRUD API based on models. Some query helpers are brought to you to avoid writing hundreds lines of code with no real value. See queries section.
 
 ## Requirements
 
