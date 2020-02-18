@@ -9,15 +9,16 @@ Your endpoints are settled to defined path when you've called `app.use` (default
 Each model have a specific path, based on the main router level if you apply Neatsio's routes at this level. Then, Model's name is lowercased and pluralized.
 
 For example:
-- `User` model becomes `users`
-- `City` model becomes `cities`
+`User` model becomes `users`
+`City` model becomes `cities`
 
 With this established, we can build our endpoints. Continue with this example:
 
 We register the neatsio routes at `/api` path, and we have 3 models named  `User`, `Car` and `City`. 3 main endpoints are now availables:
-- `/api/users`
-- `/api/cars`
-- `/api/cities`
+
+`/api/users`
+`/api/cars`
+`/api/cities`
 
 ## Available endpoints
 
