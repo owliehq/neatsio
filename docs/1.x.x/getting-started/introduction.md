@@ -12,7 +12,16 @@ Neatsio works with ExpressJS and Node.JS. We recommend using minimum `Node 10`, 
 
 A database is needed with Neatsio, because you will connect your Sequelize/Mongoose models to it. Prepare your environment in this way.
 
-Via **Sequelize** (version 5.x), Neatsio support SQLite, 
+Via **Sequelize** (version 5.x), Neatsio supports:
+- SQLite **`>= 3.0`**
+- MySQL **`>= 5.6`**
+- MariaDB **`>= 10.1`**
+- PostgreSQL **`>= 10`**
+- MsSQL **`TDS >= 7.4`**
+
+Via **Mongoose** (version 5.x), Neatsio supports:
+- MongoDB **`>= 3.4`**
+`/!\ Disclamer: All methods are not totally implemented with Mongoose.`
 
 ## Installation
 
