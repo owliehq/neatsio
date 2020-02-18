@@ -33,6 +33,7 @@ module.exports = {
           children: [
             '/1.x.x/concepts/endpoints',
             '/1.x.x/concepts/models',
+            '/1.x.x/concepts/routes',
             '/1.x.x/concepts/middlewares'
           ]
         },
