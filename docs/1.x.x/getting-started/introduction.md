@@ -1,6 +1,6 @@
 # Introduction
 
-Neatsio expose an express router which build automatically routes from yours Sequelize/Mongoose models (new ODM/ORM implementations are currently at study stage).
+Neatsio exposes an express router which build automatically routes from your Sequelize/Mongoose models (new ODM/ORM implementations are currently at study stage).
 
 It uses and is written in Typescript, but also can be used on pure JS. Some extensions are available (http errors, async, ...)
 
