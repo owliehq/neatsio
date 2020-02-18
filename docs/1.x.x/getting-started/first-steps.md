@@ -40,7 +40,9 @@ app.listen(3000, () => {
 })
 ```
 
-Then, start your app :
+## Calls to the API
+
+Start your app:
 
 ```sh
 $ node app.js
