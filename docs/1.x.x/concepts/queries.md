@@ -9,8 +9,8 @@ TODO
 ```javascript
 const Querier = require('@owliehq/querier')
 
-const query = Querier
-  .query({resultsPerPage: 20})
+const requestFormatted = Querier
+  .query({resultsPerPage: 20, baseUrl: '/users'})
   .select('lastname')
   .rawConditions({
     firstname: {
@@ -20,4 +20,6 @@ const query = Querier
   .sortDesc('lastname')
   .page(2)
   .generate()
+
+const results = await axios.get(requestFormatted).then(response => response.data)
 ```
