@@ -61,5 +61,4 @@ All queries must start with: `Querier.query()` or `Querier.query(options)` (with
 | **`.limit`** | `{number}` number of items to get | Limit the number of results to param | `.limit(10)` |
 | **`.skip`** | `{number}` number of items to skip | Skip x results | `.skip(20)` |
 | **`.page`** | `{number}` page | Return result at specified page limited by `resultsPerPage` attribute set to `query()` | `.page(2)` |
-| **`.rawConditions`** | `{object}` Neatsio conditions object | Return results matching with
-conditions | `.rawConditions({ firstame: 'John' })`
+| **`.rawConditions`** | `{object}` Neatsio conditions object | Return results matching with conditions | `.rawConditions({ firstame: 'John' })` |
