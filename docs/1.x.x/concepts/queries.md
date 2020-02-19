@@ -57,7 +57,7 @@ All queries must start by: `Querier.query()` or `Querier.query(options)` (with o
 | ---- | ------- | ---------- | ------- |
 | **`.select`** | `{string}` attributes separated by space character | Restrict results to fields passed as params | `.select('lastname')` |
 | **`.sort`** | `{string}` attributes separated by space character ("-" behind equals to DESC sorting) | Sort results by attributed passed as params | `.sort('firstname')` or `.sort('-firstname')` |
-| **`.sortDesc`** | `{string}` idem force | Sort results by attributed passed as params | `.sortDesc('firstname')` |
+| **`.sortDesc`** | `{string}` idem force to desc | Sort results by attributed passed as params | `.sortDesc('firstname')` |
 | **`.limit`** | `{number}` number of items to get | Limit the result to param | `.limit(10)` |
 | **`.skip`** | `{number}` number of items to skip | Skip x results | `.skip(20)` |
 | **`.page`** | `{number}` page | Return result at specified page limited by `resultsPerPage` attribute set to `query()` | `.page(2)` |
