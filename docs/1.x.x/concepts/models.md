@@ -21,7 +21,7 @@ app.use('/', neatsio.routes)
 
 And [endpoints](/1.x.x/concepts/endpoints) are automatically built.
 
-## Options
+## Configuration
 
 Example:
 

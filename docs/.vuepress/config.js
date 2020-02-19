@@ -34,7 +34,8 @@ module.exports = {
             '/1.x.x/concepts/endpoints',
             '/1.x.x/concepts/queries',
             '/1.x.x/concepts/models',
-            '/1.x.x/concepts/routes'
+            '/1.x.x/concepts/routes',
+            '/1.x.x/concepts/errors'
           ]
         },
       ],
