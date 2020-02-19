@@ -1,10 +1,11 @@
 # Models
 
-With Neatsio, you need to create Models from [Sequelize](https://sequelize.org/v5/) or [Mongoose](https://mongoosejs.com/docs/guide.html). In the future, we want this project, interoperable with [TypeORM](https://typeorm.io/), [Bookshelf](https://bookshelfjs.org/) or [Objection.js](https://vincit.github.io/objection.js/) (for example).
+With Neatsio, you need to create Models from [Sequelize](https://sequelize.org/v5/) or [Mongoose](https://mongoosejs.com/docs/guide.html). In the future, we want this project to be
+interoperable with [TypeORM](https://typeorm.io/), [Bookshelf](https://bookshelfjs.org/) or [Objection.js](https://vincit.github.io/objection.js/) (for example).
 
 A model is defined by its attributes & relations with others models. Neatsio help you to expose entities on your API without many configuration.
 
-To create or instanciate your first model, please refer you to the right documentation according to the ORM selected.
+To create or instantiate your first model, please refer you to the right documentation according to the selected ORM.
 
 ## Connect model to Neatsio
 

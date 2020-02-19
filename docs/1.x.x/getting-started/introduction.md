@@ -1,6 +1,6 @@
 # Introduction
 
-Neatsio exposes an express router which build automatically routes from your Sequelize/Mongoose models (new ODM/ORM implementations are currently at study stage).
+Neatsio exposes an express router which automatically builds routes from your Sequelize/Mongoose models (new ODM/ORM implementations are currently in study stage).
 
 It uses and is written in Typescript, but also can be used on pure JS. Some extensions are available (http errors, async, ...)
 
@@ -25,9 +25,9 @@ Via **Mongoose** (version 5.x), Neatsio supports:
 
 ## Installation
 
-To play with Neatsio, you're invited to create or start with an express environment project. If you have no idea how to complete this first step, please take a look at [Express documentation](https://expressjs.com/en/starter/hello-world.html) before continue here.
+To play with Neatsio, you're invited to create or start with an express environment project. If you have no idea how to complete this first step, please take a look at [Express documentation](https://expressjs.com/en/starter/hello-world.html) before to continue here.
 
-We need to install and prepare lib :
+We need to install and prepare the library :
 
 ```sh
 $ npm install --save @owliehq/neatsio
@@ -53,4 +53,6 @@ app.listen(3000, () => {
 })
 ```
 
-This is the beginning, you can call the route **`GET /api/users`** but the server must respond an empty array (no data is still in database).
+This is the beginning, you now call the route **`GET /api/users`**, but for
+now the server will respond with an empty array as there is still no
+data in the database

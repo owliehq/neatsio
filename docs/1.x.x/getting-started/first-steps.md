@@ -1,10 +1,10 @@
 # First steps
 
-Please read introduction before start this little tutorial.
+Please read the introduction before starting this little tutorial.
 
 ## First model - Sequelize option
 
-At this moment, you don't have set or configure any model to Neatsio, so Neatsio doesn't bring any routes to your API. We need to start with a first model.
+At this moment, you didn't set or configure any model in Neatsio, so Neatsio doesn't expose any route to your API. We need to implement a first model.
 
 #### **`models/user.js`**
 ```javascript
@@ -25,7 +25,7 @@ const User = sequelize.define('User', {
 module.exports = User
 ```
 
-Re-open your main file app, and modify/add lines:
+Re-open your app's main file, and modify/add lines:
 
 #### **`app.js`**
 ```javascript
@@ -61,6 +61,6 @@ GET http://localhost:3000/api/users
 // Must return array with one entry, juste
 ```
 
-Check that **all your requests must return status code 2xx**. If not, there is maybe an error with your express code or sequelize configuration, please check.
+Check that **all your requests actually returns status code 2xx**. If not, there is maybe an error with your express code or sequelize configuration, please check.
 
 Congratulations, you have implemented and configured your first model with Neatsio!
