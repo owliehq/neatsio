@@ -1,10 +1,14 @@
 # Introduction
 
-Neatsio exposes an express router which automatically builds routes from your Sequelize/Mongoose models (new ODM/ORM implementations are currently in study stage).
+Neatsio exposes an express router automatically creating routes from your Sequelize/Mongoose models (other ODM/ORM implementations are currently in study stage).
 
-It uses and is written in Typescript, but also can be used on pure JS. Some extensions are available (http errors, async, ...)
+It uses and is written in Typescript, but also can be used on pure JS. Some extensions are available (http errors, async, ...).
 
-Neatsio's purpose is to eliminate boilerplate code when you're editing a CRUD API based on models. Some query helpers are brought to you to avoid writing hundreds lines of code with no real value. See queries section.
+The purpose of Neatsio is to avoid the user writing boilerplate code when creating a CRUD API based on models. 
+
+Query helpers are provided by Neatsio to help developers, avoiding them writing low value-added lines of code (details at the <a href="../../concepts/queries/">queries section</a>)
+
+Some query helpers are brought to you to avoid writing hundreds lines of code with no real value. See queries section.
 
 ## Requirements
 
