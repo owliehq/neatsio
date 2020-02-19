@@ -55,6 +55,9 @@ const query = {
   // Set offset of 50 entries before return
   $skip: 50,
 
+  // Populate manager field with relation defined in the model
+  $populate: 'manager',
+
   // Apply conditions (can use complex conditions)
   $conditions: { 
     $or: [
