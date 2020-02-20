@@ -1,10 +1,12 @@
 # First steps
 
-Please read the introduction before starting this little tutorial.
+## Requirement
+
+Please read introduction before starting.
 
 ## First model - Sequelize option
 
-At this moment, you didn't set or configure any model in Neatsio, so Neatsio doesn't expose any route to your API. We need to implement a first model.
+At this moment, you didn't configure any model in Neatsio, so Neatsio can't provide any route to your API. For that, we need to implement the first model.
 
 #### **`models/user.js`**
 ```javascript
@@ -25,7 +27,7 @@ const User = sequelize.define('User', {
 module.exports = User
 ```
 
-Re-open your app's main file, and modify/add lines:
+Re-open the main file and modify/add lines:
 
 #### **`app.js`**
 ```javascript
@@ -40,7 +42,7 @@ app.listen(3000, () => {
 })
 ```
 
-## Calls to the API
+## Make your API calls
 
 Start your app:
 
@@ -48,7 +50,7 @@ Start your app:
 $ node app.js
 ```
 
-Open your HTTP Request maker tool (eg. Postman), and try these calls:
+Use any HTTP Request tool (eg. [Postman](https://www.postman.com/)), and try making calls:
 
 ```
 GET http://localhost:3000/api/users
@@ -58,9 +60,9 @@ POST http://localhost:3000/api/users
 // With JSON object in body : { "pseudo": "DOE, John DOE", "email": "john@acme.com" }
 
 GET http://localhost:3000/api/users
-// Must return array with one entry, juste
+// Must return array with one entry
 ```
 
-Check that **all your requests actually returns status code 2xx**. If not, there is maybe an error with your express code or sequelize configuration, please check.
+**Each API calls must return a 2xx status code**. If it's not the case, there is probably an error with your Express or Sequelize configuration.
 
-Congratulations, you have implemented and configured your first model with Neatsio!
+Congrats, you have implemented and configured your first model with Neatsio !
