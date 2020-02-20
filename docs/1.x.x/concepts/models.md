@@ -1,11 +1,10 @@
 # Models
 
-With Neatsio, you need to create Models from [Sequelize](https://sequelize.org/v5/) or [Mongoose](https://mongoosejs.com/docs/guide.html). In the future, we want this project to be
-interoperable with [TypeORM](https://typeorm.io/), [Bookshelf](https://bookshelfjs.org/) or [Objection.js](https://vincit.github.io/objection.js/) (for example).
+To use Neatsio, you have to create Models using [Sequelize](https://sequelize.org/v5/) or [Mongoose](https://mongoosejs.com/docs/guide.html). Planned for the next project iterations, Neatsio will be interoperable with [TypeORM](https://typeorm.io/), [Bookshelf](https://bookshelfjs.org/) or [Objection.js](https://vincit.github.io/objection.js/) (for example).
 
-A model is defined by its attributes & relations with others models. Neatsio help you to expose entities on your API without many configuration.
+A model is defined by its attributes & relations with others models. Neatsio help you to expose your models on your API without wasting time on configuration.
 
-To create or instantiate your first model, please refer you to the right documentation according to the selected ORM.
+To create or instantiate your first model, please refer to the documentation of the selected ORM.
 
 ## Connect model to Neatsio
 
@@ -20,7 +19,7 @@ neatsio.registerModel(User)
 app.use('/', neatsio.routes)
 ```
 
-And [endpoints](/1.x.x/concepts/endpoints) are automatically built.
+And [endpoints](/1.x.x/concepts/endpoints) are automatically created.
 
 ## Configuration
 
