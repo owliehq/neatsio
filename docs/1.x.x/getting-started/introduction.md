@@ -12,32 +12,33 @@ Some query helpers are brought to you to avoid writing hundreds lines of code wi
 
 ## Requirements
 
-Neatsio works with ExpressJS and Node.JS. We recommend using minimum `Node 10`, better on LTS `Node 12`.
+Neatsio is actually based on ExpressJS which is itself based on Node.JS. We recommend using minimum `Node 10`, better on LTS `Node 12`.
 
-A database is needed with Neatsio, because you will connect your Sequelize/Mongoose models to it. Prepare your environment in this way.
+It is required to work with an available databases with Neatsio. In fact you'll have to connect your Sequelize/Mongoose models to it. It's important to keep this in mind.
 
-Via **Sequelize** (version 5.x), Neatsio supports:
+Using **Sequelize** (v5.x), Neatsio supports:
 - SQLite **`>= 3.0`**
 - MySQL **`>= 5.6`**
 - MariaDB **`>= 10.1`**
 - PostgreSQL **`>= 10`**
 - MsSQL **`TDS >= 7.4`**
 
-Via **Mongoose** (version 5.x), Neatsio supports:
+Using **Mongoose** (v5.x), Neatsio supports:
 - MongoDB **`>= 3.4`**
-`/!\ Disclamer: All methods are not totally implemented with Mongoose.`
+
+`/!\ Disclaimer: NOT ALL METHODS ARE YET IMPLEMENTED WITH MONGOOSE.`
 
 ## Installation
 
-To play with Neatsio, you're invited to create or start with an express environment project. If you have no idea how to complete this first step, please take a look at [Express documentation](https://expressjs.com/en/starter/hello-world.html) before to continue here.
+In order to start using Neatsio, you're have to create an express environment project or start with an existing one. If you don't know what we are writing about, please take a look at the [Express documentation](https://expressjs.com/en/starter/hello-world.html) before following the upcoming part.
 
-We need to install and prepare the library :
+Firstable, you need to add the library to your project :
 
 ```sh
 $ npm install --save @owliehq/neatsio
 ```
 
-Then, retrieve your express starter or express application :
+Then, retrieve your express instance :
 
 #### **`app.js`**
 ```javascript
@@ -57,6 +58,4 @@ app.listen(3000, () => {
 })
 ```
 
-This is the beginning, you now call the route **`GET /api/users`**, but for
-now the server will respond with an empty array as there is still no
-data in the database
+You can now access the following route : **`GET /api/users`**. For now, the server will only respond with an empty array because there's no data in your database.
