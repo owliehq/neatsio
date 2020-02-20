@@ -6,15 +6,15 @@ Once you have defined and registered all your models, the corresponding endpoint
 
 Your endpoints are settled to the specified path when you call `app.use` (default: root path `/`).
 
-Each model have a specific path, based on the path of the express router on which you apply Neatsio's routes. Then, Model's name is lowercased and pluralized.
+Each model have a specific path, based on the path of express router on which you apply Neatsio's routes. The model's name is lowercased and pluralized.
 
 For example:
 - `User` model becomes `users`
 - `City` model becomes `cities`
 
-With this established, we can build our endpoints. Continue with this example:
+Keeping this in mind, we can build our endpoints :
 
-We register the neatsio routes at `/api` path, and we have 3 models named  `User`, `Car` and `City`. 3 main endpoints are now available:
+Register the neatsio routes at `/api` path, and creating 3 models named  `User`, `Car` and `City` lead to 3 available main endpoints:
 
 - `/api/users`
 - `/api/cars`
@@ -22,7 +22,7 @@ We register the neatsio routes at `/api` path, and we have 3 models named  `User
 
 ## Available endpoints
 
-Each main endpoint is split into many routes to respect REST architecture, let's explain these with `Car` model example.
+A main endpoint is split into many routes to respect REST architecture, let's explain these with `Car` model example :
 
 | Method       | Endpoint       | Neatsio Constant | Description | Data Format |
 | ------------ | -------------- | ---------------- | ----------- | ----------- |
@@ -37,7 +37,7 @@ Each main endpoint is split into many routes to respect REST architecture, let's
 
 ## Make some queries
 
-Neatsio comes with queries handler built-in on each generated endpoints. Queries work on **`GET_MANY`**, **`COUNT`**, **`UPDATE_MANY`** and **`DELETE_MANY`**. You can use them like below:
+Neatsio comes with queries handler built-in on each generated endpoints. Queries work on **`GET_MANY`**, **`COUNT`**, **`UPDATE_MANY`** and **`DELETE_MANY`**. Use them like below :
 
 ```javascript
 const qs = require('query-string')
