@@ -27,13 +27,13 @@ A main endpoint is split into many routes to respect REST architecture, let's ex
 | Method       | Endpoint       | Neatsio Constant | Description | Data Format |
 | ------------ | -------------- | ---------------- | ----------- | ----------- |
 | **`GET`**    | `/cars`        | **GET_MANY**     | Get list of cars | *`Array<Car>`* |
-| **`GET`**    | `/cars/1`      | **GET_ONE**      | Get specific car with id equals to 1 | *`Car`* |
+| **`GET`**    | `/cars/1`      | **GET_ONE**      | Get specific car with id 1 | *`Car`* |
 | **`GET`**    | `/cars/count`  | **COUNT**        | Get count of cars in database | *`Number`* |
 | **`POST`**   | `/cars`        | **CREATE_ONE**   | Create new car | *`Car`* |
-| **`PUT`**    | `/cars/1`      | **UPDATE_ONE**   | Update a car at specified id | *`Car`* |
-| **`DELETE`** | `/cars/1`      | **DELETE_ONE** | Delete a car at specified id |  |
-| **`PUT`**    | `/cars/bulk`   | **UPDATE_MANY** | Update all cars |  |
-| **`DELETE`** | `/cars/bulk`   | **DELETE_MANY** | Delete all cars |  |
+| **`PUT`**    | `/cars/1`      | **UPDATE_ONE**   | Update a car with id 1 | *`Car`* |
+| **`DELETE`** | `/cars/1`      | **DELETE_ONE**   | Delete a car with id 1 |  |
+| **`PUT`**    | `/cars/bulk`   | **UPDATE_MANY**  | Update all cars |  |
+| **`DELETE`** | `/cars/bulk`   | **DELETE_MANY**  | Delete all cars |  |
 
 ## Make some queries
 
