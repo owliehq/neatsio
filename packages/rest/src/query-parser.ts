@@ -176,6 +176,16 @@ export default class QueryParser {
         const value = conditions[prop]
         const key = sequelizeOperators[prop] || prop
 
+        //
+        if(value === undefined) throw new Error('NO UNDEFINED VALUE')
+
+        //
+        if(value === null) {
+          result[key] = null
+          return result
+        }
+
+        //
         if (value.hasOwnProperty('$near')) {
           const nearParams = value.$near
 
