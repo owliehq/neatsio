@@ -95,8 +95,8 @@ export default class Controller {
     this.buildOnePostRoute()
     this.buildBulkPutRoute()
     this.buildOnePutRoute()
-    this.buildOneDeleteRoute()
     this.buildBulkDeleteRoute()
+    this.buildOneDeleteRoute()
 
     this.buildCustomAfterMiddlewares()
   }

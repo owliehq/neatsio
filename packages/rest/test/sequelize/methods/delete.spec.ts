@@ -45,6 +45,10 @@ describe('Sequelize: POST Method & Routes', () => {
       done()
     })
 
+    afterAll(async () => {
+      await User.destroy({ where: {}, truncate: true, restartIdentity: true })
+    })
+
     describe('Deletion by Id', () => {
       it('should delete user with specific id', async () => {
         await request(app)
@@ -57,6 +61,62 @@ describe('Sequelize: POST Method & Routes', () => {
 
         await request(app)
           .delete('/api/users/1')
+          .set('Accept', 'application/json')
+          .expect(200)
+
+        await request(app)
+          .get('/api/users')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body).toHaveLength(0)
+          })
+      })
+    })
+  })
+
+  describe('DELETE /api/users/bulk', () => {
+    beforeAll(async done => {
+      await User.create({
+        firstname: 'John',
+        lastname: 'DOE',
+        email: 'john.doe@acme.com',
+        active: true
+      })
+
+      await User.create({
+        firstname: 'John',
+        lastname: 'DOEBIS',
+        email: 'john.doebis@acme.com',
+        active: true
+      })
+
+      await User.create({
+        firstname: 'Jane',
+        lastname: 'DOE',
+        email: 'jane.doe@acme.com',
+        active: true
+      })
+
+      done()
+    })
+
+    afterAll(async () => {
+      await User.destroy({ where: {}, truncate: true, restartIdentity: true })
+    })
+
+    describe('Deletion in bulk', () => {
+      it('should delete user with specific id', async () => {
+        await request(app)
+          .get('/api/users')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body).toHaveLength(3)
+          })
+
+        await request(app)
+          .delete('/api/users/bulk')
           .set('Accept', 'application/json')
           .expect(200)
 
