@@ -155,9 +155,12 @@ export default class QueryParser {
       $notILike: Op.notILike,
       $or: Op.or,
       $and: Op.and,
+
+      // TODO: verify we are in Postgre env
       $contains: Op.contains,
       $contained: Op.contained,
-      $overlap: Op.overlap
+      $overlap: Op.overlap,
+      $any: Op.any
     }
 
     /**
