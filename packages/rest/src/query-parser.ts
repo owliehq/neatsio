@@ -272,7 +272,7 @@ export default class QueryParser {
    *
    */
   private convertPopulateToSequelize() {
-    const paths = normalizePath(deconstructPath(this.populate.split(' '))).filter(path => path.split('.').length < 3)
+    const paths = normalizePath(deconstructPath(this.populate.split(' '))).filter(path => path.split('.').length < 5)
     const treePaths = {}
 
     paths.forEach(path => dot.set(treePaths, path, true))
