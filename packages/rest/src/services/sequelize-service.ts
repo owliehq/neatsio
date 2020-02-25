@@ -125,7 +125,9 @@ export default class SequelizeService<M extends Model> extends Service {
 
     const restriction = where ? { where } : { where: { 1: 1 } }
 
-    await this.model.destroy(restriction)
+    const count = await this.model.destroy(restriction)
+
+    return count
   }
 
   /**

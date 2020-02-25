@@ -259,7 +259,7 @@ export default class Controller {
   private buildBulkDeleteRoute() {
     const callback = AsyncWrapper(async (req, res) => {
       const response = await this.service.deleteBulk(req.parsedQuery)
-      return res.status(200).json(response)
+      return res.status(200).json({ count: response })
     })
 
     const beforeMiddlewares = this.middlewares?.deleteBulk?.before || []
