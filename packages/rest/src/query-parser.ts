@@ -177,10 +177,10 @@ export default class QueryParser {
         const key = sequelizeOperators[prop] || prop
 
         //
-        if(value === undefined) throw new Error('NO UNDEFINED VALUE')
+        if (value === undefined) throw new Error('NO UNDEFINED VALUE')
 
         //
-        if(value === null) {
+        if (value === null) {
           result[key] = null
           return result
         }
