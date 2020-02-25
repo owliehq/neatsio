@@ -118,6 +118,18 @@ export default class SequelizeService<M extends Model> extends Service {
 
   /**
    *
+   * @param query
+   */
+  public async deleteBulk(query: QueryParser): Promise<any> {
+    const { where } = query.toSequelizeParams()
+
+    const restriction = where ? { where } : { where: { 1: 1 } }
+
+    await this.model.destroy(restriction)
+  }
+
+  /**
+   *
    * @param attributes
    */
   public setHiddenAttributes(attributes: any): void {

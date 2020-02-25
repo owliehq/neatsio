@@ -96,6 +96,7 @@ export default class Controller {
     this.buildBulkPutRoute()
     this.buildOnePutRoute()
     this.buildOneDeleteRoute()
+    this.buildBulkDeleteRoute()
 
     this.buildCustomAfterMiddlewares()
   }
@@ -250,6 +251,20 @@ export default class Controller {
     const beforeMiddlewares = this.middlewares?.deleteOne?.before || []
 
     this.router.delete(this.mainRouteWithId, [...beforeMiddlewares, callback])
+  }
+
+  /**
+   *
+   */
+  private buildBulkDeleteRoute() {
+    const callback = AsyncWrapper(async (req, res) => {
+      const response = await this.service.deleteBulk(req.parsedQuery)
+      return res.status(200).json(response)
+    })
+
+    const beforeMiddlewares = this.middlewares?.deleteBulk?.before || []
+
+    this.router.delete(this.mainRouteWithBulk, [...beforeMiddlewares, callback])
   }
 
   /**

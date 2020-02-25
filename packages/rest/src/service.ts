@@ -51,19 +51,25 @@ export default abstract class Service {
    * @param body
    * @param query
    */
-  abstract async updateBulk(body: any, query?: QueryParser): Promise<any>
-
-  /**
-   *
-   * @param attributes
-   */
-  abstract setHiddenAttributes(attributes: any): void
+  abstract async updateBulk(body: any, query: QueryParser): Promise<any>
 
   /**
    *
    * @param id
    */
   abstract async deleteOne(id: string): Promise<any>
+
+  /**
+   *
+   * @param query
+   */
+  abstract async deleteBulk(query: QueryParser): Promise<any>
+
+  /**
+   *
+   * @param attributes
+   */
+  abstract setHiddenAttributes(attributes: any): void
 
   /**
    *

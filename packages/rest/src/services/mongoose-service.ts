@@ -120,6 +120,14 @@ export default class MongooseService extends Service {
 
   /**
    *
+   * @param query
+   */
+  public async deleteBulk(query?: QueryParser | undefined): Promise<any> {
+    throw new Error('Method not implemented.')
+  }
+
+  /**
+   *
    * @param model
    */
   protected removeHiddenAttributesFromEntity(model: any) {
