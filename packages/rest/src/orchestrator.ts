@@ -56,7 +56,6 @@ export default class Orchestrator {
   private buildRoutes() {
     // We go through current controllers and build REST routes one by one
     Object.values(this.controllers).forEach(controller => {
-      controller.setRegisteredModels(this.models)
       controller.buildRoutes()
     })
 

@@ -4,7 +4,7 @@ import * as pluralize from 'pluralize'
 import Service from './service'
 import QueryParser from './query-parser'
 
-import { AsyncWrapper, modelIdentifier } from './utils'
+import { AsyncWrapper } from './utils'
 
 declare global {
   namespace Express {
@@ -13,10 +13,6 @@ declare global {
       results?: any
     }
   }
-}
-
-function isFunction(functionToCheck: any) {
-  return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
 }
 
 export default class Controller {
@@ -47,21 +43,6 @@ export default class Controller {
 
   /**
    *
-   */
-  private models: Array<any> = []
-
-  /**
-   * @deprecated
-   */
-  private deletePropertiesCallback?: any
-
-  /**
-   *
-   */
-  private hiddenAttributes: any
-
-  /**
-   *
    * @param model
    * @param router
    */
@@ -72,8 +53,8 @@ export default class Controller {
     this.router = router
     this.routeName = pluralize.plural(this.service.modelName).toLowerCase()
 
-    this.middlewares = params.middlewares ? params.middlewares : {}
-    this.customRoutes = params.routes ? params.routes : []
+    this.middlewares = params.middlewares || {}
+    this.customRoutes = params.routes || []
 
     this.service.setHiddenAttributes(params.hiddenAttributes || [])
   }
@@ -81,7 +62,6 @@ export default class Controller {
   /**
    * Build all routes via availables methods for the current model
    * DISCLAIMER: call order is important
-   * @public
    */
   public buildRoutes() {
     this.buildCustomBeforeMiddlewares()
@@ -138,8 +118,6 @@ export default class Controller {
 
   /**
    * Populate the main router with GET /models/:id route
-   *
-   * @private
    */
   private buildGetOneRoute() {
     const callback = AsyncWrapper(async (req, res) => {
@@ -155,8 +133,6 @@ export default class Controller {
   /**
    * Populate the main router with GET /models route
    * Handle query parameters by passing them to the service
-   *
-   * @private
    */
   private buildGetManyRoute() {
     const callback = AsyncWrapper(async (req, res) => {
@@ -265,14 +241,6 @@ export default class Controller {
     const beforeMiddlewares = this.middlewares?.deleteBulk?.before || []
 
     this.router.delete(this.mainRouteWithBulk, [...beforeMiddlewares, callback])
-  }
-
-  /**
-   *
-   * @param models
-   */
-  public setRegisteredModels(models: any) {
-    this.models = models
   }
 
   /**
