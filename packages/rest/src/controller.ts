@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import * as pluralize from 'pluralize'
 
-import Service from './service'
+import Service from './services/service'
 import QueryParser from './query-parser'
 
 import { AsyncWrapper } from './utils'

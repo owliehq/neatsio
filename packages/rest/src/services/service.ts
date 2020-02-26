@@ -1,4 +1,4 @@
-import QueryParser from './query-parser'
+import QueryParser from '../query-parser'
 
 export default abstract class Service {
   /**

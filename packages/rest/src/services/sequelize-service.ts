@@ -1,7 +1,7 @@
 import { Model } from 'sequelize'
-
 import { HttpError } from '@owliehq/http-errors'
-import Service from '../service'
+
+import Service from './service'
 import QueryParser from '../query-parser'
 
 export default class SequelizeService<M extends Model> extends Service {
