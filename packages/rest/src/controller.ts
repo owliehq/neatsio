@@ -120,7 +120,7 @@ export default class Controller {
    */
   private buildQueryParserMiddleware() {
     const middleware = AsyncWrapper(async (req, res, next) => {
-      req.parsedQuery = new QueryParser(req.query, this.service.model, this.models)
+      req.parsedQuery = new QueryParser(req.query, this.service.model)
       return next()
     })
 
