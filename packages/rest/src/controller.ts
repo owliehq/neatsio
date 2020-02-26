@@ -15,48 +15,52 @@ declare global {
   }
 }
 
+/**
+ *
+ */
 export class Controller {
   /**
    *
    */
-  public readonly router: Router
+  constructor(
+    public readonly service: Service,
+    public readonly router: Router,
+    private middlewares: any,
+    private customRoutes: any = [],
+    private routeName?: string
+  ) {
+    //this.customRoutes = params.routes || []
+
+    this.setRouteName(routeName)
+  }
 
   /**
    *
    */
-  public readonly service: Service
-
-  /**
-   *
-   */
-  private customRoutes: any
-
-  /**
-   *
-   */
-  private routeName: string
-
-  /**
-   *
-   */
-  private middlewares: any
-
-  /**
-   *
-   * @param model
-   * @param router
-   */
-  public constructor(service: Service, router: Router, params?: any) {
+  public static init<T extends typeof Controller>(
+    this: T,
+    service: Service,
+    router: Router,
+    params?: any
+  ): InstanceType<T> {
     params = params || {}
 
-    this.service = service
-    this.router = router
-    this.routeName = pluralize.plural(this.service.modelName).toLowerCase()
+    const { middlewares, routes }: any = {
+      middlewares: {
+        before: [],
+        after: [],
+        getOne: [],
+        getMany: [],
+        createOne: [],
+        createBulk: [],
+        updateOne: [],
+        updateBulk: [],
+        deleteOne: []
+      },
+      ...params
+    }
 
-    this.middlewares = params.middlewares || {}
-    this.customRoutes = params.routes || []
-
-    this.service.setHiddenAttributes(params.hiddenAttributes || [])
+    return new this(service, router, middlewares, routes) as InstanceType<T>
   }
 
   /**
@@ -243,11 +247,13 @@ export class Controller {
     this.router.delete(this.mainRouteWithBulk, [...beforeMiddlewares, callback])
   }
 
+  private setRouteName(routeName?: string): void {
+    this.routeName = routeName || pluralize.plural(this.service.modelName).toLowerCase()
+  }
+
   /**
    * Create route string from model name
    * Useful for GET / POST methods
-   *
-   * @private
    */
   private get mainRoute() {
     return '/' + this.routeName
@@ -256,8 +262,6 @@ export class Controller {
   /**
    * Create subroute string with id param from mainRoute
    * Useful for GET / PUT / DELETE methods
-   *
-   * @private
    */
   private get mainRouteWithId() {
     return this.mainRoute + '/:id'
@@ -266,15 +270,14 @@ export class Controller {
   /**
    * Create subroute string with id param from mainRoute
    * Useful for GET / PUT / DELETE methods
-   *
-   * @private
    */
   private get mainRouteWithBulk() {
     return this.mainRoute + '/bulk'
   }
 
   /**
-   *
+   * Create subroute string with count from mainRoute
+   * Useful for GET method
    */
   private get mainRouteWithCount() {
     return this.mainRoute + '/count'

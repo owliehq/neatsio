@@ -11,25 +11,15 @@ export default class Orchestrator {
   /**
    * Map of controllers registred by routeName
    */
-  private controllers: { [name: string]: Controller }
+  private controllers: { [name: string]: Controller } = {}
 
   /**
    * Express router
    */
-  private router: express.Router
-
-  /**
-   * Orchestrator's constructor
-   * @constructor
-   */
-  constructor() {
-    this.controllers = {}
-    this.router = express.Router()
-  }
+  private router: express.Router = express.Router()
 
   /**
    * Expose finally routes
-   * @public
    */
   public get routes() {
     this.buildRoutes()
@@ -39,11 +29,14 @@ export default class Orchestrator {
   /**
    * Allow to record the models, one by one with verification of duplicate contents
    * Init and create afferent controller (by model name)
-   * @public
    */
   public registerModel<M extends sequelize.Model>(model: NeatsioModel<M>, controllerParams?: any) {
     const service = modelIdentifier.getServiceFromModel(model)
-    this.controllers[service.modelName] = new Controller(service, this.router, controllerParams)
+
+    // TODO: Do something in other place with that
+    service.setHiddenAttributes(controllerParams?.hiddenAttributes || [])
+
+    this.controllers[service.modelName] = Controller.init(service, this.router, controllerParams)
   }
 
   /**
