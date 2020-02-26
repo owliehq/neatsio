@@ -1,9 +1,7 @@
 import * as sequelize from 'sequelize'
 import * as express from 'express'
 
-import HttpError from './http-error'
-import Controller from './controller'
-
+import { Controller } from './controller'
 import { modelIdentifier, NeatsioModel } from './utils'
 
 /**
@@ -51,41 +49,12 @@ export default class Orchestrator {
   /**
    * Prepare a router with all REST Routes, handling errors
    * And expose the router, must be exposed in a seperate getter
-   * @private
    */
   private buildRoutes() {
     // We go through current controllers and build REST routes one by one
     Object.values(this.controllers).forEach(controller => {
       controller.buildRoutes()
     })
-
-    // Add handling for try/catch error (async) and
-    // finish with 404 error if route wasn't found
-    this.buildErrorRouteHandler()
-  }
-
-  /**
-   * Prepare current router with error handling,
-   * send HTTP error to client
-   * @private
-   */
-  private buildErrorRouteHandler() {
-    /*// Catch errors that could be thrown everywhere in the lib
-    // Carefull: express routes only
-    this.router.use('/', (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-      const status = err.statusCode || 500
-
-      console.error(err)
-
-      if (status === 500) err = HttpError.InternalServerError()
-      res.status(status).json(err)
-    })
-
-    // When no middleware is called, there's no collection match
-    // with the request, result to 404 error
-    this.router.use('/', (req, res) => {
-      res.status(404).send(HttpError.NotFound())
-    })*/
   }
 
   /**

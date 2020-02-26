@@ -1,4 +1,4 @@
-import HttpError from '../../../../src/http-error'
+import { HttpError } from '@owliehq/http-errors'
 import { AsyncWrapper } from '../../../../src/utils'
 
 export default AsyncWrapper(async (req, res, next) => {

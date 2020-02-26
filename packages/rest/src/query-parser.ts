@@ -1,4 +1,4 @@
-import HttpError from './http-error'
+import { HttpError } from '@owliehq/http-errors'
 import { SequelizeConverter, ISequelizeParsedParameters } from './converters'
 import { ParsedQuery } from './converters/converter'
 
