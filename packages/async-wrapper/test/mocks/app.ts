@@ -1,5 +1,5 @@
 import * as express from 'express'
-import asyncWrapper from '../../src/async-wrapper'
+import { asyncWrapper } from '../../src/async-wrapper'
 
 const app = express()
 

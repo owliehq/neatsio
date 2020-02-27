@@ -1,11 +1,9 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express'
 
-/**
- *
- * @param fn
- */
-export default function asyncWrapper(fn: RequestHandler) {
-  return function(req: Request, res: Response, next: NextFunction) {
-    fn(req, res, next).catch(next)
+type AsyncRequestHandler = (req: Request, res: Response, next: NextFunction) => Promise<any>
+
+export const asyncWrapper = (handler: AsyncRequestHandler): RequestHandler => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    handler(req, res, next).catch(next)
   }
 }
