@@ -38,6 +38,14 @@ module.exports = {
             '/1.x.x/concepts/errors'
           ]
         },
+        {
+          title: 'Tutorials',
+          collapsable: false,
+          sidebarDepth: 1,
+          children: [
+            '/1.x.x/tutorials/first-data'
+          ]
+        }
       ],
       nav: [
         { text: 'Home', link: '/' },

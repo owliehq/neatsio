@@ -39,8 +39,7 @@ const userOptions = {
     createOne: [(req, res, next) => { next() }, ...],
     createBulk: [(req, res, next) => { next() }, ...],
     updateOne: [(req, res, next) => { next() }, ...],
-    updateDelete: [(req, res, next) => { next() }, ...],
-    before: [(req, res, next) => { next() }, ...]
+    updateDelete: [(req, res, next) => { next() }, ...]
   },
 
   // {optional} Remove fields from response returning entity/entities
