@@ -5,6 +5,9 @@ import * as path from 'path'
 import app from '../mocks/app'
 import sequelize from '../mocks/db'
 
+import User from '../mocks/models/user'
+import Role from '../mocks/models/role'
+
 // May require additional time for downloading MongoDB binaries
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000
 
@@ -32,12 +35,29 @@ describe('Sequelize: POST Method & Routes', () => {
 
   //
   describe('POST /api/users', () => {
+    beforeAll(async () => {
+      await sequelize.sync({ force: true })
+
+      await Role.create({
+        name: 'Member'
+      })
+
+      await Role.create({
+        name: 'Admin',
+        write: true
+      })
+    })
+
+    afterAll(async () => {
+      await User.destroy({ where: {}, truncate: true, restartIdentity: true })
+    })
+
     describe('First insertions', () => {
       it('should insert simple user with all required data', async () => {
         const body = {
-          firstname: 'Xavier',
-          lastname: 'HEN',
-          email: 'xavier@leadpositive.fr',
+          firstname: 'John',
+          lastname: 'DOE',
+          email: 'john.doe@acme.com',
           active: true
         }
 
@@ -49,9 +69,9 @@ describe('Sequelize: POST Method & Routes', () => {
           .then(response => {
             expect(response.body).toMatchObject({
               id: 1,
-              firstname: 'Xavier',
-              lastname: 'HEN',
-              email: 'xavier@leadpositive.fr',
+              firstname: 'John',
+              lastname: 'DOE',
+              email: 'john.doe@acme.com',
               active: true
             })
           })
@@ -63,10 +83,57 @@ describe('Sequelize: POST Method & Routes', () => {
           .then(response => {
             expect(response.body).toMatchObject({
               id: 1,
-              firstname: 'Xavier',
-              lastname: 'HEN',
-              email: 'xavier@leadpositive.fr',
+              firstname: 'John',
+              lastname: 'DOE',
+              email: 'john.doe@acme.com',
               active: true
+            })
+          })
+      })
+    })
+
+    describe('Populate at creation', () => {
+      it('should be populated when is created', async () => {
+        const body = {
+          firstname: 'John',
+          lastname: 'DOE',
+          email: 'john.doe@acme.com',
+          active: true,
+          roleId: 1
+        }
+
+        await request(app)
+          .post('/api/users?$populate=role')
+          .send(body)
+          .set('Accept', 'application/json')
+          .expect(201)
+          .then(response => {
+            expect(response.body).toMatchObject({
+              id: 2,
+              firstname: 'John',
+              lastname: 'DOE',
+              email: 'john.doe@acme.com',
+              active: true,
+              roleId: 1,
+              role: {
+                id: 1,
+                name: 'Member'
+              }
+            })
+          })
+
+        await request(app)
+          .get('/api/users/2')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .then(response => {
+            expect(response.body).toMatchObject({
+              id: 2,
+              firstname: 'John',
+              lastname: 'DOE',
+              email: 'john.doe@acme.com',
+              active: true,
+              roleId: 1
             })
           })
       })
