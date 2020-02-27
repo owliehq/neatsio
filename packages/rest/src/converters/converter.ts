@@ -15,7 +15,7 @@ export abstract class Converter {
     this.populate = query.populate
   }
 
-  abstract toParams(): any
+  abstract toParams(options?: any): any
 }
 
 export interface ParsedQuery {

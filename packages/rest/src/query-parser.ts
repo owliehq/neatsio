@@ -13,7 +13,7 @@ export default class QueryParser {
   private select?: any
   private populate?: any
 
-  constructor(query: any, private model: any) {
+  constructor(query: any, private model: any, private options?: any) {
     this.parseConditions(query.$conditions)
     this.parseSelect(query.$select)
     this.parseLimit(query.$limit)
@@ -55,7 +55,7 @@ export default class QueryParser {
    *
    */
   public toSequelizeParams(): ISequelizeParsedParameters {
-    return SequelizeConverter.convert(this.queryParsed, this.model)
+    return SequelizeConverter.convert(this.queryParsed, this.model, this.options)
   }
 
   /**

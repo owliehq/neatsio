@@ -27,6 +27,7 @@ export class Controller {
     public readonly router: Router,
     private middlewares: any,
     private customRoutes: any = [],
+    private queryOptions: any,
     private routeName?: string
   ) {
     //this.customRoutes = params.routes || []
@@ -45,7 +46,7 @@ export class Controller {
   ): InstanceType<T> {
     params = params || {}
 
-    const { middlewares, routes }: any = {
+    const { middlewares, routes, queryOptions }: any = {
       middlewares: {
         before: [],
         after: [],
@@ -60,7 +61,7 @@ export class Controller {
       ...params
     }
 
-    return new this(service, router, middlewares, routes) as InstanceType<T>
+    return new this(service, router, middlewares, routes, queryOptions) as InstanceType<T>
   }
 
   /**

@@ -22,13 +22,13 @@ export class SequelizeConverter extends Converter {
   /**
    *
    */
-  public toParams(): ISequelizeParsedParameters {
+  public toParams(options: any): ISequelizeParsedParameters {
     const params: ISequelizeParsedParameters = {
       order: []
     }
 
     params.attributes = this.convertSelect()
-    if (this.conditions) params.where = this.convertConditions()
+    if (this.conditions) params.where = this.convertConditions(options?.inverseLngLat)
     if (this.limit) params.limit = this.limit
     if (this.skip) params.offset = this.skip
     if (this.sort || this.specialSort.length) params.order = this.convertSort()
@@ -81,7 +81,7 @@ export class SequelizeConverter extends Converter {
   /**
    *
    */
-  private convertConditions() {
+  private convertConditions(options: any) {
     const sequelizeOperators: any = {
       $eq: Op.eq,
       $ne: Op.ne,
@@ -137,20 +137,16 @@ export class SequelizeConverter extends Converter {
           const radius = nearParams.radius || 10
 
           if (nearParams.lat && nearParams.lng) {
-            const within = fn(
-              'ST_DWithin',
-              col(key),
-              fn('ST_GeometryFromText', `POINT(${nearParams.lat} ${nearParams.lng})`),
-              radius
-            )
+            const point = options?.inverseLngLat
+              ? `POINT(${nearParams.lat} ${nearParams.lng})`
+              : `POINT(${nearParams.lng} ${nearParams.lat})`
+
+            const within = fn('ST_DWithin', col(key), fn('ST_GeometryFromText', point), radius)
 
             // @ts-ignore
             result[Op.and] = where(within, true)
 
-            const order = [
-              fn('ST_Distance', col(key), fn('ST_GeometryFromText', `POINT(${nearParams.lat} ${nearParams.lng})`)),
-              'ASC'
-            ]
+            const order = [fn('ST_Distance', col(key), fn('ST_GeometryFromText', point)), 'ASC']
 
             this.specialSort.push(order)
           }
@@ -223,9 +219,13 @@ export class SequelizeConverter extends Converter {
   /**
    *
    */
-  public static convert(query: ParsedQuery, model: { new (): Model } & typeof Model): ISequelizeParsedParameters {
+  public static convert(
+    query: ParsedQuery,
+    model: { new (): Model } & typeof Model,
+    options: any
+  ): ISequelizeParsedParameters {
     const currentConvert = new this(query, model)
-    return currentConvert.toParams()
+    return currentConvert.toParams(options)
   }
 }
 
