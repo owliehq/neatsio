@@ -32,8 +32,9 @@ A main endpoint is split into many routes to respect REST architecture, let's ex
 | **`POST`**   | `/cars`        | **CREATE_ONE**   | Create new car | *`Car`* |
 | **`PUT`**    | `/cars/1`      | **UPDATE_ONE**   | Update a car with id 1 | *`Car`* |
 | **`DELETE`** | `/cars/1`      | **DELETE_ONE**   | Delete a car with id 1 |  |
-| **`PUT`**    | `/cars/bulk`   | **UPDATE_MANY**  | Update all cars |  |
-| **`DELETE`** | `/cars/bulk`   | **DELETE_MANY**  | Delete all cars |  |
+| **`POST`**   | `/cars/bulk`   | **CREATE_MANY**  | Create many cars |  |
+| **`PUT`**    | `/cars/bulk`   | **UPDATE_MANY**  | Update many cars (all by default) |  |
+| **`DELETE`** | `/cars/bulk`   | **DELETE_MANY**  | Delete many cars (all by default) |  |
 
 ## Make some queries
 
