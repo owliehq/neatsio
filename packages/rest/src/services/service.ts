@@ -16,23 +16,23 @@ export default abstract class Service {
    * @param id
    * @param query
    */
-  abstract async findById(id: string, query?: any): Promise<any>
+  abstract async findById(id: string, query?: QueryParser): Promise<any>
 
   /**
    *
    */
-  abstract async find(query: QueryParser): Promise<any>
+  abstract async find(query?: QueryParser): Promise<any>
 
   /**
    *
    */
-  abstract async count(query: QueryParser): Promise<any>
+  abstract async count(query?: QueryParser): Promise<any>
 
   /**
    *
    * @param body
    */
-  abstract async createOne(body: any): Promise<any>
+  abstract async createOne(body: any, query?: QueryParser): Promise<any>
 
   /**
    *
@@ -44,14 +44,14 @@ export default abstract class Service {
    *
    * @param body
    */
-  abstract async updateOne(id: string, body: any): Promise<any>
+  abstract async updateOne(id: string, body: any, query?: QueryParser): Promise<any>
 
   /**
    *
    * @param body
    * @param query
    */
-  abstract async updateBulk(body: any, query: QueryParser): Promise<any>
+  abstract async updateBulk(body: any, query?: QueryParser): Promise<any>
 
   /**
    *
@@ -63,7 +63,7 @@ export default abstract class Service {
    *
    * @param query
    */
-  abstract async deleteBulk(query: QueryParser): Promise<any>
+  abstract async deleteBulk(query?: QueryParser): Promise<any>
 
   /**
    *

@@ -169,7 +169,7 @@ export class Controller {
    */
   private buildOnePostRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.createOne(req.body)
+      const response = await this.service.createOne(req.body, req.parsedQuery)
       return res.status(201).json(response)
     })
 
@@ -197,7 +197,7 @@ export class Controller {
    */
   private buildOnePutRoute() {
     const callback = AsyncWrapper(async (req, res) => {
-      const response = await this.service.updateOne(req.params.id, req.body)
+      const response = await this.service.updateOne(req.params.id, req.body, req.parsedQuery)
       return res.status(200).json(response)
     })
 

@@ -21,15 +21,9 @@ export default class SequelizeService<M extends Model> extends Service {
    * @param id
    */
   public async findById(id: string, query?: QueryParser) {
-    let result
+    const { include, attributes }: any = query?.toSequelizeParams() || {}
 
-    if (query) {
-      const { include } = query.toSequelizeParams()
-
-      result = await this.model.findByPk(id, { include })
-    } else {
-      result = await this.model.findByPk(id)
-    }
+    const result = await this.model.findByPk(id, { include, attributes })
 
     if (!result) throw HttpError.NotFound()
 
@@ -39,9 +33,9 @@ export default class SequelizeService<M extends Model> extends Service {
   /**
    *
    */
-  public async find(query: QueryParser) {
+  public async find(query?: QueryParser) {
     //
-    const queryParams = query.toSequelizeParams()
+    const queryParams = query?.toSequelizeParams()
 
     const { count, rows } = await this.model.findAndCountAll(queryParams)
 
@@ -51,16 +45,10 @@ export default class SequelizeService<M extends Model> extends Service {
   /**
    *
    */
-  public async count(query: QueryParser) {
-    const queryParams = query.toSequelizeParams()
+  public async count(query?: QueryParser) {
+    const { where } = query?.toSequelizeParams() || {}
 
-    delete queryParams.attributes
-    delete queryParams.include
-    delete queryParams.limit
-    delete queryParams.offset
-    delete queryParams.order
-
-    const result = await this.model.count(queryParams)
+    const result = await this.model.count({ where })
 
     return result
   }
@@ -69,9 +57,12 @@ export default class SequelizeService<M extends Model> extends Service {
    *
    * @param body
    */
-  public async createOne(body: any) {
-    const created = await this.model.create(body)
-    return this.removeHiddenAttributesFromEntity(created)
+  public async createOne(body: any, query?: QueryParser) {
+    const { id }: any = await this.model.create(body)
+
+    const result = await this.findById(id, query)
+
+    return result
   }
 
   /**
@@ -86,11 +77,14 @@ export default class SequelizeService<M extends Model> extends Service {
    * Update an entity by the primary key (mostly id)
    * @param body
    */
-  public async updateOne(id: string, body: any) {
+  public async updateOne(id: string, body: any, query?: QueryParser) {
     const entityBeforeUpdate = await this.findById(id)
 
-    const updated = await entityBeforeUpdate.update(body)
-    return this.removeHiddenAttributesFromEntity(updated)
+    await entityBeforeUpdate.update(body)
+
+    const result = await this.findById(id, query)
+
+    return result
   }
 
   /**
@@ -98,8 +92,8 @@ export default class SequelizeService<M extends Model> extends Service {
    * @param body
    * @param query
    */
-  public async updateBulk(body: any, query: QueryParser) {
-    const { where } = query.toSequelizeParams()
+  public async updateBulk(body: any, query?: QueryParser) {
+    const { where } = query?.toSequelizeParams() || {}
 
     const restriction = where ? { where } : { where: { 1: 1 } }
 
@@ -120,8 +114,8 @@ export default class SequelizeService<M extends Model> extends Service {
    *
    * @param query
    */
-  public async deleteBulk(query: QueryParser): Promise<any> {
-    const { where } = query.toSequelizeParams()
+  public async deleteBulk(query?: QueryParser): Promise<any> {
+    const { where } = query?.toSequelizeParams() || {}
 
     const restriction = where ? { where } : { where: { 1: 1 } }
 
