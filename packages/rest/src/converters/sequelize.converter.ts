@@ -141,12 +141,20 @@ export class SequelizeConverter extends Converter {
               ? `POINT(${nearParams.lat} ${nearParams.lng})`
               : `POINT(${nearParams.lng} ${nearParams.lat})`
 
-            const within = fn('ST_DWithin', col(key), fn('ST_GeometryFromText', point), radius)
+            const within = fn(
+              'ST_DWithin',
+              col(`${this.model.tableName}.${key}`),
+              fn('ST_GeometryFromText', point),
+              radius
+            )
 
             // @ts-ignore
             result[Op.and] = where(within, true)
 
-            const order = [fn('ST_Distance', col(key), fn('ST_GeometryFromText', point)), 'ASC']
+            const order = [
+              fn('ST_Distance', col(`${this.model.tableName}.${key}`), fn('ST_GeometryFromText', point)),
+              'ASC'
+            ]
 
             this.specialSort.push(order)
           }
