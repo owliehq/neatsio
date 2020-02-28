@@ -70,9 +70,8 @@ export class Controller {
    */
   public buildRoutes() {
     this.buildCustomBeforeMiddlewares()
-    this.buildQueryParserMiddleware()
-
     this.buildCustomRoutes()
+    this.buildQueryParserMiddleware()
     this.buildCountRoute()
     this.buildGetOneRoute()
     this.buildGetManyRoute()
@@ -117,7 +116,7 @@ export class Controller {
    */
   private buildCustomRoutes() {
     this.customRoutes.forEach((route: any) => {
-      this.router.use(this.mainRoute + route.path, AsyncWrapper(route.execute))
+      this.router.use(this.mainRoute + route.path, route.execute)
     })
   }
 
