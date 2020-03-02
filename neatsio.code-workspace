@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "packages\\rest"
+		},
+		{
+			"path": "packages\\uploader"
+		}
+	],
+	"settings": {}
+}
