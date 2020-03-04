@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
-import neatsio from '../../../../rest/src/neatsio-rest'
+
+const neatsio = require('@owliehq/neatsio')
 
 import { uploader } from '../uploader'
 

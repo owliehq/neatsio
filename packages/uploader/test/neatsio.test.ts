@@ -1,6 +1,7 @@
 import * as request from 'supertest'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as process from 'process'
 
 import app from './mocks/neatsio/app'
 import sequelize from './mocks/neatsio/db'
@@ -20,7 +21,7 @@ describe('Neatsio server', () => {
     await sequelize.close()
 
     try {
-      fs.unlinkSync(path.join(__dirname, '../mocks/neatsio', 'database.sqlite'))
+      fs.unlinkSync(path.join(process.cwd(), 'test/data/database.sqlite'))
     } catch (err) {
       console.error(err)
     }
@@ -42,7 +43,7 @@ describe('Neatsio server', () => {
         .post('/files')
         .attach('key', 'test/data/image1.jpg')
         .field('userId', 1)
-        .expect(200)
+        .expect(201)
         .then(response => {
           const { key } = response.body
           expect(key).toBeDefined()

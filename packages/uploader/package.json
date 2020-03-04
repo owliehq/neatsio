@@ -89,8 +89,8 @@
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
     "express": "^4.17.1",
-    "jest": "^24.9.0",
-    "jest-config": "^24.9.0",
+    "jest": "^25.1.0",
+    "jest-config": "^25.1.0",
     "lint-staged": "^8.2.1",
     "lodash.camelcase": "^4.3.0",
     "prettier": "^1.19.1",
@@ -103,15 +103,15 @@
     "shelljs": "^0.8.3",
     "sqlite3": "^4.1.1",
     "supertest": "^4.0.2",
-    "ts-jest": "^24.3.0",
+    "ts-jest": "^25.2.1",
     "ts-node": "^7.0.1",
     "tslib": "^1.11.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "@owliehq/neatsio": "^1.13.2"
   },
   "dependencies": {
     "busboy": "^0.3.1",
     "fs-extra": "^8.1.0",
-    "mime-types": "^2.1.26",
-    "@owliehq/neatsio": "^1.13.2"
+    "mime-types": "^2.1.26"
   }
 }
