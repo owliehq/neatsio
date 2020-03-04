@@ -2,42 +2,80 @@ import { createWriteStream, ensureDirSync } from 'fs-extra'
 import * as path from 'path'
 import * as process from 'process'
 import { Readable } from 'stream'
+import * as mime from 'mime-types'
 
 import { Uploader } from '../uploader'
+import { resolve } from 'dns'
 
 export class FileSystemUploader extends Uploader {
-  public uploadTarget: string | Function
+  private uploadTarget: string | Function
+  private preserveExtension: boolean
 
   constructor(options: FileSystemOptions) {
     super()
 
     this.uploadTarget = options.uploadTarget
+    this.preserveExtension = options.preserveExtension ?? true
   }
 
   /**
    *
    */
-  public onFileHandler(fieldname: string, file: Readable, filename: string, encoding: string, mimetype: string): void {
-    const key = this.generateKey()
-    const storagePath = path.join(this.storagePath, key)
-    file.pipe(createWriteStream(storagePath))
+  public onFileUploadHandler(
+    fieldname: string,
+    file: Readable,
+    filename: string,
+    encoding: string,
+    mimetype: string
+  ): string {
+    const { path, key } = this.generateStoragePath(mimetype)
+    file.pipe(createWriteStream(path))
+    return key
+  }
+
+  /**
+   *
+   * @param key
+   */
+  public getStreamFile(key: string): Readable {
+    throw new Error('Method not implemented.')
   }
 
   /**
    *
    */
-  private get storagePath() {
+  public onFileDeleteHandler(key: string): void {
+    throw new Error('Method not implemented.')
+  }
+
+  /**
+   *
+   */
+  private generateStoragePath(mimetype: string) {
+    //
+    const extension = mime.extension(mimetype)
+
+    //
     const pathWithoutItem = path.join(
       process.cwd(),
       typeof this.uploadTarget === 'function' ? this.uploadTarget() : this.uploadTarget
     )
 
-    ensureDirSync(pathWithoutItem, 0x2775)
+    //
+    ensureDirSync(pathWithoutItem, 0x0777)
 
-    return pathWithoutItem
+    //
+    const key = this.generateKey().toString() + (this.preserveExtension && extension ? `.${extension}` : '')
+
+    //
+    return {
+      path: path.join(pathWithoutItem, key),
+      key
+    }
   }
 }
 
 export interface FileSystemOptions {
   uploadTarget: string | Function
+  preserveExtension?: boolean
 }

@@ -2,17 +2,7 @@ import { Request, Response } from 'express'
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
 
-import { FileSystemUploader } from '../../src'
-
-const uploadTarget = () => {
-  const random = Math.round(Math.random() * 100)
-    .toString()
-    .padStart(2)
-
-  return `./test/uploads/${random}`
-}
-
-const uploader = new FileSystemUploader({ uploadTarget })
+import { uploader } from '../uploader'
 
 const app = express()
 
@@ -20,8 +10,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.post('/files', [uploader.middleware], (req: Request, res: Response) => {
-  console.log(req.body)
-  res.status(200).send({ ok: 'ok' })
+  res.status(200).json(req.body)
 })
 
 const errorMiddleware: express.ErrorRequestHandler = (err, req, res) => {
