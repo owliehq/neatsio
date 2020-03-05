@@ -116,7 +116,8 @@ export class Controller {
    */
   private buildCustomRoutes() {
     this.customRoutes.forEach((route: any) => {
-      this.router.use(this.mainRoute + route.path, route.execute)
+      const middlewares = route.middlewares || []
+      this.router.use(this.mainRoute + route.path, middlewares, route.execute)
     })
   }
 
