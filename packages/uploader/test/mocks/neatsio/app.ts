@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
+import { HttpError, errorsMiddleware } from '@owliehq/http-errors'
 
 const neatsio = require('@owliehq/neatsio')
 
@@ -19,16 +20,27 @@ neatsio.registerModel(File, {
     createOne: {
       before: [uploader.middleware]
     }
-  }
+  },
+  routes: [
+    {
+      method: 'GET',
+      path: '/:id/download',
+      execute: uploader.buildDownloadEndpoint({
+        filename: 'image.png',
+        async retrieveKeyCallback(id) {
+          const file = await File.findByPk(id)
+
+          if (!file) throw HttpError.NotFound()
+
+          return file.key
+        }
+      })
+    }
+  ]
 })
 
 app.use('/', neatsio.routes)
 
-const errorMiddleware: express.ErrorRequestHandler = (err, req, res) => {
-  console.error(err)
-  res.send('FU')
-}
-
-app.use(errorMiddleware)
+app.use(errorsMiddleware)
 
 export default app

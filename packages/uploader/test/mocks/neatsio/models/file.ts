@@ -1,7 +1,9 @@
 import { Model, DataTypes } from 'sequelize'
 import sequelize from '../db'
 
-class File extends Model {}
+class File extends Model {
+  public key!: string
+}
 
 //
 File.init(

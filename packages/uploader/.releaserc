@@ -1,7 +1,14 @@
 {
   "tagFormat": "uploader-v${version}",
   "plugins": [
-    "@semantic-release/commit-analyzer",
+    ["@semantic-release/commit-analyzer", {
+      "preset": "angular",
+      "releaseRules": [
+        {"type": "feat", "release": "minor", "scope": "uploader"},
+        {"type": "fix", "release": "patch", "scope": "uploader"},
+        {"type": "perf", "release": "patch", "scope": "uploader"}
+      ]
+    }],
     "@semantic-release/github",
     "@semantic-release/npm",
     ["@semantic-release/git", {

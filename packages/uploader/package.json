@@ -68,6 +68,8 @@
     ]
   },
   "devDependencies": {
+    "@owliehq/http-errors": "^1.2.1",
+    "@owliehq/neatsio": "^1.13.2",
     "@rollup/plugin-json": "^4.0.2",
     "@rollup/plugin-typescript": "^2.1.0",
     "@semantic-release/git": "^7.0.18",
@@ -75,6 +77,7 @@
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^23.3.14",
+    "@types/md5": "^2.1.33",
     "@types/mime-types": "^2.1.0",
     "@types/node": "^10.17.13",
     "@types/sequelize": "^4.28.8",
@@ -93,6 +96,7 @@
     "jest-config": "^25.1.0",
     "lint-staged": "^8.2.1",
     "lodash.camelcase": "^4.3.0",
+    "md5": "^2.2.1",
     "prettier": "^1.19.1",
     "prompt": "^1.0.0",
     "replace-in-file": "^3.4.2",
@@ -106,10 +110,10 @@
     "ts-jest": "^25.2.1",
     "ts-node": "^7.0.1",
     "tslib": "^1.11.1",
-    "typescript": "^3.7.5",
-    "@owliehq/neatsio": "^1.13.2"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
+    "@owliehq/async-wrapper": "^1.1.0",
     "busboy": "^0.3.1",
     "fs-extra": "^8.1.0",
     "mime-types": "^2.1.26"

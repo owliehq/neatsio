@@ -2,6 +2,7 @@ import { Readable } from 'stream'
 import * as Busboy from 'busboy'
 import { RequestHandler } from 'express'
 import { foid } from './utils'
+import { asyncWrapper } from '@owliehq/async-wrapper'
 
 export abstract class Uploader {
   constructor() {}
@@ -43,16 +44,15 @@ export abstract class Uploader {
   /**
    *
    */
-  public get downloadHandler(): RequestHandler {
-    const handler: RequestHandler = (req, res) => {
-      const { key } = req.params
-
+  public buildDownloadEndpoint(options: DownloadEndpointOptions): RequestHandler {
+    const handler: RequestHandler = async (req, res) => {
+      const key = await options.retrieveKeyCallback(req.params.id)
       const stream = this.getStreamFile(key)
-
+      res.attachment(options?.filename || key)
       stream.pipe(res)
     }
 
-    return handler
+    return asyncWrapper(handler)
   }
 
   /**
@@ -82,4 +82,9 @@ export abstract class Uploader {
   protected generateKey() {
     return foid(18)
   }
+}
+
+export interface DownloadEndpointOptions {
+  filename?: string
+  retrieveKeyCallback(id: string): Promise<string>
 }

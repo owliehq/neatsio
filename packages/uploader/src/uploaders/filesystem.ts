@@ -1,11 +1,10 @@
-import { createWriteStream, ensureDirSync } from 'fs-extra'
+import { createWriteStream, ensureDirSync, createReadStream } from 'fs-extra'
 import * as path from 'path'
 import * as process from 'process'
 import { Readable } from 'stream'
 import * as mime from 'mime-types'
 
 import { Uploader } from '../uploader'
-import { resolve } from 'dns'
 
 export class FileSystemUploader extends Uploader {
   private uploadTarget: string | Function
@@ -38,7 +37,7 @@ export class FileSystemUploader extends Uploader {
    * @param key
    */
   public getStreamFile(key: string): Readable {
-    throw new Error('Method not implemented.')
+    return createReadStream(this.retrieveKeyPath(key))
   }
 
   /**
@@ -72,6 +71,19 @@ export class FileSystemUploader extends Uploader {
       path: path.join(pathWithoutItem, key),
       key
     }
+  }
+
+  /**
+   *
+   * @param key
+   */
+  private retrieveKeyPath(key: string) {
+    const pathWithoutItem = path.join(
+      process.cwd(),
+      typeof this.uploadTarget === 'function' ? this.uploadTarget() : this.uploadTarget
+    )
+
+    return path.join(pathWithoutItem, key)
   }
 }
 

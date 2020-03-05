@@ -1,4 +1,4 @@
-import { Readable } from 'stream'
+/*import { Readable } from 'stream'
 import { Uploader } from '../uploader'
 
 export class FirebaseUploader extends Uploader {
@@ -9,3 +9,4 @@ export class FirebaseUploader extends Uploader {
     throw new Error('Method not implemented.')
   }
 }
+*/
