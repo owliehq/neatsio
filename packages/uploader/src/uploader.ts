@@ -48,6 +48,8 @@ export abstract class Uploader {
     const handler: RequestHandler = async (req, res) => {
       const key = await options.retrieveKeyCallback(req.params.id)
       const stream = this.getStreamFile(key)
+
+      // TODO: Better handling needed here
       res.attachment(options?.filename || key)
       stream.pipe(res)
     }
