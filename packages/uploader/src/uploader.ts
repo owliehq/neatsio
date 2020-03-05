@@ -84,6 +84,9 @@ export abstract class Uploader {
   }
 }
 
+/**
+ *
+ */
 export interface DownloadEndpointOptions {
   filename?: string
   retrieveKeyCallback(id: string): Promise<string>
