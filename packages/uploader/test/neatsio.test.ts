@@ -38,15 +38,43 @@ describe('Neatsio server', () => {
       })
     })
 
-    it('should upload file and return File', () => {
-      return request(app)
+    it('should upload file and return File', async () => {
+      const image1 = 'test/data/image1.jpg'
+
+      let key
+
+      await request(app)
         .post('/files')
-        .attach('key', 'test/data/image1.jpg')
+        .attach('key', image1)
         .field('userId', 1)
         .expect(201)
         .then(response => {
-          const { key } = response.body
-          expect(key).toBeDefined()
+          expect(response.body.key).toBeDefined()
+          expect(response.body.userId).toBe(1)
+          expect(response.body.id).toBe(1)
+
+          key = response.body.key
+        })
+        .then(() => {
+          const storagePathUploadedFile = path.join(process.cwd(), '/test/uploads', key)
+          const dataFromUploadedFile = fs.readFileSync(storagePathUploadedFile, { encoding: 'utf8' })
+
+          const storagePathOriginalFile = path.join(process.cwd(), image1)
+          const dataFromOriginalFile = fs.readFileSync(storagePathOriginalFile, { encoding: 'utf8' })
+
+          expect(dataFromUploadedFile).toBe(dataFromOriginalFile)
+        })
+
+      await request(app)
+        .get('/files')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .then(response => {
+          expect(response.body).toHaveLength(1)
+
+          const [entry] = response.body
+
+          expect(entry).toMatchObject({ id: 1, key, userId: 1 })
         })
     })
   })
