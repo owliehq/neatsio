@@ -18,10 +18,10 @@ jobs:
       name: Install node.js
       with:
         node-version: '10.x'
-    - run: npm install --build-from-source
+    - run: npm install
       name: Install dependencies
       working-directory: packages/uploader
-    - run: sudo npm run test:prod && npm run build
+    - run: npm run test:prod && npm run build
       name: Build
       working-directory: packages/uploader
     - run: npm run semantic-release
