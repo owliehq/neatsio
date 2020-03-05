@@ -6,6 +6,9 @@ import * as mime from 'mime-types'
 
 import { Uploader } from '../uploader'
 
+/**
+ *
+ */
 export class FileSystemUploader extends Uploader {
   private uploadTarget: string | Function
   private preserveExtension: boolean
