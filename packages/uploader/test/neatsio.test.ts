@@ -13,23 +13,13 @@ import File from './mocks/neatsio/models/file'
 const image1 = 'test/data/image1.jpg'
 
 describe('Neatsio server', () => {
-  beforeAll(async done => {
+  beforeAll(async () => {
     await sequelize.authenticate()
     await sequelize.sync({ force: true })
-
-    done()
   })
 
-  afterAll(async done => {
-    await sequelize.close()
-
-    try {
-      fs.unlinkSync(path.join(process.cwd(), 'test/data/database.sqlite'))
-    } catch (err) {
-      console.error(err)
-    }
-
-    done()
+  afterAll(() => {
+    return sequelize.close()
   })
 
   describe('Upload a file and save infos in DB', () => {
