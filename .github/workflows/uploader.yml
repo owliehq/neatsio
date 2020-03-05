@@ -18,6 +18,8 @@ jobs:
       name: Install node.js
       with:
         node-version: '10.x'
+    - run: sudo apt-get install sqlite3
+      name: Install SQLite 3
     - run: npm install
       name: Install dependencies
       working-directory: packages/uploader
