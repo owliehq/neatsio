@@ -64,7 +64,7 @@ export class FileSystemUploader extends Uploader {
     )
 
     //
-    ensureDirSync(pathWithoutItem, 0x0777)
+    ensureDirSync(pathWithoutItem)
 
     //
     const key = this.generateKey().toString() + (this.preserveExtension && extension ? `.${extension}` : '')
