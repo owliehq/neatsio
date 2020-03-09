@@ -1,0 +1,19 @@
+{
+  "tagFormat": "api-v${version}",
+  "plugins": [
+    ["@semantic-release/commit-analyzer", {
+      "preset": "angular",
+      "releaseRules": [
+        {"type": "feat", "release": "minor", "scope": "api"},
+        {"type": "fix", "release": "patch", "scope": "api"},
+        {"type": "perf", "release": "patch", "scope": "api"}
+      ]
+    }],
+    "@semantic-release/github",
+    "@semantic-release/npm",
+    ["@semantic-release/git", {
+      "assets": ["package.json"],
+      "message": "chore(release): bump \"@owliehq/api\" to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }]
+  ]
+}
