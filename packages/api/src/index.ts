@@ -1,1 +1,2 @@
-console.log('onche')
+export * from './decorators'
+export * from './app'
