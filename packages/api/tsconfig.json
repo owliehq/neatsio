@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
+    "module": "commonjs",
     "target": "es2015",
     "lib": ["es2015", "es2016", "es2017", "dom"],
     "strict": true,
@@ -12,7 +13,8 @@
     "declarationDir": "dist/types",
     "outDir": "dist/lib",
     "typeRoots": ["node_modules/@types"],
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
-  "include": ["src"]
+  "esModuleInterop": true,
+  "include": ["src", "test"]
 }
