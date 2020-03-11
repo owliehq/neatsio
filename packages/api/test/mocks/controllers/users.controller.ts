@@ -15,7 +15,6 @@ export default class UsersController {
 
   /**
    *
-   * @param body
    */
   @Post()
   async create(@Body body: any) {
