@@ -1,16 +1,31 @@
 import * as request from 'supertest'
 
-import app from './mocks/server'
+import { startApp } from './mocks/server'
+import { response } from 'express'
 
 describe('Server mocked', () => {
   describe('GET /users', () => {
-    it('should return an array with users values', () => {
-      request(app)
+    it('should return an array with users values', async () => {
+      const app = await startApp()
+
+      return request(app)
         .get('/users')
         .expect(200)
         .then(response => {
-          console.error(response.body)
           expect(response.body).toHaveLength(2)
+        })
+    })
+  })
+
+  describe('POST /users', () => {
+    it('should return the body to response', async () => {
+      const app = await startApp()
+
+      return request(app)
+        .post('/users')
+        .expect(200)
+        .then(response => {
+          expect(response.body).toBeDefined()
         })
     })
   })

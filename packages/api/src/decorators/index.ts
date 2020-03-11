@@ -1,2 +1,3 @@
-export * from './Controller'
-export * from './methods'
+export * from './controller.decorator'
+export * from './methods.decorator'
+export * from './parameters.decorator'
