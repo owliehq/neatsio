@@ -1,5 +1,5 @@
 import { MetadataManager } from '../MetadataManager'
-import { set } from 'dot-prop'
+import { set, get } from 'dot-prop'
 
 interface BodyOptions {
   path: string
@@ -11,16 +11,19 @@ interface DecoratorParameters {
 }
 
 function applyBody(parameters: Array<any>, options?: BodyOptions | string) {
-  console.log('parameters', parameters)
   const target = parameters[0]
   const key = parameters[1]
   const index = parameters[2]
   set(MetadataManager.meta, `controllers.${target.constructor.name}.routesParameters.${key}.${index}`, {
     getValue: (req: Request) => {
-      if (typeof options === 'string') {
-        return options ? (req.body as any)[options] : req.body
-      }
-      return options ? (req.body as any)[options.path] : req.body
+      // Without string or object params, return the whole body
+      if (!options) return req.body
+
+      const path = typeof options === 'string' ? options : options?.path
+
+      if (!path) throw new Error(`Options Malformatted`)
+
+      return get(req.body as any, path)
     }
   })
 }
@@ -30,12 +33,10 @@ export function Body(name: string): Function
 export function Body(options: BodyOptions): Function
 export function Body(...args: any) {
   if (args.length > 2) {
-    console.log('args', args)
     applyBody(args)
   }
 
   return (...parameters: any) => {
-    console.log('parameters', parameters)
     applyBody(parameters, args[0])
   }
 }

@@ -52,12 +52,7 @@ describe('Server mocked', () => {
         .send(body)
         .expect(200)
         .then(response => {
-          expect(response.body).toMatchObject({
-            company: {
-              id: 1,
-              name: 'Acme'
-            }
-          })
+          expect(response.body).toBe(1)
         })
     })
   })

@@ -21,7 +21,7 @@ export default class UsersController {
     return body
   }
 
-  @Put()
+  @Put('/:id')
   async update(@Body('company.name') companyName: string, @Body({ path: 'company.id' }) companyId: number) {
     return companyId
   }

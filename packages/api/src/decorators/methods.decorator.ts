@@ -5,7 +5,7 @@ import { set, has } from 'dot-prop'
 import { MetadataManager } from '../MetadataManager'
 import { RouteMethod } from '../interfaces/RouteMetadata'
 
-const buildMethod = (method: RouteMethod) => () => (
+const buildMethod = (method: RouteMethod) => (subRoute?: string) => (
   target: any,
   propertyKey: string,
   descriptor: PropertyDescriptor
@@ -25,7 +25,7 @@ const buildMethod = (method: RouteMethod) => () => (
   })
 
   set(MetadataManager.meta, `controllers.${target.constructor.name}.routes.${propertyKey}`, {
-    path: '/',
+    path: subRoute || '/',
     method,
     handler
   })
