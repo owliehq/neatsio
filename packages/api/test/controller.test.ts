@@ -41,6 +41,7 @@ describe('Server mocked', () => {
       const app = await startApp()
 
       const body = {
+        id: 4,
         company: {
           id: 1,
           name: 'Acme'
@@ -48,11 +49,36 @@ describe('Server mocked', () => {
       }
 
       return request(app)
-        .put('/users/1')
+        .put('/users/50')
         .send(body)
         .expect(200)
         .then(response => {
-          expect(response.body).toBe(1)
+          expect(response.body.companyId).toBe(1)
+          expect(response.body.id).toBe('50')
+          expect(response.body.id2).toBe(4)
+        })
+    })
+  })
+
+  describe('DELETE /users/12/1', () => {
+    it('should return body updated', async () => {
+      const app = await startApp()
+
+      const body = {
+        id: 4,
+        company: {
+          id: 1,
+          name: 'Acme'
+        }
+      }
+
+      return request(app)
+        .delete('/users/12/1')
+        .accept('application/json')
+        .expect(200)
+        .then(response => {
+          expect(response.body.companyId).toBe('12')
+          expect(response.body.acceptHeader).toBe('application/json')
         })
     })
   })
