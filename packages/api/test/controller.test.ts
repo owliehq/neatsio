@@ -21,11 +21,43 @@ describe('Server mocked', () => {
     it('should return the body to response', async () => {
       const app = await startApp()
 
+      const body = {
+        lastname: 'DOE',
+        firstname: 'John'
+      }
+
       return request(app)
         .post('/users')
+        .send(body)
         .expect(200)
         .then(response => {
           expect(response.body).toBeDefined()
+        })
+    })
+  })
+
+  describe('PUT /users/1', () => {
+    it('should return body updated', async () => {
+      const app = await startApp()
+
+      const body = {
+        company: {
+          id: 1,
+          name: 'Acme'
+        }
+      }
+
+      return request(app)
+        .put('/users/1')
+        .send(body)
+        .expect(200)
+        .then(response => {
+          expect(response.body).toMatchObject({
+            company: {
+              id: 1,
+              name: 'Acme'
+            }
+          })
         })
     })
   })

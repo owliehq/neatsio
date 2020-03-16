@@ -33,3 +33,5 @@ const buildMethod = (method: RouteMethod) => () => (
 
 export const Get = buildMethod(RouteMethod.GET)
 export const Post = buildMethod(RouteMethod.POST)
+export const Put = buildMethod(RouteMethod.PUT)
+export const Delete = buildMethod(RouteMethod.DELETE)

@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Post } from '../../../src'
+import { Controller, Get, Body, Post, Put } from '../../../src'
 
 @Controller('users')
 export default class UsersController {
@@ -19,5 +19,10 @@ export default class UsersController {
   @Post()
   async create(@Body body: any) {
     return body
+  }
+
+  @Put()
+  async update(@Body('company.name') companyName: string, @Body({ path: 'company.id' }) companyId: number) {
+    return companyId
   }
 }
