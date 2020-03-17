@@ -1,12 +1,10 @@
 import * as request from 'supertest'
-
-import { startApp } from './mocks/server'
-import { response } from 'express'
+import { startServer } from './mocks/server'
 
 describe('Server mocked', () => {
   describe('GET /users', () => {
     it('should return an array with users values', async () => {
-      const app = await startApp()
+      const app = await startServer()
 
       return request(app)
         .get('/users')
@@ -19,7 +17,7 @@ describe('Server mocked', () => {
 
   describe('POST /users', () => {
     it('should return the body to response', async () => {
-      const app = await startApp()
+      const app = await startServer()
 
       const body = {
         lastname: 'DOE',
@@ -38,7 +36,7 @@ describe('Server mocked', () => {
 
   describe('PUT /users/1', () => {
     it('should return body updated', async () => {
-      const app = await startApp()
+      const app = await startServer()
 
       const body = {
         id: 4,
@@ -62,15 +60,7 @@ describe('Server mocked', () => {
 
   describe('DELETE /users/12/1', () => {
     it('should return body updated', async () => {
-      const app = await startApp()
-
-      const body = {
-        id: 4,
-        company: {
-          id: 1,
-          name: 'Acme'
-        }
-      }
+      const app = await startServer()
 
       return request(app)
         .delete('/users/12/1')

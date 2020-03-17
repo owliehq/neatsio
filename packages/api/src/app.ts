@@ -1,5 +1,8 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import * as process from 'process'
 
 import { errorsMiddleware } from '@owliehq/http-errors'
 
@@ -43,8 +46,38 @@ export class App {
     return this.express
   }
 
+  /**
+   *
+   */
+  public async loadControllers(subPath?: string) {
+    if (this.controllers.length) throw new Error('Controllers are already set')
+
+    /* istanbul ignore next */
+    const srcPath = subPath || 'src'
+
+    const promises = fs
+      .readdirSync(path.resolve(process.cwd(), srcPath, 'controllers'))
+      .map((file: string) => import(path.resolve(process.cwd(), srcPath, 'controllers', file)))
+
+    return Promise.all(promises)
+  }
+
+  /**
+   *
+   * @param options
+   */
+  public async initNativeApp(options?: any): Promise<express.Application> {
+    await this.loadControllers(options?.subPath)
+    return this.native
+  }
+
+  /**
+   *
+   */
   /* istanbul ignore next */
-  public start() {
+  public async start(options?: any) {
+    await this.loadControllers()
+
     this.native.listen(3000, () => {
       console.log('server is up')
     })
