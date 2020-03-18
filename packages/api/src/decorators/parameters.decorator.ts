@@ -101,3 +101,17 @@ export function Header(...args: any): Function | void {
     applyHeader(parameters, args[0])
   }
 }
+
+/**
+ *
+ * @param target
+ * @param propertyName
+ * @param index
+ */
+export function User(target: any, key: string, index: number) {
+  set(MetadataManager.meta, `controllers.${target.constructor.name}.routesParameters.${key}.${index}`, {
+    getValue: (req: Request) => {
+      return req.user
+    }
+  })
+}

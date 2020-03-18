@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { app } from '..'
-import { RouteMethod, RouteMetadata } from '../interfaces/RouteMetadata'
+import { RouteMethod, RouteMetadata, MiddlewareMetadata } from '../interfaces/Metadata'
 
 import { MetadataManager } from '../MetadataManager'
 
@@ -8,20 +8,25 @@ import { MetadataManager } from '../MetadataManager'
  *
  *
  */
-function generateRoutes(router: Router, routesMetadata: { [key: string]: RouteMetadata }) {
-  Object.values(routesMetadata).forEach((meta: RouteMetadata) => {
+function generateRoutes(router: Router, controllerMetadata: any) {
+  const routesMetadata: { [key: string]: RouteMetadata } = controllerMetadata.routes
+  const middlewares: { [key: string]: any[] } = controllerMetadata.middlewares || {}
+
+  Object.entries(routesMetadata).forEach(([key, meta]) => {
+    const currentRouteMiddlewares = (middlewares[key] || []).reverse()
+
     switch (meta.method) {
       case RouteMethod.GET:
-        router.get(meta.path, meta.handler)
+        router.get(meta.path, currentRouteMiddlewares, meta.handler)
         break
       case RouteMethod.POST:
-        router.post(meta.path, meta.handler)
+        router.post(meta.path, currentRouteMiddlewares, meta.handler)
         break
       case RouteMethod.PUT:
-        router.put(meta.path, meta.handler)
+        router.put(meta.path, currentRouteMiddlewares, meta.handler)
         break
       case RouteMethod.DELETE:
-        router.delete(meta.path, meta.handler)
+        router.delete(meta.path, currentRouteMiddlewares, meta.handler)
         break
     }
   })
@@ -36,7 +41,7 @@ export const Controller = <T extends { new (...args: any[]): any }>(controllerNa
 
   const { name } = constructor
 
-  generateRoutes(currentControllerClass.router, MetadataManager.meta.controllers[name].routes)
+  generateRoutes(currentControllerClass.router, MetadataManager.meta.controllers[name])
 
   app.registerController(currentControllerClass)
 

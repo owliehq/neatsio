@@ -12,3 +12,7 @@ export interface RouteMetadata {
   method: RouteMethod
   handler: RequestHandler
 }
+
+export interface MiddlewareMetadata {
+  middleware: RequestHandler
+}

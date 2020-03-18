@@ -3,7 +3,7 @@ import { RequestHandler, NextFunction } from 'express'
 import { set, has } from 'dot-prop'
 
 import { MetadataManager } from '../MetadataManager'
-import { RouteMethod } from '../interfaces/RouteMetadata'
+import { RouteMethod } from '../interfaces/Metadata'
 
 const buildMethod = (method: RouteMethod) => (subRoute?: string) => (
   target: any,

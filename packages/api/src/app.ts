@@ -3,15 +3,13 @@ import * as bodyParser from 'body-parser'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as process from 'process'
+import * as passport from 'passport'
+
+import { JwtPassportStrategy } from './config/passport'
 
 import { errorsMiddleware } from '@owliehq/http-errors'
 
 export class App {
-  /**
-   *
-   */
-  private express: express.Application = express()
-
   /**
    *
    */
@@ -21,7 +19,7 @@ export class App {
    *
    */
   private get commonMiddlewares() {
-    return [bodyParser.json(), bodyParser.urlencoded({ extended: false })]
+    return [bodyParser.json(), bodyParser.urlencoded({ extended: false }), passport.initialize()]
   }
 
   /**
@@ -36,14 +34,16 @@ export class App {
    *
    */
   public get native() {
-    this.express.use(this.commonMiddlewares)
+    const app = express()
+
+    app.use(this.commonMiddlewares)
 
     this.controllers.forEach((controller: any) => {
-      this.express.use(controller.path, controller.router)
+      app.use(controller.path, controller.router)
     })
 
-    this.express.use(errorsMiddleware({ debugServer: true }))
-    return this.express
+    app.use(errorsMiddleware({ debugServer: false }))
+    return app
   }
 
   /**
@@ -67,6 +67,8 @@ export class App {
    * @param options
    */
   public async initNativeApp(options?: any): Promise<express.Application> {
+    this.reset()
+    passport.use(JwtPassportStrategy(options.passport))
     await this.loadControllers(options?.subPath)
     return this.native
   }
@@ -74,11 +76,18 @@ export class App {
   /**
    *
    */
+  public reset() {
+    this.controllers = []
+  }
+
+  /**
+   *
+   */
   /* istanbul ignore next */
   public async start(options?: any) {
-    await this.loadControllers()
+    const app = await this.initNativeApp(options)
 
-    this.native.listen(3000, () => {
+    app.listen(3000, () => {
       console.log('server is up')
     })
   }
