@@ -1,7 +1,14 @@
 {
   "tagFormat": "rest-v${version}",
   "plugins": [
-    "@semantic-release/commit-analyzer",
+    ["@semantic-release/commit-analyzer", {
+      "preset": "angular",
+      "releaseRules": [
+        {"type": "feat", "release": "minor", "scope": "rest"},
+        {"type": "fix", "release": "patch", "scope": "rest"},
+        {"type": "perf", "release": "patch", "scope": "rest"}
+      ]
+    }],
     "@semantic-release/github",
     "@semantic-release/npm",
     ["@semantic-release/git", {

@@ -74,4 +74,12 @@ export default class Orchestrator {
       return result
     }, {})
   }
+
+  /**
+   *
+   */
+  public reset() {
+    this.controllers = {}
+    this.router = express.Router()
+  }
 }
