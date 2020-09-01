@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Post, Put, Params, Header, Delete } from '../../../src'
+import { Controller, Get, Body, Post, Put, Params, Header, Delete } from '../../../../src'
 
 @Controller('users')
 export default class UsersController {

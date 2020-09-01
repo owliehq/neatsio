@@ -4,6 +4,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as process from 'process'
 import * as passport from 'passport'
+import * as glob from 'glob'
 
 import { JwtPassportStrategy } from './config/passport'
 
@@ -50,14 +51,11 @@ export class App {
    *
    */
   public async loadControllers(subPath?: string) {
-    if (this.controllers.length) throw new Error('Controllers are already set')
+    if (this.controllers.length) throw new Error('Controllers already set')
 
-    /* istanbul ignore next */
-    const srcPath = subPath || 'src'
-
-    const promises = fs
-      .readdirSync(path.resolve(process.cwd(), srcPath, 'controllers'))
-      .map((file: string) => import(path.resolve(process.cwd(), srcPath, 'controllers', file)))
+    const promises = glob
+      .sync('**/*.controller.*', { absolute: true })
+      .map((file: string) => import(path.resolve(file)))
 
     return Promise.all(promises)
   }

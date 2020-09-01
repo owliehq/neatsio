@@ -1,5 +1,5 @@
-import { Controller, Get, Middleware, User } from '../../../src'
-import { authMiddleware } from '../../../src/middlewares/AuthMiddleware'
+import { Controller, Get, Middleware, User } from '../../../../src'
+import { authMiddleware } from '../../../../src/middlewares/AuthMiddleware'
 
 @Controller('cars')
 export default class CarsController {

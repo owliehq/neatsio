@@ -115,6 +115,7 @@
     "dot-prop": "^5.2.0",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
+    "glob": "^7.1.6",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
   }
