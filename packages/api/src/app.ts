@@ -48,6 +48,13 @@ export class App {
 
     app.use(errorsMiddleware({ debugServer: false }))
 
+    app.use((req, res) => {
+      res.status(404).json({
+        message: 'Not found.',
+        statusCode: 404
+      })
+    })
+
     return app
   }
 
