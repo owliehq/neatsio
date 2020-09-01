@@ -21,7 +21,15 @@ export class App {
    *
    */
   private get commonMiddlewares() {
-    return [bodyParser.json(), bodyParser.urlencoded({ extended: false }), passport.initialize()]
+    return [
+      bodyParser.json(),
+      bodyParser.urlencoded({ extended: false }),
+      passport.initialize(),
+      (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        res.removeHeader('X-Powered-By')
+        next()
+      }
+    ]
   }
 
   /**
