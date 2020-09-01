@@ -1,16 +1,25 @@
 import { Router } from 'express'
-import { app } from '..'
-import { RouteMethod, RouteMetadata, MiddlewareMetadata } from '../interfaces/Metadata'
 
+// WTF require is needed...
+const neatsio = require('@owliehq/neatsio')
+
+import { RouteMethod, RouteMetadata, MiddlewareMetadata } from '../interfaces/Metadata'
 import { MetadataManager } from '../MetadataManager'
+
+import { app } from '..'
+import { Model } from 'sequelize/types'
 
 /**
  *
  *
  */
-function generateRoutes(router: Router, controllerMetadata: any) {
-  const routesMetadata: { [key: string]: RouteMetadata } = controllerMetadata.routes
+function generateRoutes(controllerMetadata: any): Router {
+  if (!controllerMetadata) throw Error('Missing controller configuration')
+
+  const routesMetadata: { [key: string]: RouteMetadata } = controllerMetadata.routes || {}
   const middlewares: { [key: string]: any[] } = controllerMetadata.middlewares || {}
+
+  const router: Router = Router()
 
   Object.entries(routesMetadata).forEach(([key, meta]) => {
     const currentRouteMiddlewares = (middlewares[key] || []).reverse()
@@ -30,6 +39,8 @@ function generateRoutes(router: Router, controllerMetadata: any) {
         break
     }
   })
+
+  return router
 }
 
 /**
@@ -41,6 +52,9 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   params: ControllerParams = {}
 ) => (constructor: T) => {
   //
+  //
+
+  //
   const currentControllerClass: any = class extends constructor {
     public static router: Router = Router()
     public static controllerName = controllerName
@@ -50,12 +64,21 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   const { name } = constructor
 
   //
-  generateRoutes(currentControllerClass.router, MetadataManager.meta.controllers[name])
+  MetadataManager.registerController(name)
 
   //
-  app.registerController(currentControllerClass)
+  const routes = generateRoutes(MetadataManager.getControllerMetadata(name))
+
+  if (params.model) {
+    neatsio.registerModel(params.model)
+  } else {
+    currentControllerClass.router = routes
+    app.registerController(currentControllerClass)
+  }
 
   return currentControllerClass
 }
 
-interface ControllerParams {}
+interface ControllerParams {
+  model?: { new (): Model } & typeof Model
+}

@@ -1,14 +1,15 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
-import * as fs from 'fs-extra'
 import * as path from 'path'
-import * as process from 'process'
 import * as passport from 'passport'
 import * as glob from 'glob'
 
 import { JwtPassportStrategy } from './config/passport'
 
 import { errorsMiddleware } from '@owliehq/http-errors'
+
+// WTF require is needed...
+const neatsio = require('@owliehq/neatsio')
 
 export class App {
   /**
@@ -43,7 +44,10 @@ export class App {
       app.use(controller.path, controller.router)
     })
 
+    app.use(neatsio.routes)
+
     app.use(errorsMiddleware({ debugServer: false }))
+
     return app
   }
 

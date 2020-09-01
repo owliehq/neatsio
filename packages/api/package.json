@@ -80,6 +80,7 @@
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/supertest": "^2.0.8",
+    "@types/validator": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "body-parser": "^1.19.0",
@@ -99,12 +100,14 @@
     "rimraf": "^2.7.1",
     "rollup": "^1.32.0",
     "semantic-release": "^15.13.31",
+    "sequelize-typescript": "^1.1.0",
     "shelljs": "^0.8.3",
+    "sqlite3": "^5.0.0",
     "supertest": "^4.0.2",
     "ts-jest": "^25.2.1",
     "ts-node": "^7.0.1",
     "tslib": "^1.11.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.9.7"
   },
   "peerDependencies": {
     "passport": "^0.4.1"
@@ -118,6 +121,8 @@
     "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.22.3"
   }
 }
