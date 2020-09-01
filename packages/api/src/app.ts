@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as path from 'path'
 import * as passport from 'passport'
 import * as glob from 'glob'
+import * as cors from 'cors'
 
 import { JwtPassportStrategy } from './config/passport'
 
@@ -22,6 +23,7 @@ export class App {
    */
   private get commonMiddlewares() {
     return [
+      cors({ origin: true }),
       bodyParser.json(),
       bodyParser.urlencoded({ extended: false }),
       passport.initialize(),
