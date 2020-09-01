@@ -112,6 +112,7 @@
   "dependencies": {
     "@owliehq/async-wrapper": "^1.1.0",
     "@owliehq/http-errors": "^1.2.1",
+    "@owliehq/neatsio": "^1.15.0",
     "dot-prop": "^5.2.0",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",

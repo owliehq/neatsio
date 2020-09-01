@@ -32,7 +32,15 @@ function generateRoutes(router: Router, controllerMetadata: any) {
   })
 }
 
-export const Controller = <T extends { new (...args: any[]): any }>(controllerName: string) => (constructor: T) => {
+/**
+ *
+ * @param controllerName
+ */
+export const Controller = <T extends { new (...args: any[]): any }>(
+  controllerName: string,
+  params: ControllerParams = {}
+) => (constructor: T) => {
+  //
   const currentControllerClass: any = class extends constructor {
     public static router: Router = Router()
     public static controllerName = controllerName
@@ -41,9 +49,13 @@ export const Controller = <T extends { new (...args: any[]): any }>(controllerNa
 
   const { name } = constructor
 
+  //
   generateRoutes(currentControllerClass.router, MetadataManager.meta.controllers[name])
 
+  //
   app.registerController(currentControllerClass)
 
   return currentControllerClass
 }
+
+interface ControllerParams {}
