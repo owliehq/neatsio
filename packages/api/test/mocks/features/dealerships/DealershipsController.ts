@@ -1,16 +1,13 @@
 import { Controller, Get, Body, Post, Put, Params, Header, Delete } from '../../../../src'
 
-@Controller('users')
-export default class UsersController {
+@Controller('dealerships')
+export default class DealershipsController {
   /**
    *
    */
   @Get()
   async findAll() {
-    return [
-      { lastname: 'DOE', firstname: 'John' },
-      { lastname: 'SMITH', firstname: 'Bernie' }
-    ]
+    return [{ name: 'My best cars dealership' }, { name: '2 buckets car rooms' }]
   }
 
   /**

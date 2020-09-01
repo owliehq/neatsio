@@ -9,10 +9,10 @@ describe('Server mocked', () => {
     app = await startServer()
   })
 
-  describe('GET /users', () => {
-    it('should return an array with users values', async () => {
+  describe('GET /dealerships', () => {
+    it('should return an array with dealerships values', async () => {
       return request(app)
-        .get('/users')
+        .get('/dealerships')
         .expect(200)
         .then(response => {
           expect(response.body).toHaveLength(2)
@@ -20,15 +20,14 @@ describe('Server mocked', () => {
     })
   })
 
-  describe('POST /users', () => {
+  describe('POST /dealerships', () => {
     it('should return the body to response', async () => {
       const body = {
-        lastname: 'DOE',
-        firstname: 'John'
+        name: 'DARLING BUSINESS CARS'
       }
 
       return request(app)
-        .post('/users')
+        .post('/dealerships')
         .send(body)
         .expect(200)
         .then(response => {
@@ -37,7 +36,7 @@ describe('Server mocked', () => {
     })
   })
 
-  describe('PUT /users/1', () => {
+  describe('PUT /dealerships/1', () => {
     it('should return body updated', async () => {
       const body = {
         id: 4,
@@ -48,7 +47,7 @@ describe('Server mocked', () => {
       }
 
       return request(app)
-        .put('/users/50')
+        .put('/dealerships/50')
         .send(body)
         .expect(200)
         .then(response => {
@@ -59,10 +58,11 @@ describe('Server mocked', () => {
     })
   })
 
-  describe('DELETE /users/12/1', () => {
-    it('should return body updated', async () => {
+  // Try some random combine
+  describe('DELETE /dealerships/12/1', () => {
+    it('should return body with headers values', async () => {
       return request(app)
-        .delete('/users/12/1')
+        .delete('/dealerships/12/1')
         .accept('application/json')
         .expect(200)
         .then(response => {
