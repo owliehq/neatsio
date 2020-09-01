@@ -54,7 +54,7 @@ export class App {
     if (this.controllers.length) throw new Error('Controllers already set')
 
     const promises = glob
-      .sync('**/*.controller.*', { absolute: true })
+      .sync('**/*Controller.*', { absolute: true, ignore: '**/node_modules/**' })
       .map((file: string) => import(path.resolve(file)))
 
     return Promise.all(promises)
