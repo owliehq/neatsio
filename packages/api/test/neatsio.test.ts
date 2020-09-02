@@ -1,9 +1,10 @@
 import * as request from 'supertest'
 import { startServer } from './mocks/server'
-import { Application, response } from 'express'
+import { Application } from 'express'
 
 import sequelize from './mocks/database'
 import Customer from './mocks/features/customers/Customer'
+import User from './mocks/features/users/User'
 
 let app: Application
 
@@ -43,6 +44,61 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
       return request(app)
         .get('/customers/1')
         .expect(401)
+    })
+  })
+
+  describe('Auth section', () => {
+    beforeAll(() => {
+      return User.create({
+        firstname: 'John',
+        lastname: 'DOE',
+        email: 'john.doe@acme.com',
+        password: '123'
+      })
+    })
+
+    afterAll(() => {
+      return User.destroy({
+        where: {},
+        truncate: true
+      })
+    })
+
+    it('should return an access token', async () => {
+      return request(app)
+        .post('/auth/login')
+        .send({ email: 'john.doe@acme.com', password: '123' })
+        .expect(200)
+        .then(response => {
+          expect(response.body.accessToken).toBeDefined()
+        })
+    })
+  })
+
+  describe('Users section', () => {
+    beforeAll(() => {
+      return User.create({
+        firstname: 'John',
+        lastname: 'DOE',
+        email: 'john.doe@acme.com',
+        password: '123'
+      })
+    })
+
+    afterAll(() => {
+      return User.destroy({
+        where: {},
+        truncate: true
+      })
+    })
+
+    it('should return an array of users', async () => {
+      return request(app)
+        .get('/users')
+        .expect(200)
+        .then(response => {
+          expect(response.body).toHaveLength(1)
+        })
     })
   })
 })

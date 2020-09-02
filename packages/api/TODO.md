@@ -5,6 +5,8 @@
 - [ ] Handle middlewares on Neatsio implementation
 - [ ] Add validation middleware (adapt with Neatsio)
 - [ ] Add neatsio routes override possibilities
+- [ ] Add User system
+- [ ] Add Role system
 - [ ] Handle development errors on Controller, throw some explicit errors
 - [ ] Refactor Auth system
 - [ ] Implements RBAC system

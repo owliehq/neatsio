@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize-typescript'
 import Customer from './features/customers/Customer'
+import User from './features/users/User'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -7,6 +8,6 @@ const sequelize = new Sequelize({
   logging: false
 })
 
-sequelize.addModels([Customer])
+sequelize.addModels([Customer, User])
 
 export default sequelize

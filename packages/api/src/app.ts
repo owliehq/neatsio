@@ -4,10 +4,8 @@ import * as path from 'path'
 import * as passport from 'passport'
 import * as glob from 'glob'
 import * as cors from 'cors'
-
-import { JwtPassportStrategy } from './config/passport'
-
 import { errorsMiddleware } from '@owliehq/http-errors'
+import { Strategy } from 'passport'
 
 // WTF require is needed...
 const neatsio = require('@owliehq/neatsio')
@@ -85,9 +83,15 @@ export class App {
    *
    * @param options
    */
-  public async initNativeApp(options?: any): Promise<express.Application> {
+  public async initNativeApp(options: any = {}): Promise<express.Application> {
     this.reset()
-    passport.use(JwtPassportStrategy(options.passport))
+
+    if (options.passportStrategies) {
+      if (!options.passportStrategies.length) throw new Error('Passport needs at least one effective strategy')
+
+      options.passportStrategies.forEach((strategy: Strategy) => passport.use(strategy))
+    }
+
     await this.loadControllers(options?.subPath)
     return this.native
   }

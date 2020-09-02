@@ -53,9 +53,6 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   params: ControllerParams = {}
 ) => (constructor: T) => {
   //
-  //
-
-  //
   const currentControllerClass: any = class extends constructor {
     public static router: Router = Router()
     public static controllerName = controllerName
