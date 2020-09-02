@@ -54,7 +54,7 @@ export class App {
 
     app.use(neatsio.routes)
 
-    app.use(errorsMiddleware({ debugServer: false }))
+    app.use(errorsMiddleware({ debugServer: true, skipClientError: true }))
 
     app.use((req, res) => {
       res.status(404).json({

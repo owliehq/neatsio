@@ -119,7 +119,7 @@
   },
   "dependencies": {
     "@owliehq/async-wrapper": "^1.1.0",
-    "@owliehq/http-errors": "^1.2.1",
+    "@owliehq/http-errors": "^1.3.0",
     "@owliehq/neatsio": "^1.15.0",
     "cors": "^2.8.5",
     "dot-prop": "^5.2.0",
