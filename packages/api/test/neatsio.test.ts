@@ -38,5 +38,11 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
           expect(response.body).toHaveLength(1)
         })
     })
+
+    it('should return an error because not access token is passed', async () => {
+      return request(app)
+        .get('/customers/1')
+        .expect(401)
+    })
   })
 })

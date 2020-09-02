@@ -1,5 +1,6 @@
 export * from './decorators'
 export * from './middlewares'
+export * from './interfaces/NeatsioActions'
 
 import { App } from './app'
 
