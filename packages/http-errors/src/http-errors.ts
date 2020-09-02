@@ -120,13 +120,14 @@ export const errorsMiddleware = (options?: any) => {
   // Default options
   options = options || {
     debugServer: false,
-    debugClient: false
+    debugClient: false,
+    skipClientError: false
   }
 
   const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     const statusCode = err.statusCode || 500
 
-    if (options.debugServer) console.error(err)
+    if (options.debugServer && ((!options.skipClientError && statusCode < 500) || statusCode >= 500)) console.error(err)
     if (statusCode === 500) err = HttpError.InternalServerError()
 
     const { message } = err
