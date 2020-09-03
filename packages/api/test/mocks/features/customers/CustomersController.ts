@@ -1,7 +1,8 @@
-import { Controller, Middleware, authMiddleware } from '../../../../src'
+import { Controller, Middleware, authMiddleware, ValidationMiddleware, NeatsioActions } from '../../../../src'
+
+import { validationsCreateOne } from './CustomersValidations'
 
 import Customer from './Customer'
-import { NeatsioActions } from '../../../../src'
 
 const controllerOptions = {
   model: Customer
@@ -11,4 +12,7 @@ const controllerOptions = {
 export default class CustomersController {
   @Middleware(authMiddleware)
   async [NeatsioActions.GET_ONE]() {}
+
+  @ValidationMiddleware(validationsCreateOne)
+  async [NeatsioActions.CREATE_ONE]() {}
 }

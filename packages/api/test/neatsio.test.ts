@@ -106,6 +106,30 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
     })
   })
 
+  describe('Validations', () => {
+    beforeAll(async () => {
+      await sequelize.sync({ force: true })
+    })
+
+    afterAll(() => {
+      return Customer.destroy(destroyOptions)
+    })
+
+    it('should return error when validations are not fullfilled', async () => {
+      return request(app)
+        .post('/customers')
+        .send({ lastname: 'D' })
+        .expect(422)
+    })
+
+    it('should create customer when validations are fullfilled', async () => {
+      return request(app)
+        .post('/customers')
+        .send({ lastname: 'DOE', firstname: 'John' })
+        .expect(201)
+    })
+  })
+
   describe('Users section', () => {
     beforeAll(() => {
       return User.create({
