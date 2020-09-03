@@ -3,7 +3,7 @@
 - [x] Implements glob system for custom controller imports
 - [x] Add Neatsio REST compatibilty
 - [x] Handle middlewares on Neatsio implementation
-- [ ] Add validation middleware (adapt with Neatsio)
+- [x] Add validation middleware (adapt with Neatsio)
 - [ ] Add neatsio routes override possibilities
 - [x] Add User system (firsts steps)
 - [ ] Add Role system
