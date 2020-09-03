@@ -18,8 +18,6 @@ export const tokenStrategy = new Strategy(options, async (token, done) => {
     //
     const user = await User.findByPk(token.id)
 
-    console.log(user)
-
     //
     if (user) return done(null, user)
 
