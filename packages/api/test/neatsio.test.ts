@@ -6,6 +6,12 @@ import sequelize from './mocks/database'
 import Customer from './mocks/features/customers/Customer'
 import User from './mocks/features/users/User'
 
+const destroyOptions = {
+  where: {},
+  truncate: true,
+  restartIdentity: true
+}
+
 let app: Application
 
 describe('Neatsio: Controller mixin Neatsio routes', () => {
@@ -28,7 +34,7 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
     })
 
     afterAll(() => {
-      return Customer.destroy()
+      return Customer.destroy(destroyOptions)
     })
 
     it('should return an array with customers values', async () => {
@@ -39,30 +45,31 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
           expect(response.body).toHaveLength(1)
         })
     })
-
-    it('should return an error because not access token is passed', async () => {
-      return request(app)
-        .get('/customers/1')
-        .expect(401)
-    })
   })
 
   describe('Auth section', () => {
-    beforeAll(() => {
-      return User.create({
+    beforeAll(async () => {
+      await sequelize.sync({ force: true })
+
+      await User.create({
         firstname: 'John',
         lastname: 'DOE',
         email: 'john.doe@acme.com',
         password: '123'
       })
-    })
 
-    afterAll(() => {
-      return User.destroy({
-        where: {},
-        truncate: true
+      await Customer.create({
+        firstname: 'Arnold',
+        lastname: 'LEVIATHAN'
       })
     })
+
+    afterAll(async () => {
+      await User.destroy(destroyOptions)
+      await Customer.destroy(destroyOptions)
+    })
+
+    let accessToken: string
 
     it('should return an access token', async () => {
       return request(app)
@@ -70,7 +77,31 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
         .send({ email: 'john.doe@acme.com', password: '123' })
         .expect(200)
         .then(response => {
+          accessToken = response.body.accessToken
           expect(response.body.accessToken).toBeDefined()
+        })
+    })
+
+    it('should not giving access to required auth route without access token', async () => {
+      return request(app)
+        .get('/customers/1')
+        .expect(401)
+    })
+
+    it('should not giving access to required auth route with false access token', async () => {
+      return request(app)
+        .get('/customers/1')
+        .set('Authorization', `Bearer ex.cede.fefe`)
+        .expect(401)
+    })
+
+    it('should giving access to required auth route with access token', async () => {
+      return request(app)
+        .get('/customers/1')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(200)
+        .then(response => {
+          expect(response.body.lastname).toBe('LEVIATHAN')
         })
     })
   })
@@ -86,10 +117,7 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
     })
 
     afterAll(() => {
-      return User.destroy({
-        where: {},
-        truncate: true
-      })
+      return User.destroy(destroyOptions)
     })
 
     it('should return an array of users', async () => {
