@@ -107,8 +107,25 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
   })
 
   describe('Validations', () => {
+    let token: string
+
     beforeAll(async () => {
-      await sequelize.sync({ force: true })
+      await User.sync({ force: true })
+
+      await User.create({
+        firstname: 'John',
+        lastname: 'DOE',
+        email: 'john.doe@acme.com',
+        password: '123'
+      })
+
+      token = await request(app)
+        .post('/auth/login')
+        .send({
+          email: 'john.doe@acme.com',
+          password: '123'
+        })
+        .then(response => response.body.accessToken)
     })
 
     afterAll(() => {
@@ -118,6 +135,7 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
     it('should return error when validations are not fullfilled', async () => {
       return request(app)
         .post('/customers')
+        .set('Authorization', `Bearer ${token}`)
         .send({ lastname: 'D' })
         .expect(422)
     })
@@ -125,14 +143,17 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
     it('should create customer when validations are fullfilled', async () => {
       return request(app)
         .post('/customers')
+        .set('Authorization', `Bearer ${token}`)
         .send({ lastname: 'DOE', firstname: 'John' })
         .expect(201)
     })
   })
 
   describe('Users section', () => {
-    beforeAll(() => {
-      return User.create({
+    beforeAll(async () => {
+      await User.sync({ force: true })
+
+      await User.create({
         firstname: 'John',
         lastname: 'DOE',
         email: 'john.doe@acme.com',
