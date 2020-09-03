@@ -8,6 +8,5 @@
 - [x] Add User system (firsts steps)
 - [ ] Add Role system
 - [ ] Handle development errors on Controller, throw some explicit errors
-- [ ] Refactor Auth system
+- [x] Refactor Auth system
 - [ ] Implements RBAC system
-- [ ] Add some todo...
