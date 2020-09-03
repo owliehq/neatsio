@@ -1,8 +1,8 @@
-import { Controller, Get, Middleware, CurrentUser, authMiddleware } from '../../../../src'
+import { Controller, Get, CurrentUser, AuthMiddleware } from '../../../../src'
 
 @Controller('cars')
 export default class CarsController {
-  @Middleware(authMiddleware)
+  @AuthMiddleware()
   @Get()
   async find(@CurrentUser user: any) {
     const cars = [

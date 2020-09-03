@@ -1,7 +1,7 @@
 import { MetadataManager } from '../MetadataManager'
 import { has, set } from 'dot-prop'
 import { RequestHandler } from 'express'
-import { validationMiddleware } from '../middlewares'
+import { validationMiddleware, authMiddleware } from '../middlewares'
 
 /**
  *
@@ -27,4 +27,11 @@ export const Middleware = (middleware: RequestHandler) => (
  */
 export const ValidationMiddleware = (validations: any[]) => {
   return Middleware(validationMiddleware(validations))
+}
+
+/**
+ *
+ */
+export const AuthMiddleware = () => {
+  return Middleware(authMiddleware)
 }
