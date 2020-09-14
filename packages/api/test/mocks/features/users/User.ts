@@ -21,6 +21,10 @@ export default class User extends Model<User> {
   @Column
   password: string
 
+  @AllowNull(false)
+  @Column
+  role: string
+
   @BeforeSave
   static changePassword(instance: User): void {
     // Execute next steps only if password has changed

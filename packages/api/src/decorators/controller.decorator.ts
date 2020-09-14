@@ -9,6 +9,7 @@ import { MetadataManager } from '../MetadataManager'
 import { app } from '..'
 import { Model } from 'sequelize/types'
 import { NeatsioActions } from '../interfaces/NeatsioActions'
+import { RightsManager } from '../RightsManager'
 
 /**
  *
@@ -69,6 +70,10 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   //
   const routes = generateRoutes(controllerMetadata)
 
+  if (params.rights) {
+    RightsManager.registerRightsController(params.rights)
+  }
+
   if (params.model) {
     const neatsioRoutes = getNeatsioRoutesConfig(currentControllerClass)
 
@@ -92,7 +97,7 @@ function buildNeatsioConfig(controllerMetadata: any, routes: any) {
       if (!result[key]) result[key] = { before: [], after: [] }
 
       // handle after ?
-      result[key].before = controllerMetadata.middlewares[action]
+      result[key].before = controllerMetadata.middlewares[action].reverse()
     }
 
     return result
@@ -145,4 +150,5 @@ function getNeatsioRoutesConfig<T extends { new (...args: any[]): any }>(control
 
 interface ControllerParams {
   model?: { new (): Model } & typeof Model
+  rights?: RightsManager
 }

@@ -6,6 +6,8 @@ import * as glob from 'glob'
 import * as cors from 'cors'
 import { errorsMiddleware } from '@owliehq/http-errors'
 import { Strategy } from 'passport'
+import { RightsManager } from './RightsManager'
+import { InitAppNativeOptions } from './interfaces/App'
 
 // WTF require is needed...
 const neatsio = require('@owliehq/neatsio')
@@ -73,7 +75,10 @@ export class App {
     if (this.controllers.length) throw new Error('Controllers already set')
 
     const promises = glob
-      .sync('**/*Controller.*', { absolute: true, ignore: '**/node_modules/**' })
+      .sync('**/*Controller.*', {
+        absolute: true,
+        ignore: '**/node_modules/**'
+      })
       .map((file: string) => import(path.resolve(file)))
 
     return Promise.all(promises)
@@ -83,7 +88,7 @@ export class App {
    *
    * @param options
    */
-  public async initNativeApp(options: any = {}): Promise<express.Application> {
+  public async initNativeApp(options: InitAppNativeOptions): Promise<express.Application> {
     this.reset()
 
     if (options.passportStrategies) {
@@ -92,7 +97,18 @@ export class App {
       options.passportStrategies.forEach((strategy: Strategy) => passport.use(strategy))
     }
 
-    await this.loadControllers(options?.subPath)
+    if (options.acl) {
+      if (options.acl.roleCallback) {
+        RightsManager.roleCallback = options.acl.roleCallback
+      }
+    }
+
+    //
+    await this.loadControllers()
+
+    //
+    RightsManager.applyRights()
+
     return this.native
   }
 

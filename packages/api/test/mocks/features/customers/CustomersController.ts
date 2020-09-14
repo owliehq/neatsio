@@ -3,6 +3,7 @@ import {
   Middleware,
   authMiddleware,
   ValidationMiddleware,
+  RoleMiddleware,
   NeatsioActions,
   AuthMiddleware
 } from '../../../../src'
@@ -10,9 +11,11 @@ import {
 import { validationsCreateOne } from './CustomersValidations'
 
 import Customer from './Customer'
+import rights from './CustomersRights'
 
 const controllerOptions = {
-  model: Customer
+  model: Customer,
+  rights
 }
 
 @Controller('customers', controllerOptions)
@@ -23,4 +26,8 @@ export default class CustomersController {
   @AuthMiddleware()
   @ValidationMiddleware(validationsCreateOne)
   async [NeatsioActions.CREATE_ONE]() {}
+
+  @AuthMiddleware()
+  @RoleMiddleware()
+  async [NeatsioActions.GET_MANY]() {}
 }

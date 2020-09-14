@@ -3,7 +3,12 @@ import { Application } from 'express'
 import { tokenStrategy } from './config/passport'
 
 const options: InitAppNativeOptions = {
-  passportStrategies: [tokenStrategy]
+  passportStrategies: [tokenStrategy],
+  acl: {
+    roleCallback: async (user: any) => {
+      return user.role
+    }
+  }
 }
 
 export const startServer = async (): Promise<Application> => {
