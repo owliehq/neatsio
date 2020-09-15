@@ -6,4 +6,5 @@ export interface InitAppNativeOptions {
   acl?: {
     roleCallback?: Function
   }
+  tsEnv?: boolean
 }

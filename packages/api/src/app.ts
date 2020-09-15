@@ -73,11 +73,14 @@ export class App {
   /**
    *
    */
-  public async loadControllers(subPath?: string) {
+  public async loadControllers(options: any = {}) {
     if (this.controllers.length) throw new Error('Controllers already set')
 
+    //
+    const extension = options.tsEnv ? 'ts' : 'js'
+
     const promises = glob
-      .sync('**/*Controller.*', {
+      .sync(`**/*Controller.${extension}`, {
         absolute: true,
         ignore: '**/node_modules/**'
       })
@@ -105,8 +108,12 @@ export class App {
       }
     }
 
+    const loadControllersOptions = {
+      tsEnv: options.tsEnv
+    }
+
     //
-    await this.loadControllers()
+    await this.loadControllers(loadControllersOptions)
 
     //
     RightsManager.applyRights()

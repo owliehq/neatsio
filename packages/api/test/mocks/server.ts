@@ -8,7 +8,8 @@ const options: InitAppNativeOptions = {
     roleCallback: async (user: any) => {
       return user.role
     }
-  }
+  },
+  tsEnv: __filename.endsWith('ts')
 }
 
 export const startServer = async (): Promise<Application> => {
