@@ -2,11 +2,11 @@
   "name": "@owliehq/api",
   "version": "1.0.0",
   "description": "API builder over Express",
-  "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/uploader",
+  "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/api",
   "keywords": [],
-  "main": "dist/uploader.js",
-  "module": "dist/uploader.js",
-  "typings": "dist/types/uploader.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/types/src/index.d.ts",
   "files": [
     "dist"
   ],
