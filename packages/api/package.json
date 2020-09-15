@@ -1,6 +1,6 @@
 {
   "name": "@owliehq/api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "API builder over Express",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/uploader",
   "keywords": [],
