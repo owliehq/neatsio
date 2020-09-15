@@ -1,4 +1,4 @@
-import { AccessControl } from 'role-acl'
+const AccessControl = require('role-acl') // WTF happens here again with TS import
 
 export class RightsManager {
   /**

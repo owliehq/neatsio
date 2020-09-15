@@ -1,9 +1,9 @@
-import * as express from 'express'
+import { Application, Request, Response, NextFunction } from 'express'
 import * as bodyParser from 'body-parser'
 import * as path from 'path'
 import * as passport from 'passport'
 import * as glob from 'glob'
-import * as cors from 'cors'
+
 import { errorsMiddleware } from '@owliehq/http-errors'
 import { Strategy } from 'passport'
 import { RightsManager } from './RightsManager'
@@ -11,6 +11,8 @@ import { InitAppNativeOptions } from './interfaces/App'
 
 // WTF require is needed...
 const neatsio = require('@owliehq/neatsio')
+const cors = require('cors')
+const express = require('express')
 
 export class App {
   /**
@@ -27,7 +29,7 @@ export class App {
       bodyParser.json(),
       bodyParser.urlencoded({ extended: false }),
       passport.initialize(),
-      (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      (req: Request, res: Response, next: NextFunction) => {
         res.removeHeader('X-Powered-By')
         next()
       }
@@ -58,7 +60,7 @@ export class App {
 
     app.use(errorsMiddleware({ debugServer: true, skipClientError: true }))
 
-    app.use((req, res) => {
+    app.use((req: Request, res: Response) => {
       res.status(404).json({
         message: 'Not found.',
         statusCode: 404
@@ -88,7 +90,7 @@ export class App {
    *
    * @param options
    */
-  public async initNativeApp(options: InitAppNativeOptions): Promise<express.Application> {
+  public async initNativeApp(options: InitAppNativeOptions): Promise<Application> {
     this.reset()
 
     if (options.passportStrategies) {
