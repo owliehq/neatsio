@@ -2,9 +2,9 @@ import typescript from '@rollup/plugin-typescript'
 import json from '@rollup/plugin-json'
 
 export default {
-  input: 'src/uploader.ts',
+  input: 'src/index.ts',
   output: {
-    file: 'dist/uploader.js',
+    file: 'dist/index.js',
     format: 'cjs',
     sourcemap: true
   },

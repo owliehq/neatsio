@@ -4,9 +4,9 @@
   "description": "Uploader middleware for express",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/uploader",
   "keywords": [],
-  "main": "dist/uploader.js",
-  "module": "dist/uploader.js",
-  "typings": "dist/types/uploader.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
