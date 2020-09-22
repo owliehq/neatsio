@@ -5,27 +5,39 @@ import { set, has } from 'dot-prop'
 import { MetadataManager } from '../MetadataManager'
 import { RouteMethod } from '../interfaces/Metadata'
 
-const buildMethod = (method: RouteMethod) => (subRoute?: string) => (
+const buildMethod = (method: RouteMethod) => (subRoute: string = '/', options: any = {}) => (
   target: any,
   propertyKey: string,
   descriptor: PropertyDescriptor
 ) => {
+  const obj = MetadataManager.meta
+  const path = `controllers.${target.constructor.name}.routesParameters.${propertyKey}`
+
+  if (options.requestHandler) {
+    set(MetadataManager.meta, `controllers.${target.constructor.name}.routes.${propertyKey}`, {
+      path: subRoute,
+      method,
+      handler: descriptor.value()
+    })
+
+    return
+  }
+
   const handler = asyncWrapper(async (req, res) => {
-    const obj = MetadataManager.meta
-    const path = `controllers.${target.constructor.name}.routesParameters.${propertyKey}`
+    let result
 
     if (has(obj, path)) {
       const parameters = MetadataManager.meta.controllers[target.constructor.name].routesParameters[propertyKey]
-      const result = await descriptor.value(...Object.values(parameters).map((param: any) => param.getValue(req)))
+      result = await descriptor.value(...Object.values(parameters).map((param: any) => param.getValue(req)))
       return res.status(200).json(result)
     }
 
-    const result = await descriptor.value()
+    result = await descriptor.value()
     res.status(200).json(result)
   })
 
   set(MetadataManager.meta, `controllers.${target.constructor.name}.routes.${propertyKey}`, {
-    path: subRoute || '/',
+    path: subRoute,
     method,
     handler
   })

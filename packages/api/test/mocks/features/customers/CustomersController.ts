@@ -1,3 +1,5 @@
+import { Request, Response } from 'express'
+
 import {
   Controller,
   Middleware,
@@ -32,8 +34,10 @@ export default class CustomersController {
   @RoleMiddleware()
   async [NeatsioActions.GET_MANY]() {}
 
-  @Get('/:id/download')
-  async download() {
-    return { ok: 'ok' }
+  @Get('/:id/download', { requestHandler: true })
+  download() {
+    return (req: Request, res: Response) => {
+      res.status(200).json({})
+    }
   }
 }
