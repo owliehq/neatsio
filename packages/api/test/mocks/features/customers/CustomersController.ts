@@ -5,7 +5,8 @@ import {
   ValidationMiddleware,
   RoleMiddleware,
   NeatsioActions,
-  AuthMiddleware
+  AuthMiddleware,
+  Get
 } from '../../../../src'
 
 import { validationsCreateOne } from './CustomersValidations'
@@ -30,4 +31,9 @@ export default class CustomersController {
   @AuthMiddleware()
   @RoleMiddleware()
   async [NeatsioActions.GET_MANY]() {}
+
+  @Get('/:id/download')
+  async download() {
+    return { ok: 'ok' }
+  }
 }

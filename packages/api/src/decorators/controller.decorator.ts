@@ -67,9 +67,6 @@ export const Controller = <T extends { new (...args: any[]): any }>(
 
   const controllerMetadata = MetadataManager.getControllerMetadata(name)
 
-  //
-  const routes = generateRoutes(controllerMetadata)
-
   if (params.rights) {
     RightsManager.registerRightsController(params.rights)
   }
@@ -81,6 +78,9 @@ export const Controller = <T extends { new (...args: any[]): any }>(
 
     neatsio.registerModel(params.model, config)
   } else {
+    //
+    const routes = generateRoutes(controllerMetadata)
+
     currentControllerClass.router = routes
     app.registerController(currentControllerClass)
   }
@@ -88,8 +88,8 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   return currentControllerClass
 }
 
-function buildNeatsioConfig(controllerMetadata: any, routes: any) {
-  const middlewares = Object.entries(routes).reduce((result: any, entry) => {
+function buildNeatsioConfig(controllerMetadata: any, neatsioRoutes: any) {
+  const middlewares = Object.entries(neatsioRoutes).reduce((result: any, entry) => {
     const action: string = entry[0]
     const key: string = entry[1] as string
 
@@ -103,8 +103,11 @@ function buildNeatsioConfig(controllerMetadata: any, routes: any) {
     return result
   }, {})
 
+  const routes = prepareCustomRoutesForNeatsio(controllerMetadata)
+
   return {
-    middlewares
+    middlewares,
+    routes
   }
 }
 
@@ -126,6 +129,28 @@ function getAllMethods(obj: any) {
   } while ((obj = Object.getPrototypeOf(obj)) && Object.getPrototypeOf(obj))
 
   return props
+}
+
+/**
+ *
+ * @param controllerMetadata
+ */
+function prepareCustomRoutesForNeatsio(controllerMetadata: any) {
+  if (!controllerMetadata.routes) return []
+
+  return Object.entries(controllerMetadata.routes).map(([methodName, route]) => {
+    const { path, handler }: any = route
+
+    const declaredMiddlewares = controllerMetadata.middlewares || {}
+
+    const middlewares = declaredMiddlewares[methodName] || []
+
+    return {
+      path,
+      middlewares,
+      execute: handler
+    }
+  })
 }
 
 /**

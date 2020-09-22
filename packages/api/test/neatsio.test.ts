@@ -106,12 +106,11 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
         })
     })
 
-    it('should', async () => {
+    it('should get custom route on neatsio config', async () => {
       return request(app)
-        .get('/customers')
+        .get('/customers/1/download')
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
-        .then(response => {})
     })
   })
 
