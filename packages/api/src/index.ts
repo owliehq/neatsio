@@ -5,10 +5,6 @@ export * from './interfaces/App'
 export * from './RightsManager'
 export * from './app'
 
-/*declare global {
-  namespace Express {
-    export interface Request {
-      user: any
-    }
-  }
-}*/
+import { App } from './app'
+
+export const app = new App()
