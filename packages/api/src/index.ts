@@ -2,14 +2,8 @@ export * from './decorators'
 export * from './middlewares'
 export * from './interfaces/NeatsioActions'
 export * from './interfaces/App'
-
-export * from './app'
-
 export * from './RightsManager'
-
-import { App } from './app'
-
-export const app: App = new App()
+export * from './app'
 
 /*declare global {
   namespace Express {
