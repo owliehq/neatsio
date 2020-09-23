@@ -67,6 +67,9 @@ export const Controller = <T extends { new (...args: any[]): any }>(
 
   const controllerMetadata = MetadataManager.getControllerMetadata(name)
 
+  //
+  const routes = generateRoutes(controllerMetadata)
+
   if (params.rights) {
     RightsManager.registerRightsController(params.rights)
   }
@@ -78,9 +81,6 @@ export const Controller = <T extends { new (...args: any[]): any }>(
 
     neatsio.registerModel(params.model, config)
   } else {
-    //
-    const routes = generateRoutes(controllerMetadata)
-
     currentControllerClass.router = routes
     app.registerController(currentControllerClass)
   }
