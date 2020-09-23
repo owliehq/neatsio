@@ -10,9 +10,6 @@ const buildMethod = (method: RouteMethod) => (subRoute: string = '/', options: a
   propertyKey: string,
   descriptor: PropertyDescriptor
 ) => {
-  const obj = MetadataManager.meta
-  const path = `controllers.${target.constructor.name}.routesParameters.${propertyKey}`
-
   if (options.requestHandler) {
     set(MetadataManager.meta, `controllers.${target.constructor.name}.routes.${propertyKey}`, {
       path: subRoute,
@@ -24,15 +21,16 @@ const buildMethod = (method: RouteMethod) => (subRoute: string = '/', options: a
   }
 
   const handler = asyncWrapper(async (req, res) => {
-    let result
+    const obj = MetadataManager.meta
+    const path = `controllers.${target.constructor.name}.routesParameters.${propertyKey}`
 
     if (has(obj, path)) {
       const parameters = MetadataManager.meta.controllers[target.constructor.name].routesParameters[propertyKey]
-      result = await descriptor.value(...Object.values(parameters).map((param: any) => param.getValue(req)))
+      const result = await descriptor.value(...Object.values(parameters).map((param: any) => param.getValue(req)))
       return res.status(200).json(result)
     }
 
-    result = await descriptor.value()
+    const result = await descriptor.value()
     res.status(200).json(result)
   })
 
