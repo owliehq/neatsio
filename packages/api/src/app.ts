@@ -101,7 +101,7 @@ export class App {
    * @param beforeMiddlewares
    * @param afterMiddlewares
    */
-  private loadMiddlewares(beforeMiddlewares = [], afterMiddlewares = []) {
+  private loadMiddlewares(beforeMiddlewares: Array<RequestHandler> = [], afterMiddlewares = []) {
     this.beforeMiddlewares = beforeMiddlewares
   }
 
@@ -124,15 +124,16 @@ export class App {
       }
     }
 
+    if (options.useBeforeMiddlewares) {
+      this.loadMiddlewares(options.useBeforeMiddlewares)
+    }
+
     const loadControllersOptions = {
       tsEnv: options.tsEnv
     }
 
     //
     await this.loadControllers(loadControllersOptions)
-
-    //
-    this.loadMiddlewares()
 
     //
     RightsManager.applyRights()
