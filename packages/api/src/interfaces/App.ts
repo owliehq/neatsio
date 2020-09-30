@@ -7,4 +7,5 @@ export interface InitAppNativeOptions {
     roleCallback?: Function
   }
   tsEnv?: boolean
+  port?: number
 }
