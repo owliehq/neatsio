@@ -135,7 +135,7 @@ export class App {
   public async start(options?: any) {
     const app = await this.initNativeApp(options)
 
-    app.listen(3000, () => {
+    app.listen(options?.port || 3000, () => {
       console.log('server is up')
     })
   }

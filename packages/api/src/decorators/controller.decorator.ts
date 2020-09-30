@@ -88,6 +88,11 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   return currentControllerClass
 }
 
+/**
+ *
+ * @param controllerMetadata
+ * @param neatsioRoutes
+ */
 function buildNeatsioConfig(controllerMetadata: any, neatsioRoutes: any) {
   const middlewares = Object.entries(neatsioRoutes).reduce((result: any, entry) => {
     const action: string = entry[0]
