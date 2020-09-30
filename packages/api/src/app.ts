@@ -135,8 +135,14 @@ export class App {
   public async start(options?: any) {
     const app = await this.initNativeApp(options)
 
-    app.listen(options?.port || 3000, () => {
-      console.log('server is up')
+    return new Promise((resolve, reject) => {
+      try {
+        app.listen(options?.port || 3000, () => {
+          resolve()
+        })
+      } catch (err) {
+        reject(err)
+      }
     })
   }
 }
