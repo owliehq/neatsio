@@ -1,4 +1,4 @@
-import { Application, Request, Response, NextFunction } from 'express'
+import { Application, Request, Response, NextFunction, RequestHandler } from 'express'
 import * as bodyParser from 'body-parser'
 import * as path from 'path'
 import * as passport from 'passport'
@@ -19,6 +19,11 @@ export class App {
    *
    */
   private controllers: any[] = []
+
+  /**
+   *
+   */
+  private beforeMiddlewares: RequestHandler[] = []
 
   /**
    *
@@ -51,6 +56,8 @@ export class App {
     const app = express()
 
     app.use(this.commonMiddlewares)
+
+    if (this.beforeMiddlewares.length) app.use(this.beforeMiddlewares)
 
     this.controllers.forEach((controller: any) => {
       app.use(controller.path, controller.router)
@@ -91,6 +98,15 @@ export class App {
 
   /**
    *
+   * @param beforeMiddlewares
+   * @param afterMiddlewares
+   */
+  private loadMiddlewares(beforeMiddlewares = [], afterMiddlewares = []) {
+    this.beforeMiddlewares = beforeMiddlewares
+  }
+
+  /**
+   *
    * @param options
    */
   public async initNativeApp(options: InitAppNativeOptions): Promise<Application> {
@@ -116,6 +132,9 @@ export class App {
     await this.loadControllers(loadControllersOptions)
 
     //
+    this.loadMiddlewares()
+
+    //
     RightsManager.applyRights()
 
     return this.native
@@ -132,7 +151,7 @@ export class App {
    *
    */
   /* istanbul ignore next */
-  public async start(options?: any) {
+  public async start(options: InitAppNativeOptions = {}) {
     const app = await this.initNativeApp(options)
 
     return new Promise((resolve, reject) => {

@@ -1,3 +1,4 @@
+import { RequestHandler } from 'express'
 import { Strategy } from 'passport'
 
 export interface InitAppNativeOptions {
@@ -8,4 +9,5 @@ export interface InitAppNativeOptions {
   }
   tsEnv?: boolean
   port?: number
+  useBeforeMiddlewares?: Array<RequestHandler>
 }
