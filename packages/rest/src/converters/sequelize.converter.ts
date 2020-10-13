@@ -169,7 +169,7 @@ export class SequelizeConverter extends Converter {
    *
    */
   private convertPopulate() {
-    const paths = normalizePath(deconstructPath(this.populate.split(' '))).filter(path => path.split('.').length < 7)
+    const paths = normalizePath(deconstructPath(this.populate.split(' '))).filter(path => path.split('.').length < 10)
     const treePaths = {}
 
     paths.forEach(path => dot.set(treePaths, path, true))
