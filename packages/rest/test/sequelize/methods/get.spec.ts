@@ -507,7 +507,7 @@ describe('Sequelize: GET Method & Routes', () => {
           .then(response => {
             expect(response.body).toHaveLength(3)
             expect(response.body[0].cars).toHaveLength(2)
-            expect(response.body[0].cars[0].license).toBe('AG-910-NC')
+            expect(response.body[0].cars[0].license).toBe('EX-090-EE')
           })
       })
 
@@ -523,7 +523,7 @@ describe('Sequelize: GET Method & Routes', () => {
           .then(response => {
             expect(response.body).toHaveLength(3)
             expect(response.body[0].cars).toHaveLength(2)
-            expect(response.body[0].cars[0].license).toBe('AG-910-NC')
+            expect(response.body[0].cars[0].license).toBe('EX-090-EE')
           })
       })
 
@@ -539,7 +539,7 @@ describe('Sequelize: GET Method & Routes', () => {
           .then(response => {
             expect(response.body).toHaveLength(3)
             expect(response.body[0].cars).toHaveLength(2)
-            expect(response.body[0].cars[0].license).toBe('AG-910-NC')
+            expect(response.body[0].cars[0].license).toBe('EX-090-EE')
             expect(response.body[0].cars[0].brand.name).toBe('RENAULT')
           })
       })
@@ -557,7 +557,7 @@ describe('Sequelize: GET Method & Routes', () => {
             expect(response.body).toHaveLength(3)
 
             expect(response.body[0].cars).toHaveLength(2)
-            expect(response.body[0].cars[0].license).toBe('AG-910-NC')
+            expect(response.body[0].cars[0].license).toBe('EX-090-EE')
             expect(response.body[0].cars[0].brand.name).toBe('RENAULT')
 
             expect(response.body[0].role.name).toBe('Member')
@@ -704,7 +704,7 @@ describe('Sequelize: GET Method & Routes', () => {
       beforeAll(async () => {
         await sequelize.sync({ force: true })
 
-        
+
         await Article.create({
           name: 'News 1',
           notation: 12
@@ -748,26 +748,26 @@ describe('Sequelize: GET Method & Routes', () => {
   /*describe('GET /api/users/{id}/{associatedModel}', () => {
     describe('With HasMany relationship', () => {
       beforeAll(async () => {
-        
+
         await sequelize.sync({ force: true })
 
-        
+
         await Brand.create({
           name: 'RENAULT'
         })
 
-        
+
         await Role.create({
           name: 'Member'
         })
 
-        
+
         await Role.create({
           name: 'Admin',
           write: true
         })
 
-        
+
         await User.create(
           {
             firstname: 'John',
@@ -781,7 +781,7 @@ describe('Sequelize: GET Method & Routes', () => {
                 brandId: 1
               },
               {
-                license: 'AG-910-NC',
+                license: 'EX-090-EE',
                 brandId: 1
               }
             ]
@@ -791,7 +791,7 @@ describe('Sequelize: GET Method & Routes', () => {
           }
         )
 
-        
+
         await User.create({
           firstname: 'Alan',
           lastname: 'SMITH',
@@ -800,7 +800,7 @@ describe('Sequelize: GET Method & Routes', () => {
           active: true
         })
 
-        
+
         await User.create(
           {
             firstname: 'Enora',
@@ -826,16 +826,16 @@ describe('Sequelize: GET Method & Routes', () => {
       })
 
       afterAll(async () => {
-        
+
         await User.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        
+
         await Car.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        
+
         await Brand.destroy({ where: {}, truncate: true, restartIdentity: true })
 
-        
+
         await Role.destroy({ where: {}, truncate: true, restartIdentity: true })
       })
 

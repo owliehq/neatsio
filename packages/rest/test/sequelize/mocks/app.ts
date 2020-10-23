@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
+import { errorsMiddleware } from '@owliehq/http-errors'
 
 import neatsio from '../../../src/neatsio-rest'
 
@@ -13,6 +14,7 @@ import Team from './models/team'
 import Article from './models/article'
 
 import { auth } from './middlewares'
+import { RequestHandler } from 'express'
 
 // Create express app
 const app: express.Application = express()

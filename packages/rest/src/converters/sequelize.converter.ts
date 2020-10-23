@@ -1,4 +1,4 @@
-import { Op, fn, col, where, Model } from 'sequelize'
+import { Op, fn, col, where, Model, IncludeOptions } from 'sequelize'
 import * as pluralize from 'pluralize'
 import * as dot from 'dot-prop'
 import { isPlainObject, normalizePath, deconstructPath } from '../utils'
@@ -172,6 +172,8 @@ export class SequelizeConverter extends Converter {
     const paths = normalizePath(deconstructPath(this.populate.split(' '))).filter(path => path.split('.').length < 10)
     const treePaths = {}
 
+    const limitIncluded = currentOrchestrator.config.includeLimit
+
     paths.forEach(path => dot.set(treePaths, path, true))
 
     const toIncludePropertyRecursive = (tree: any, modelCheck: any): any => {
@@ -179,9 +181,11 @@ export class SequelizeConverter extends Converter {
 
       return Object.keys(tree).map(entry => {
         let extractedModel: typeof Model | undefined
+        let associationType: string | undefined
 
         for (let [attribute, association] of Object.entries(currentModel.associations)) {
           if (pluralize.singular(attribute) === pluralize.singular(entry)) {
+            associationType = association.associationType
             extractedModel = association.target
             break
           }
@@ -202,14 +206,22 @@ export class SequelizeConverter extends Converter {
             .concat(hiddenAttributes.filter((x: any) => !currentAttributes.includes(x)))
         }
 
-        return tree[entry] === true
-          ? { model, as: entry, attributes }
-          : {
-              model,
-              as: entry,
-              include: toIncludePropertyRecursive(tree[entry], model),
-              attributes
-            }
+        const includeConfig: IncludeOptions = {
+          model,
+          as: entry,
+          attributes
+        }
+
+        //
+        if (tree[entry] !== true) includeConfig.include = toIncludePropertyRecursive(tree[entry], model)
+
+        //
+        if (associationType === 'HasMany') {
+          includeConfig.limit = limitIncluded
+          includeConfig.separate = true
+        }
+
+        return includeConfig
       })
     }
 

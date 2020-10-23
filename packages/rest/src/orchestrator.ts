@@ -3,6 +3,7 @@ import * as express from 'express'
 
 import { Controller } from './controller'
 import { modelIdentifier, NeatsioModel } from './utils'
+import { Configuration } from './configuration'
 
 /**
  *
@@ -12,6 +13,11 @@ export default class Orchestrator {
    * Map of controllers registred by routeName
    */
   private controllers: { [name: string]: Controller } = {}
+
+  /**
+   *
+   */
+  public config = new Configuration()
 
   /**
    * Express router
