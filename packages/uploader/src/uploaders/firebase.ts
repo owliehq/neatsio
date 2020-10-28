@@ -2,6 +2,7 @@ import { Readable } from 'stream'
 import * as mime from 'mime-types'
 
 import { Uploader } from '../uploader'
+import { HttpError } from '@owliehq/http-errors'
 
 export class FirebaseUploader extends Uploader {
   private bucket: any
@@ -46,7 +47,11 @@ export class FirebaseUploader extends Uploader {
    * @param key
    */
   public getStreamFile(key: string): Readable {
-    return this.bucket.file(key).createReadStream()
+    try {
+      return this.bucket.file(key).createReadStream()
+    } catch (err) {
+      throw HttpError.NotAcceptable(`Error with Google Storage...`)
+    }
   }
 
   /**

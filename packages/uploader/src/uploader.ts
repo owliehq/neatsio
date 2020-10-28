@@ -3,6 +3,7 @@ import * as Busboy from 'busboy'
 import { RequestHandler } from 'express'
 import { foid } from './utils'
 import { asyncWrapper } from '@owliehq/async-wrapper'
+import { HttpError } from '@owliehq/http-errors'
 
 export abstract class Uploader {
   constructor() {}
@@ -47,6 +48,9 @@ export abstract class Uploader {
   public buildDownloadEndpoint(options: DownloadEndpointOptions): RequestHandler {
     const handler: RequestHandler = async (req, res) => {
       const key = await options.retrieveKeyCallback(req.params.id)
+
+      if (!key) throw HttpError.NotFound()
+
       const stream = this.getStreamFile(key)
 
       // TODO: Better handling needed here
@@ -57,9 +61,6 @@ export abstract class Uploader {
     return asyncWrapper(handler)
   }
 
-  /**
-   *
-   */
   abstract onFileUploadHandler(
     fieldname: string,
     file: Readable,
