@@ -1,9 +1,12 @@
 import { validationResult, matchedData } from 'express-validator'
 import { Request, Response, NextFunction } from 'express'
+import { asyncWrapper } from '@owliehq/async-wrapper'
 
 export const validationMiddleware = (validations: any) => {
-  const promise = async (req: Request, res: Response, next: NextFunction) => {
-    await Promise.all(validations.map((validation: any) => validation.run(req)))
+  const handler = async (req: Request, res: Response, next: NextFunction) => {
+    const runValidationPromises = validations.map((validation: any) => validation.run(req))
+
+    await Promise.all(runValidationPromises)
 
     const errors = validationResult(req)
 
@@ -14,7 +17,7 @@ export const validationMiddleware = (validations: any) => {
 
     const result = errors.array().map((error: any) => {
       return {
-        message: `Field '${error.param}' is invalid or missing.`,
+        message: error.msg || `Field '${error.param}' is invalid or missing.`,
         field: error.param
       }
     })
@@ -24,5 +27,5 @@ export const validationMiddleware = (validations: any) => {
     res.status(422).json({ statusCode: 422, message, errors: result })
   }
 
-  return promise
+  return asyncWrapper(handler)
 }
