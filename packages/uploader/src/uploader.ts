@@ -53,6 +53,15 @@ export abstract class Uploader {
 
       const stream = this.getStreamFile(key)
 
+      const { cache } = options
+
+      if (cache && Object.keys(cache).length) {
+        cache.maxAge = cache.maxAge || 86400
+
+        res.set('Cache-Control', `public, max-age=${cache.maxAge}`)
+        res.setHeader('Expires', new Date(Date.now() + cache.maxAge).toUTCString())
+      }
+
       // TODO: Better handling needed here
       res.attachment(options?.filename || key)
       stream.pipe(res)
@@ -92,5 +101,8 @@ export abstract class Uploader {
  */
 export interface DownloadEndpointOptions {
   filename?: string
+  cache?: {
+    maxAge?: number
+  }
   retrieveKeyCallback(id: string): Promise<string>
 }
