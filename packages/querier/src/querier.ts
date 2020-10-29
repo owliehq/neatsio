@@ -1,7 +1,7 @@
 import * as qs from 'query-string'
 
 const cleanObject = (obj: any) => {
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     if (obj[key] && typeof obj[key] === 'object') return cleanObject(obj[key])
 
     if (obj[key] === undefined) {
@@ -45,7 +45,7 @@ export class Querier {
    * @param input
    */
   public select(input: string): Querier {
-    this.$select = this.$select.filter(x => x !== `-${input}`)
+    this.$select = this.$select.filter((x) => x !== `-${input}`)
     if (!this.$select.includes(input)) this.$select.push(input)
     return this
   }
@@ -55,7 +55,7 @@ export class Querier {
    * @param input
    */
   public unselect(input: string): Querier {
-    this.$select = this.$select.filter(x => x !== input)
+    this.$select = this.$select.filter((x) => x !== input)
     this.$select.push(`-${input}`)
     return this
   }
@@ -137,7 +137,7 @@ export class Querier {
       $skip,
       $limit,
       $sort,
-      $populate
+      $populate,
     })
 
     if ($conditions) result.$conditions = $conditions
@@ -158,7 +158,7 @@ export class Querier {
       return result
     }, {})
 
-    if (!Object.keys(query).length) return ''
+    if (!Object.keys(query).length) return this.baseUrl || ''
 
     const stringified = qs.stringify(query, { encode: this.encode })
     return (this.baseUrl || '') + `?${stringified}`

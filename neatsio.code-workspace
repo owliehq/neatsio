@@ -1,26 +1,29 @@
 {
-	"folders": [
-		{
-			"path": "packages\\uploader"
-		},
-		{
-			"path": "packages\\rest"
-		},
-		{
-			"path": ".github\\workflows"
-		},
-		{
-			"path": "docs"
-		},
-		{
-			"path": "packages\\api"
-		},
-		{
-			"path": "packages\\http-errors"
-		},
-		{
-			"path": "packages\\async-wrapper"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "packages\\uploader"
+    },
+    {
+      "path": "packages\\rest"
+    },
+    {
+      "path": ".github\\workflows"
+    },
+    {
+      "path": "docs"
+    },
+    {
+      "path": "packages\\api"
+    },
+    {
+      "path": "packages\\http-errors"
+    },
+    {
+      "path": "packages\\async-wrapper"
+    },
+    {
+      "path": "packages\\querier"
+    }
+  ],
+  "settings": {}
 }
