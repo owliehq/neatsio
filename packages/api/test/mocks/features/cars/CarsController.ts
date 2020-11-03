@@ -1,4 +1,4 @@
-import { Controller, Get, CurrentUser, AuthMiddleware } from '../../../../src'
+import { Controller, Get, CurrentUser, AuthMiddleware, Query } from '../../../../src'
 
 @Controller('cars')
 export default class CarsController {
@@ -11,5 +11,10 @@ export default class CarsController {
     ]
 
     return cars.filter(car => car.userId === user.id)
+  }
+
+  @Get('/query')
+  query(@Query('code') code: string) {
+    return { code }
   }
 }

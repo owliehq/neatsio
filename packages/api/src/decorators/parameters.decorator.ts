@@ -102,6 +102,34 @@ export function Header(...args: any): Function | void {
   }
 }
 
+///
+///
+///
+function applyQuery(parameters: Array<any>, options?: string) {
+  const target = parameters[0]
+  const key = parameters[1]
+  const index = parameters[2]
+
+  set(MetadataManager.meta, `controllers.${target.constructor.name}.routesParameters.${key}.${index}`, {
+    getValue: (req: Request) => {
+      return !options ? req.query : (req.query as any)[options.toLowerCase()]
+    }
+  })
+}
+
+export function Query(target: any, propertyName: string, index: number): void
+export function Query(name?: string): Function
+export function Query(...args: any): Function | void {
+  if (args.length > 2) {
+    applyQuery(args)
+    return
+  }
+
+  return (...parameters: any) => {
+    applyQuery(parameters, args[0])
+  }
+}
+
 /**
  *
  * @param target
