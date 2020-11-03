@@ -24,7 +24,7 @@ export class SequelizeConverter extends Converter {
    */
   public toParams(options: any): ISequelizeParsedParameters {
     const params: ISequelizeParsedParameters = {
-      order: []
+      order: [],
     }
 
     params.attributes = this.convertSelect()
@@ -48,15 +48,17 @@ export class SequelizeConverter extends Converter {
     let attributes = undefined
 
     if (currentModel) {
-      const { hiddenAttributes } = currentOrchestrator.servicesOptions[currentModel.name.toLowerCase()]
+      const { hiddenAttributes } = currentOrchestrator.servicesOptions.hasOwnProperty(currentModel.name.toLowerCase())
+        ? currentOrchestrator.servicesOptions[currentModel.name.toLowerCase()]
+        : { hiddenAttributes: [] }
 
       const currentAttributes = Object.keys(currentModel.rawAttributes)
 
       attributes = currentAttributes
-        .filter(x => !hiddenAttributes.includes(x))
+        .filter((x) => !hiddenAttributes.includes(x))
         .concat(hiddenAttributes.filter((x: any) => !currentAttributes.includes(x)))
 
-      if (selection.length) attributes = attributes.filter(x => selection.includes(x))
+      if (selection.length) attributes = attributes.filter((x) => selection.includes(x))
     }
 
     return attributes
@@ -74,7 +76,7 @@ export class SequelizeConverter extends Converter {
         const order = field.startsWith('-') ? 'DESC' : 'ASC'
         return order === 'DESC' ? [field.substring(1), order] : [field, order]
       }),
-      ...this.specialSort
+      ...this.specialSort,
     ]
   }
 
@@ -102,7 +104,7 @@ export class SequelizeConverter extends Converter {
       $contains: Op.contains,
       $contained: Op.contained,
       $overlap: Op.overlap,
-      $any: Op.any
+      $any: Op.any,
     }
 
     /**
@@ -169,17 +171,17 @@ export class SequelizeConverter extends Converter {
    *
    */
   private convertPopulate() {
-    const paths = normalizePath(deconstructPath(this.populate.split(' '))).filter(path => path.split('.').length < 10)
+    const paths = normalizePath(deconstructPath(this.populate.split(' '))).filter((path) => path.split('.').length < 10)
     const treePaths = {}
 
     const limitIncluded = currentOrchestrator.config.includeLimit
 
-    paths.forEach(path => dot.set(treePaths, path, true))
+    paths.forEach((path) => dot.set(treePaths, path, true))
 
     const toIncludePropertyRecursive = (tree: any, modelCheck: any): any => {
       const currentModel = modelCheck as { new (): Model } & typeof Model
 
-      return Object.keys(tree).map(entry => {
+      return Object.keys(tree).map((entry) => {
         let extractedModel: typeof Model | undefined
         let associationType: string | undefined
 
@@ -197,19 +199,21 @@ export class SequelizeConverter extends Converter {
         let attributes = undefined
 
         if (model) {
-          const { hiddenAttributes } = currentOrchestrator.servicesOptions[model.name.toLowerCase()]
+          const { hiddenAttributes } = currentOrchestrator.servicesOptions.hasOwnProperty(model.name.toLowerCase())
+            ? currentOrchestrator.servicesOptions[model.name.toLowerCase()]
+            : { hiddenAttributes: [] }
 
           const currentAttributes = Object.keys(model.rawAttributes)
 
           attributes = currentAttributes
-            .filter(x => !hiddenAttributes.includes(x))
+            .filter((x) => !hiddenAttributes.includes(x))
             .concat(hiddenAttributes.filter((x: any) => !currentAttributes.includes(x)))
         }
 
         const includeConfig: IncludeOptions = {
           model,
           as: entry,
-          attributes
+          attributes,
         }
 
         //
