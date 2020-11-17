@@ -13,6 +13,11 @@ export const roleMiddleware = (resource: string, action: string, prepareContext?
 
     if (!role) throw Error(`There's an error with user's role, maybe the callback is not set correctly.`)
 
+    if (!RightsManager.accessController.getRoles().includes(role))
+      throw HttpError.Forbidden({
+        message: `You don't have the right ACL to execute this action on optional requested resource.`
+      })
+
     const permission = await RightsManager.accessController
       .can(role)
       .context({
