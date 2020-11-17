@@ -1,5 +1,7 @@
 const AccessControl = require('role-acl') // WTF happens here again with TS import
 
+const accessControlInstance = new AccessControl()
+
 export class RightsManager {
   /**
    *
@@ -65,7 +67,7 @@ export class RightsManager {
   /**
    *
    */
-  static accessController = new AccessControl()
+  static accessController = accessControlInstance
 
   /**
    *
