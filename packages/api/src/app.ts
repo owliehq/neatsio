@@ -2,7 +2,7 @@ import { Application, Request, Response, NextFunction, RequestHandler } from 'ex
 import * as bodyParser from 'body-parser'
 import * as path from 'path'
 import * as passport from 'passport'
-import * as glob from 'glob'
+import * as glob from 'fast-glob'
 
 import { errorsMiddleware } from '@owliehq/http-errors'
 import { Strategy } from 'passport'
@@ -88,7 +88,8 @@ export class App {
 
     const controllerFound = glob.sync(`**/*Controller.${extension}`, {
       absolute: true,
-      ignore: '**/node_modules/**'
+      deep: 5,
+      ignore: ['**/node_modules/**']
     })
 
     console.log(`${controllerFound.length} controllers found! Importing now...`)
@@ -99,6 +100,8 @@ export class App {
         console.log(`${controllerName.slice(0, -3)} has been successfully loaded.`)
       })
     })
+
+    console.log(process.cwd())
 
     return Promise.all(promises)
   }
