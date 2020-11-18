@@ -86,12 +86,19 @@ export class App {
     //
     const extension = options.tsEnv ? 'ts' : 'js'
 
-    const promises = glob
-      .sync(`**/*Controller.${extension}`, {
-        absolute: true,
-        ignore: '**/node_modules/**'
+    const controllerFound = glob.sync(`**/*Controller.${extension}`, {
+      absolute: true,
+      ignore: '**/node_modules/**'
+    })
+
+    console.log(`${controllerFound.length} controllers found! Importing now...`)
+
+    const promises = controllerFound.map((file: string) => {
+      return import(path.resolve(file)).then(() => {
+        const [controllerName] = file.split('/').slice(-1)
+        console.log(`${controllerName.slice(0, -3)} has been successfully loaded.`)
       })
-      .map((file: string) => import(path.resolve(file)))
+    })
 
     return Promise.all(promises)
   }
