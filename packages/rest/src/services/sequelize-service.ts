@@ -58,7 +58,7 @@ export default class SequelizeService<M extends Model> extends Service {
    * @param body
    */
   public async createOne(body: any, query?: QueryParser) {
-    const { id }: any = await this.model.create(body)
+    const { [this.model.primaryKeyAttribute]: id }: any = await this.model.create(body)
 
     const result = await this.findById(id, query)
 
