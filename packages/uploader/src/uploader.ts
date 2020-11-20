@@ -104,5 +104,5 @@ export interface DownloadEndpointOptions {
   cache?: {
     maxAge?: number
   }
-  retrieveKeyCallback(id: string): Promise<string>
+  retrieveKeyCallback(id: any): Promise<string | undefined>
 }
