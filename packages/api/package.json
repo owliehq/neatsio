@@ -33,7 +33,8 @@
     "test:prod": "npm run lint && npm run test:nocoverage -- --no-cache",
     "test:local": "jest --coverage --runInBand",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "debug": "npx ts-node-dev --respawn test/mocks/debug.ts"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -114,6 +115,7 @@
     "supertest": "^4.0.2",
     "ts-jest": "^25.2.1",
     "ts-node": "^7.0.1",
+    "ts-node-dev": "^1.0.0",
     "tslib": "^1.11.1",
     "typescript": "^3.9.7"
   },
