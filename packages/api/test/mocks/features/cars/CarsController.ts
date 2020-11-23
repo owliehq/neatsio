@@ -1,3 +1,4 @@
+import { HttpError } from '@owliehq/http-errors'
 import { Controller, Get, CurrentUser, AuthMiddleware, Query } from '../../../../src'
 
 @Controller('cars')

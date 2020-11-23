@@ -15,6 +15,8 @@ const cors = require('cors')
 const express = require('express')
 
 export class App {
+  constructor(private debug = false) {}
+
   /**
    *
    */
@@ -92,16 +94,14 @@ export class App {
       ignore: ['**/node_modules/**']
     })
 
-    console.log(`${controllerFound.length} controllers found! Importing now...`)
+    if (this.debug) console.log(`${controllerFound.length} controllers found! Importing now...`)
 
     const promises = controllerFound.map((file: string) => {
       return import(path.resolve(file)).then(() => {
         const [controllerName] = file.split('/').slice(-1)
-        console.log(`${controllerName.slice(0, -3)} has been successfully loaded.`)
+        if (this.debug) console.log(`${controllerName.slice(0, -3)} has been successfully loaded.`)
       })
     })
-
-    console.log(process.cwd())
 
     return Promise.all(promises)
   }

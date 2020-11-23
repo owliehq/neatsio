@@ -1,5 +1,3 @@
-import { cpuUsage } from 'process'
-
 export class MetadataManager {
   /**
    *

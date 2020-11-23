@@ -3,6 +3,8 @@ import { Router } from 'express'
 // WTF require is needed...
 const neatsio = require('@owliehq/neatsio')
 
+import { asyncWrapper } from '@owliehq/async-wrapper'
+
 import { RouteMethod, RouteMetadata, MiddlewareMetadata } from '../interfaces/Metadata'
 import { MetadataManager } from '../MetadataManager'
 
@@ -15,7 +17,7 @@ import { RightsManager } from '../RightsManager'
  *
  *
  */
-function generateRoutes(controllerMetadata: any): Router {
+function generateRoutes(controller: any, controllerMetadata: any): Router {
   if (!controllerMetadata) throw Error('Missing controller configuration')
 
   const routesMetadata: { [key: string]: RouteMetadata } = controllerMetadata.routes || {}
@@ -28,16 +30,16 @@ function generateRoutes(controllerMetadata: any): Router {
 
     switch (meta.method) {
       case RouteMethod.GET:
-        router.get(meta.path, currentRouteMiddlewares, meta.handler)
+        router.get(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
         break
       case RouteMethod.POST:
-        router.post(meta.path, currentRouteMiddlewares, meta.handler)
+        router.post(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
         break
       case RouteMethod.PUT:
-        router.put(meta.path, currentRouteMiddlewares, meta.handler)
+        router.put(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
         break
       case RouteMethod.DELETE:
-        router.delete(meta.path, currentRouteMiddlewares, meta.handler)
+        router.delete(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
         break
     }
   })
@@ -58,6 +60,8 @@ export const Controller = <T extends { new (...args: any[]): any }>(
     public static router: Router = Router()
     public static controllerName = controllerName
     public static path = `/${controllerName}`
+
+    public static instance = new constructor()
   }
 
   const { name } = constructor
@@ -68,7 +72,7 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   const controllerMetadata = MetadataManager.getControllerMetadata(name)
 
   //
-  const routes = generateRoutes(controllerMetadata)
+  const routes = generateRoutes(currentControllerClass, controllerMetadata)
 
   if (params.rights) {
     RightsManager.registerRightsController(params.rights)

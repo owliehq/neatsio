@@ -1,5 +1,3 @@
-import { asyncWrapper } from '@owliehq/async-wrapper'
-import { RequestHandler, NextFunction } from 'express'
 import { set, has } from 'dot-prop'
 
 import { MetadataManager } from '../MetadataManager'
@@ -9,7 +7,7 @@ const buildMethod = (method: RouteMethod) => (subRoute: string = '/', options: a
   target: any,
   propertyKey: string,
   descriptor: PropertyDescriptor
-) => {
+): any => {
   if (options.requestHandler) {
     set(MetadataManager.meta, `controllers.${target.constructor.name}.routes.${propertyKey}`, {
       path: subRoute,
@@ -20,19 +18,23 @@ const buildMethod = (method: RouteMethod) => (subRoute: string = '/', options: a
     return
   }
 
-  const handler = asyncWrapper(async (req, res) => {
+  const handler = async function(this: any, req: any, res: any) {
     const obj = MetadataManager.meta
     const path = `controllers.${target.constructor.name}.routesParameters.${propertyKey}`
 
     if (has(obj, path)) {
       const parameters = MetadataManager.meta.controllers[target.constructor.name].routesParameters[propertyKey]
-      const result = await descriptor.value(...Object.values(parameters).map((param: any) => param.getValue(req)))
+
+      const result = await descriptor.value.apply(
+        this,
+        Object.values(parameters).map((param: any) => param.getValue(req))
+      )
       return res.status(200).json(result)
     }
 
-    const result = await descriptor.value()
+    const result = await descriptor.value.apply(this)
     res.status(200).json(result)
-  })
+  }
 
   set(MetadataManager.meta, `controllers.${target.constructor.name}.routes.${propertyKey}`, {
     path: subRoute,
