@@ -165,8 +165,8 @@ export class Querier {
     if (!Object.keys(query).length) return this.baseUrl || ''
 
     const stringified = qs.stringify(query, { encode: this.encode })
-    
-    return `${(this.baseUrl || '')}?${encodeURIComponent(stringified)}`
+
+    return `${this.baseUrl || ''}?${encodeURIComponent(stringified)}`
   }
 
   /**
