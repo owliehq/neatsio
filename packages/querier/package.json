@@ -1,6 +1,6 @@
 {
   "name": "@owliehq/querier",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Http Errors handler",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/querier",
   "keywords": [],
