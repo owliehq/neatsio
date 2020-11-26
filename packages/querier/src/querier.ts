@@ -157,7 +157,7 @@ export class Querier {
       const value = query[key]
       const type = typeof value
 
-      result[key] = type === 'object' ? JSON.stringify(value) : value
+      result[key] = type === 'object' ? encodeURIComponent(JSON.stringify(value)) : value
 
       return result
     }, {})
@@ -166,7 +166,7 @@ export class Querier {
 
     const stringified = qs.stringify(query, { encode: this.encode })
 
-    return `${this.baseUrl || ''}?${encodeURIComponent(stringified)}`
+    return `${this.baseUrl || ''}?${stringified}`
   }
 
   /**
