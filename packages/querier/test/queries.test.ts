@@ -217,7 +217,7 @@ describe('Build some query strings', () => {
       .select('lastname')
       .generate()
 
-    expect(query).toBe('/users?%24select%3Dlastname')
+    expect(query).toBe('/users?$select=lastname')
   })
 
   /*it('should return complex query', () => {
