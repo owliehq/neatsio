@@ -1,4 +1,5 @@
 import * as request from 'supertest'
+import * as qs from 'query-string'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -10,6 +11,19 @@ import Role from '../mocks/models/role'
 
 // May require additional time for downloading MongoDB binaries
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000
+
+function stringify(query: {}) {
+  query = Object.keys(query).reduce((result: { [key: string]: any }, key: string) => {
+    const value = (query as any)[key]
+    const type = typeof value
+
+    result[key] = type === 'object' ? JSON.stringify(value) : value
+
+    return result
+  }, {})
+
+  return '?' + qs.stringify(query)
+}
 
 describe('Sequelize: POST Method & Routes', () => {
   //
@@ -184,6 +198,105 @@ describe('Sequelize: POST Method & Routes', () => {
             expect(response.body[1].lastname).toBe('DOE')
           })
       })
+    })
+  })
+
+  describe('POST /api/users/query', () => {
+    beforeAll(async () => {
+      await sequelize.sync({ force: true })
+
+      await User.create({
+        firstname: 'John',
+        lastname: 'DOE',
+        email: 'john.doe@acme.com',
+        active: true
+      })
+
+      await User.create({
+        firstname: 'Alan',
+        lastname: 'SMITH',
+        email: 'alan.smith@acme.com',
+        active: true
+      })
+
+      await User.create({
+        firstname: 'Enora',
+        lastname: 'PLIRA',
+        email: 'enora.plira@acme.com',
+        active: false
+      })
+    })
+
+    afterAll(async () => {
+      await User.destroy({ where: {}, truncate: true, restartIdentity: true })
+    })
+
+    it('should return filtered data', () => {
+      const body = {
+        $conditions: {
+          lastname: 'PLIRA'
+        }
+      }
+
+      return request(app)
+        .post('/api/users/query')
+        .send(body)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .then(response => {
+          expect(response.body).toHaveLength(1)
+
+          expect(response.body[0].lastname).toBe('PLIRA')
+          expect(response.body[0].firstname).toBe('Enora')
+        })
+    })
+  })
+
+  describe('POST /api/users/query/count', () => {
+    beforeAll(async () => {
+      await sequelize.sync({ force: true })
+
+      await User.create({
+        firstname: 'John',
+        lastname: 'DOE',
+        email: 'john.doe@acme.com',
+        active: true
+      })
+
+      await User.create({
+        firstname: 'Alan',
+        lastname: 'SMITH',
+        email: 'alan.smith@acme.com',
+        active: true
+      })
+
+      await User.create({
+        firstname: 'Enora',
+        lastname: 'PLIRA',
+        email: 'enora.plira@acme.com',
+        active: false
+      })
+    })
+
+    afterAll(async () => {
+      await User.destroy({ where: {}, truncate: true, restartIdentity: true })
+    })
+
+    it('should return count from filtered data', () => {
+      const body = {
+        $conditions: {
+          lastname: 'PLIRA'
+        }
+      }
+
+      return request(app)
+        .post('/api/users/query/count')
+        .send(body)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .then(response => {
+          expect(response.body).toBe(1)
+        })
     })
   })
 })

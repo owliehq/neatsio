@@ -64,7 +64,9 @@ export default class QueryParser {
    */
   private parseConditions(conditions: any) {
     try {
-      this.conditions = conditions ? JSON.parse(conditions) : {}
+      this.conditions = {}
+
+      if (conditions) this.conditions = this.options.body ? conditions : JSON.parse(conditions)
     } catch (err) {
       throw HttpError.BadRequest('Malformatted JSON')
     }

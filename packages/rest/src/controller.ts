@@ -52,6 +52,7 @@ export class Controller {
         after: [],
         getOne: [],
         getMany: [],
+        query: [],
         createOne: [],
         createBulk: [],
         updateOne: [],
@@ -71,8 +72,9 @@ export class Controller {
   public buildRoutes() {
     this.buildCustomBeforeMiddlewares()
     this.buildCustomRoutes()
-    this.buildQueryParserMiddleware()
     this.buildCountRoute()
+    this.buildQueryRoute()
+    this.buildQueryCountRoute()
     this.buildGetOneRoute()
     this.buildGetManyRoute()
     this.buildBulkPostRoute()
@@ -102,18 +104,6 @@ export class Controller {
   /**
    *
    */
-  private buildQueryParserMiddleware() {
-    const middleware = AsyncWrapper(async (req, res, next) => {
-      req.parsedQuery = new QueryParser(req.query, this.service.model)
-      return next()
-    })
-
-    this.router.use(this.mainRoute, middleware)
-  }
-
-  /**
-   *
-   */
   private buildCustomRoutes() {
     this.customRoutes.forEach((route: any) => {
       const middlewares = route.middlewares || []
@@ -132,7 +122,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.getOne?.before || []
 
-    this.router.get(this.mainRouteWithId, [...beforeMiddlewares, callback])
+    this.router.get(this.mainRouteWithId, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
   }
 
   /**
@@ -147,7 +137,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.getMany?.before || []
 
-    this.router.get(this.mainRoute, [...beforeMiddlewares, callback])
+    this.router.get(this.mainRoute, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
   }
 
   /**
@@ -161,7 +151,39 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.count?.before || []
 
-    this.router.get(this.mainRouteWithCount, [...beforeMiddlewares, callback])
+    this.router.get(this.mainRouteWithCount, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+  }
+
+  /**
+   *
+   */
+  private buildQueryRoute() {
+    const callback = AsyncWrapper(async (req, res) => {
+      const response = await this.service.find(req.parsedQuery)
+      return res.status(200).json(response)
+    })
+
+    const beforeMiddlewares = this.middlewares?.count?.before || []
+
+    this.router.post(this.mainRouteWithQuery, [this.getQueryParserMiddleware(true), ...beforeMiddlewares, callback])
+  }
+
+  /**
+   *
+   */
+  private buildQueryCountRoute() {
+    const callback = AsyncWrapper(async (req, res) => {
+      const response = await this.service.count(req.parsedQuery)
+      return res.status(200).json(response)
+    })
+
+    const beforeMiddlewares = this.middlewares?.queryCount?.before || []
+
+    this.router.post(this.mainRouteWithQueryCount, [
+      this.getQueryParserMiddleware(true),
+      ...beforeMiddlewares,
+      callback
+    ])
   }
 
   /**
@@ -175,7 +197,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.createOne?.before || []
 
-    this.router.post(this.mainRoute, [...beforeMiddlewares, callback])
+    this.router.post(this.mainRoute, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
   }
 
   /**
@@ -203,7 +225,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.updateOne?.before || []
 
-    this.router.put(this.mainRouteWithId, [...beforeMiddlewares, callback])
+    this.router.put(this.mainRouteWithId, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
   }
 
   /**
@@ -217,7 +239,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.updateBulk?.before || []
 
-    this.router.put(this.mainRouteWithBulk, [...beforeMiddlewares, callback])
+    this.router.put(this.mainRouteWithBulk, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
   }
 
   /**
@@ -245,7 +267,21 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.deleteBulk?.before || []
 
-    this.router.delete(this.mainRouteWithBulk, [...beforeMiddlewares, callback])
+    this.router.delete(this.mainRouteWithBulk, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+  }
+
+  /**
+   *
+   */
+  private getQueryParserMiddleware(body = false) {
+    const middleware = AsyncWrapper(async (req, res, next) => {
+      const toBeParsed = body ? req.body : req.query
+
+      req.parsedQuery = new QueryParser(toBeParsed, this.service.model, { body })
+      return next()
+    })
+
+    return middleware
   }
 
   private setRouteName(routeName?: string): void {
@@ -274,6 +310,14 @@ export class Controller {
    */
   private get mainRouteWithBulk() {
     return this.mainRoute + '/bulk'
+  }
+
+  private get mainRouteWithQuery() {
+    return this.mainRoute + '/query'
+  }
+
+  private get mainRouteWithQueryCount() {
+    return this.mainRoute + '/query/count'
   }
 
   /**
