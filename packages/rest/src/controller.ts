@@ -53,6 +53,7 @@ export class Controller {
         getOne: [],
         getMany: [],
         query: [],
+        queryCount: [],
         createOne: [],
         createBulk: [],
         updateOne: [],
@@ -163,7 +164,7 @@ export class Controller {
       return res.status(200).json(response)
     })
 
-    const beforeMiddlewares = this.middlewares?.count?.before || []
+    const beforeMiddlewares = this.middlewares?.query?.before || []
 
     this.router.post(this.mainRouteWithQuery, [this.getQueryParserMiddleware(true), ...beforeMiddlewares, callback])
   }
