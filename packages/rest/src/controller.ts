@@ -123,7 +123,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.getOne?.before || []
 
-    this.router.get(this.mainRouteWithId, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+    this.router.get(this.mainRouteWithId, [...beforeMiddlewares, this.getQueryParserMiddleware(), callback])
   }
 
   /**
@@ -138,7 +138,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.getMany?.before || []
 
-    this.router.get(this.mainRoute, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+    this.router.get(this.mainRoute, [...beforeMiddlewares, this.getQueryParserMiddleware(), callback])
   }
 
   /**
@@ -152,7 +152,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.count?.before || []
 
-    this.router.get(this.mainRouteWithCount, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+    this.router.get(this.mainRouteWithCount, [...beforeMiddlewares, this.getQueryParserMiddleware(), callback])
   }
 
   /**
@@ -166,7 +166,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.query?.before || []
 
-    this.router.post(this.mainRouteWithQuery, [this.getQueryParserMiddleware(true), ...beforeMiddlewares, callback])
+    this.router.post(this.mainRouteWithQuery, [...beforeMiddlewares, this.getQueryParserMiddleware(true), callback])
   }
 
   /**
@@ -181,8 +181,8 @@ export class Controller {
     const beforeMiddlewares = this.middlewares?.queryCount?.before || []
 
     this.router.post(this.mainRouteWithQueryCount, [
-      this.getQueryParserMiddleware(true),
       ...beforeMiddlewares,
+      this.getQueryParserMiddleware(true),
       callback
     ])
   }
@@ -198,7 +198,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.createOne?.before || []
 
-    this.router.post(this.mainRoute, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+    this.router.post(this.mainRoute, [...beforeMiddlewares, this.getQueryParserMiddleware(), callback])
   }
 
   /**
@@ -226,7 +226,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.updateOne?.before || []
 
-    this.router.put(this.mainRouteWithId, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+    this.router.put(this.mainRouteWithId, [...beforeMiddlewares, this.getQueryParserMiddleware(), callback])
   }
 
   /**
@@ -240,7 +240,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.updateBulk?.before || []
 
-    this.router.put(this.mainRouteWithBulk, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+    this.router.put(this.mainRouteWithBulk, [...beforeMiddlewares, this.getQueryParserMiddleware(), callback])
   }
 
   /**
@@ -268,7 +268,7 @@ export class Controller {
 
     const beforeMiddlewares = this.middlewares?.deleteBulk?.before || []
 
-    this.router.delete(this.mainRouteWithBulk, [this.getQueryParserMiddleware(), ...beforeMiddlewares, callback])
+    this.router.delete(this.mainRouteWithBulk, [...beforeMiddlewares, this.getQueryParserMiddleware(), callback])
   }
 
   /**
@@ -285,6 +285,10 @@ export class Controller {
     return middleware
   }
 
+  /**
+   *
+   * @param routeName
+   */
   private setRouteName(routeName?: string): void {
     this.routeName = routeName || pluralize.plural(this.service.modelName).toLowerCase()
   }
