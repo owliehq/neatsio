@@ -9,6 +9,7 @@ export class Querier {
   private baseUrl?: string
   private encode: boolean = false
   private stringify: boolean = true
+  private body: boolean = false
 
   private $select: Array<string> = []
   private $conditions: any = {}
@@ -18,6 +19,8 @@ export class Querier {
   private $populate: Array<string> = []
 
   constructor(options?: QuerierOptions) {
+    if (options?.body) this.body = options.body
+
     if (options?.baseUrl) this.baseUrl = options.baseUrl
     if (options?.encode) this.encode = options.encode
     if (options?.resultsPerPage) this.$limit = options.resultsPerPage
@@ -141,7 +144,7 @@ export class Querier {
       const value = query[key]
       const type = typeof value
 
-      result[key] = type === 'object' ? encodeURIComponent(JSON.stringify(value)) : value
+      result[key] = type === 'object' ? JSON.stringify(value) : value
 
       return result
     }, {})
@@ -202,6 +205,17 @@ export class Querier {
   public static query(options: QuerierOptions) {
     return new Querier(options)
   }
+
+  /**
+   *
+   */
+  public static bodyQuery(options: QuerierOptions) {
+    options.body = true
+    options.stringify = false
+    options.encode = false
+
+    return new Querier(options)
+  }
 }
 
 export interface QuerierOptions {
@@ -209,4 +223,5 @@ export interface QuerierOptions {
   encode?: boolean
   stringify?: boolean
   resultsPerPage?: number
+  body?: boolean
 }
