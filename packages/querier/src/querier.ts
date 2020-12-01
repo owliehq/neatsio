@@ -133,7 +133,7 @@ export class Querier {
 
     if ($conditions) result.$conditions = $conditions
 
-    return this.stringify ? this.generateString(result) : result
+    return this.stringify && !this.body ? this.generateString(result) : result
   }
 
   /**
