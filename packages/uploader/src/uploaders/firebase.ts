@@ -47,11 +47,7 @@ export class FirebaseUploader extends Uploader {
    * @param key
    */
   public getStreamFile(key: string): Readable {
-    try {
-      return this.bucket.file(key).createReadStream()
-    } catch (err) {
-      throw HttpError.NotAcceptable(`Error with Google Storage...`)
-    }
+    return this.bucket.file(key).createReadStream()
   }
 
   /**
