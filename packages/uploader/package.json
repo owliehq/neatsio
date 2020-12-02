@@ -1,6 +1,6 @@
 {
   "name": "@owliehq/uploader",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Uploader middleware for express",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/uploader",
   "keywords": [],
