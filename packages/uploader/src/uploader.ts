@@ -51,8 +51,6 @@ export abstract class Uploader {
 
       if (!key) throw HttpError.NotFound()
 
-      const stream = this.getStreamFile(key)
-
       const { cache } = options
 
       if (cache && Object.keys(cache).length) {
@@ -62,9 +60,15 @@ export abstract class Uploader {
         res.setHeader('Expires', new Date(Date.now() + cache.maxAge).toUTCString())
       }
 
-      // TODO: Better handling needed here
-      res.attachment(options?.filename || key)
-      stream.pipe(res)
+      try {
+        const stream = this.getStreamFile(key)
+
+        // TODO: Better handling needed here
+        res.attachment(options?.filename || key)
+        stream.pipe(res)
+      } catch (err) {
+        throw HttpError.InternalServerError()
+      }
     }
 
     return asyncWrapper(handler)
