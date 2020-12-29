@@ -12,6 +12,7 @@ import { app } from '..'
 import { Model } from 'sequelize/types'
 import { NeatsioActions } from '../interfaces/NeatsioActions'
 import { RightsManager } from '../RightsManager'
+import { Injector } from '../di/Injector'
 
 /**
  *
@@ -61,7 +62,7 @@ export const Controller = <T extends { new (...args: any[]): any }>(
     public static controllerName = controllerName
     public static path = `/${controllerName}`
 
-    public static instance = new constructor()
+    public static instance = Injector.resolve<T>(constructor)
   }
 
   const { name } = constructor
