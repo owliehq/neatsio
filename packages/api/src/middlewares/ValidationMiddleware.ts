@@ -11,7 +11,11 @@ export const validationMiddleware = (validations: any) => {
     const errors = validationResult(req)
 
     if (errors.isEmpty()) {
-      req.body = matchedData(req, { locations: ['body'] })
+      const data = matchedData(req, { locations: ['body'] })
+      
+      // Handle object value from matchedData
+      // See issue: https://github.com/express-validator/express-validator/issues/915
+      req.body = Array.isArray(req.body) ? Object.values(data) : data
       return next()
     }
 
