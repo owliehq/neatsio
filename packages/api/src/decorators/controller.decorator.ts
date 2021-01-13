@@ -103,7 +103,7 @@ function buildNeatsioConfig(controllerMetadata: any, neatsioRoutes: any) {
     const action: string = entry[0]
     const key: string = entry[1] as string
 
-    if (controllerMetadata?.middlewares.hasOwnProperty(action)) {
+    if (controllerMetadata?.middlewares?.hasOwnProperty(action)) {
       if (!result[key]) result[key] = { before: [], after: [] }
 
       // handle after ?
