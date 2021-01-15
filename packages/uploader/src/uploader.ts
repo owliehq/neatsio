@@ -51,7 +51,7 @@ export abstract class Uploader {
 
       if (!key) throw HttpError.NotFound()
 
-      const { cache } = options
+      const { cache, contentType } = options
 
       if (cache && Object.keys(cache).length) {
         cache.maxAge = cache.maxAge || 86400
@@ -60,8 +60,12 @@ export abstract class Uploader {
         res.setHeader('Expires', new Date(Date.now() + cache.maxAge).toUTCString())
       }
 
-      // TODO: Better handling needed here
-      res.attachment(options?.filename || key)
+      if (contentType) {
+        res.set({ 'Content-Type': contentType })
+      } else {
+        // TODO: Better handling needed here
+        res.attachment(options?.filename || key)
+      }
 
       const promise = () =>
         new Promise((resolve, reject) => {
@@ -72,7 +76,7 @@ export abstract class Uploader {
             reject(HttpError.InternalServerError())
           })
 
-          stream.on('finish', () => resolve())
+          stream.on('finish', () => resolve(void 0))
 
           stream.pipe(res)
         })
@@ -114,6 +118,7 @@ export abstract class Uploader {
  */
 export interface DownloadEndpointOptions {
   filename?: string
+  contentType?: string
   cache?: {
     maxAge?: number
   }
