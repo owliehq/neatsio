@@ -184,6 +184,7 @@ function getNeatsioRoutesConfig<T extends { new (...args: any[]): any }>(control
 }
 
 interface ControllerParams {
-  model?: { new (): Model } & typeof Model
+  // TODO: care about Sequelize 6 migration
+  model?: any //{ new (): Model } & typeof Model
   rights?: RightsManager
 }
