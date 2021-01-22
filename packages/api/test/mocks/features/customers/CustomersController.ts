@@ -16,7 +16,7 @@ import { validationsCreateOne } from './CustomersValidations'
 
 import Customer from './Customer'
 import rights from './CustomersRights'
-import { Inject } from '../../../../src/di/Injector'
+import { Inject } from '../../../../src'
 import { CustomerService } from './CustomerService'
 
 const controllerOptions = {

@@ -1,6 +1,6 @@
 import { HttpError } from '@owliehq/http-errors'
 import { Controller, Get, CurrentUser, AuthMiddleware, Query } from '../../../../src'
-import { Inject } from '../../../../src/di/Injector'
+import { Inject } from '../../../../src'
 
 import { CarsService } from './CarsService'
 

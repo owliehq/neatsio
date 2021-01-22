@@ -1,5 +1,5 @@
 import { Table, Column, Model, BeforeSave, Default } from 'sequelize-typescript'
-import { Inject } from '../../../../src/di/Injector'
+import { Inject } from '../../../../src'
 import { CustomerService } from './CustomerService'
 
 @Table({

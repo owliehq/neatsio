@@ -1,4 +1,4 @@
-import { Inject } from '../../src/di/Injector'
+import { Inject } from '../../src'
 import { CarsService } from './features/cars/CarsService'
 
 export class InjectionTest {

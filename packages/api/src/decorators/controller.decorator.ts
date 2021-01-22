@@ -9,10 +9,8 @@ import { RouteMethod, RouteMetadata, MiddlewareMetadata } from '../interfaces/Me
 import { MetadataManager } from '../MetadataManager'
 
 import { app } from '..'
-import { Model } from 'sequelize/types'
 import { NeatsioActions } from '../interfaces/NeatsioActions'
 import { RightsManager } from '../RightsManager'
-import { Injector } from '../di/Injector'
 
 /**
  *

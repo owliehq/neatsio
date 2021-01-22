@@ -1,5 +1,5 @@
 import { Service } from '../../../../src/decorators/service.decorator'
-import { Inject } from '../../../../src/di/Injector'
+import { Inject } from '../../../../src'
 import { RegistrationService } from './RegistrationService'
 
 @Service()
