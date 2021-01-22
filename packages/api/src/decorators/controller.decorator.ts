@@ -82,7 +82,7 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   if (params.model) {
     const neatsioRoutes = getNeatsioRoutesConfig(currentControllerClass)
 
-    const config = buildNeatsioConfig(controllerMetadata, neatsioRoutes)
+    const config = buildNeatsioConfig(currentControllerClass, controllerMetadata, neatsioRoutes)
 
     neatsio.registerModel(params.model, config)
   } else {
@@ -98,7 +98,7 @@ export const Controller = <T extends { new (...args: any[]): any }>(
  * @param controllerMetadata
  * @param neatsioRoutes
  */
-function buildNeatsioConfig(controllerMetadata: any, neatsioRoutes: any) {
+function buildNeatsioConfig(controller: any, controllerMetadata: any, neatsioRoutes: any) {
   const middlewares = Object.entries(neatsioRoutes).reduce((result: any, entry) => {
     const action: string = entry[0]
     const key: string = entry[1] as string
@@ -113,7 +113,7 @@ function buildNeatsioConfig(controllerMetadata: any, neatsioRoutes: any) {
     return result
   }, {})
 
-  const routes = prepareCustomRoutesForNeatsio(controllerMetadata)
+  const routes = prepareCustomRoutesForNeatsio(controller, controllerMetadata)
 
   return {
     middlewares,
@@ -145,7 +145,7 @@ function getAllMethods(obj: any) {
  *
  * @param controllerMetadata
  */
-function prepareCustomRoutesForNeatsio(controllerMetadata: any) {
+function prepareCustomRoutesForNeatsio(controller: any, controllerMetadata: any) {
   if (!controllerMetadata.routes) return []
 
   return Object.entries(controllerMetadata.routes).map(([methodName, route]) => {
@@ -158,7 +158,7 @@ function prepareCustomRoutesForNeatsio(controllerMetadata: any) {
     return {
       path,
       middlewares,
-      execute: asyncWrapper(handler)
+      execute: asyncWrapper(handler.bind(controller.instance))
     }
   })
 }
