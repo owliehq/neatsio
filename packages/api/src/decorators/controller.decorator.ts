@@ -158,7 +158,7 @@ function prepareCustomRoutesForNeatsio(controllerMetadata: any) {
     return {
       path,
       middlewares,
-      execute: handler
+      execute: asyncWrapper(handler)
     }
   })
 }
