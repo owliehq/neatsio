@@ -158,6 +158,44 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
     })
   })
 
+  describe('Service Injection', () => {
+    beforeAll(async () => {
+      await Customer.sync({ force: true })
+
+      await Customer.create({
+        lastname: 'DOE',
+        firstname: 'John',
+        email: 'john.doe@acme.com'
+      })
+
+      await Customer.create({
+        lastname: 'DOE',
+        firstname: 'Jane',
+        email: 'jane.doe@acme.com'
+      })
+    })
+
+    it('should return john customer with correct triggered value', async () => {
+      return request(app)
+        .get('/customers/email/john.doe@acme.com')
+        .expect(200)
+        .then(response => {
+          expect(response.body.email).toBe('john.doe@acme.com')
+          expect(response.body.triggeredOnBeforeSave).toBe(true)
+        })
+    })
+
+    it('should return jane customer with falsy not triggered value', async () => {
+      return request(app)
+        .get('/customers/email/jane.doe@acme.com')
+        .expect(200)
+        .then(response => {
+          expect(response.body.email).toBe('jane.doe@acme.com')
+          expect(response.body.triggeredOnBeforeSave).toBe(false)
+        })
+    })
+  })
+
   describe('Users section', () => {
     beforeAll(async () => {
       await User.sync({ force: true })

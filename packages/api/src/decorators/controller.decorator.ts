@@ -62,7 +62,7 @@ export const Controller = <T extends { new (...args: any[]): any }>(
     public static controllerName = controllerName
     public static path = `/${controllerName}`
 
-    public static instance = Injector.resolve<T>(constructor)
+    public static instance = new constructor()
   }
 
   const { name } = constructor

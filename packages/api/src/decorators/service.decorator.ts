@@ -1,13 +1,7 @@
-import { Injector } from '../di/Injector'
+import { Class } from 'type-fest'
+import { providerContainer } from '../di/Injector'
 
-export const Service = <T extends { new (...args: any[]): any }>() => {
-  return (constructor: T) => {
-    // TODO: save into a provider container
-
-    const serviceClass: any = class ServiceConstructor extends constructor {
-      public static instance = Injector.resolve<T>(constructor)
-    }
-
-    return serviceClass
-  }
+export const Service = <T extends { new (...args: any[]): any }>() => (constructor: T) => {
+  providerContainer.addProvider(constructor)
+  return constructor
 }

@@ -1,11 +1,14 @@
 import { HttpError } from '@owliehq/http-errors'
 import { Controller, Get, CurrentUser, AuthMiddleware, Query } from '../../../../src'
+import { Inject } from '../../../../src/di/Injector'
 
 import { CarsService } from './CarsService'
 
 @Controller('cars')
 export default class CarsController {
-  constructor(private carsService: CarsService) {
+  @Inject private carsService: CarsService
+
+  constructor() {
     this.carsService.addCars()
   }
 

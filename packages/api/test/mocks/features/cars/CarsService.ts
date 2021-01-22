@@ -1,11 +1,12 @@
 import { Service } from '../../../../src/decorators/service.decorator'
+import { Inject } from '../../../../src/di/Injector'
 import { RegistrationService } from './RegistrationService'
 
 @Service()
 export class CarsService {
-  private myCars: any[] = []
+  @Inject private registrationService: RegistrationService
 
-  constructor(private registrationService: RegistrationService) {}
+  private myCars: any[] = []
 
   addCars() {
     const registrations = this.registrationService.getAvailableRegistration()
