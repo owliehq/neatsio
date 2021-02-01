@@ -4,9 +4,9 @@
   "description": "Http Errors handler",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/http-errors",
   "keywords": [],
-  "main": "dist/http-errors.js",
-  "module": "dist/http-errors.js",
-  "typings": "dist/types/http-errors.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
