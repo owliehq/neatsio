@@ -1,5 +1,6 @@
 import * as express from 'express'
-import { HttpError, errorsMiddleware } from '../../src/http-errors'
+import { HttpError, errorsMiddleware, NotFoundError } from '../../src'
+import { CustomTestError } from './customError'
 
 const app = express()
 
@@ -19,9 +20,19 @@ const anyErrorHandler = (req: express.Request, res: express.Response) => {
   }
 }
 
+const customErrorHandler: express.RequestHandler = (req, res) => {
+  throw new CustomTestError('custom error')
+}
+
+const notFoundCustomHandler: express.RequestHandler = (req, res) => {
+  throw new NotFoundError('User')
+}
+
 app.get('/cars', carsHandler)
 app.get('/notfound', notFoundHandler)
 app.get('/notacceptable', anyErrorHandler)
+app.get('/customerror', customErrorHandler)
+app.get('/notfoundcustom', notFoundCustomHandler)
 
 app.use(errorsMiddleware())
 
@@ -31,6 +42,6 @@ appWithDebug.get('/cars', carsHandler)
 appWithDebug.get('/notfound', notFoundHandler)
 appWithDebug.get('/notacceptable', anyErrorHandler)
 
-appWithDebug.use(errorsMiddleware({ debugServer: true, debugClient: true }))
+appWithDebug.use(errorsMiddleware({ debugServer: false, debugClient: true }))
 
 export { app, appWithDebug }
