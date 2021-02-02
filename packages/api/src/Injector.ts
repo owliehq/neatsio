@@ -4,8 +4,10 @@ import 'reflect-metadata'
 class Container {
   private providers: Map<string, any> = new Map()
 
-  resolve(target: string): any {
-    const resolved = this.providers.get(target)
+  resolve<T>(target: string | Class<T>): any {
+    const name = typeof target === 'string' ? target : target.name
+
+    const resolved = this.providers.get(name)
 
     if (!resolved) throw new Error(`No provider found for ${target}!`)
 
