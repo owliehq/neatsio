@@ -82,4 +82,16 @@ describe('Server mocked', () => {
         })
     })
   })
+
+  describe('GET /cars/requesthandler', () => {
+    it('should return value from a service with requestHandler activated', async () => {
+      return request(app)
+        .get('/cars/requesthandler/2')
+        .expect(200)
+        .then(response => {
+          expect(response.body.cars).toHaveLength(2)
+          expect(response.body.id).toBe('2')
+        })
+    })
+  })
 })

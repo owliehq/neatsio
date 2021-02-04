@@ -10,6 +10,7 @@ export enum RouteMethod {
 export interface RouteMetadata {
   path: string
   method: RouteMethod
+  requestHandler?: boolean
   handler: RequestHandler
 }
 

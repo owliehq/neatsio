@@ -22,4 +22,8 @@ export class CarsService {
   getCars() {
     return this.myCars
   }
+
+  reset() {
+    this.myCars = []
+  }
 }

@@ -8,20 +8,38 @@ const buildMethod = (method: RouteMethod) => (subRoute: string = '/', options: a
   propertyKey: string,
   descriptor: PropertyDescriptor
 ): any => {
+  let handler
+
+  const obj = MetadataManager.meta
+  const path = `controllers.${target.constructor.name}.routesParameters.${propertyKey}`
+
   if (options.requestHandler) {
+    let parameters: any[] = []
+
+    if (has(obj, path)) {
+      parameters = MetadataManager.meta.controllers[target.constructor.name].routesParameters[propertyKey]
+    }
+
+    handler = async function(this: any, req: any, res: any) {
+      const executor = descriptor.value.apply(
+        this,
+        Object.values(parameters).map((param: any) => param.getValue(req))
+      )
+
+      return executor(req, res)
+    }
+
     set(MetadataManager.meta, `controllers.${target.constructor.name}.routes.${propertyKey}`, {
       path: subRoute,
       method,
-      handler: descriptor.value()
+      requestHandler: true,
+      handler
     })
 
     return
   }
 
-  const handler = async function(this: any, req: any, res: any) {
-    const obj = MetadataManager.meta
-    const path = `controllers.${target.constructor.name}.routesParameters.${propertyKey}`
-
+  handler = async function(this: any, req: any, res: any) {
     if (has(obj, path)) {
       const parameters = MetadataManager.meta.controllers[target.constructor.name].routesParameters[propertyKey]
 

@@ -9,6 +9,7 @@ const options: InitAppNativeOptions = {
       return user.role
     }
   },
+  debug: false,
   tsEnv: __filename.endsWith('ts')
 }
 

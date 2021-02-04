@@ -27,18 +27,20 @@ function generateRoutes(controller: any, controllerMetadata: any): Router {
   Object.entries(routesMetadata).forEach(([key, meta]) => {
     const currentRouteMiddlewares = (middlewares[key] || []).reverse()
 
+    const handler = asyncWrapper(meta.handler.bind(controller.instance))
+
     switch (meta.method) {
       case RouteMethod.GET:
-        router.get(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
+        router.get(meta.path, currentRouteMiddlewares, handler)
         break
       case RouteMethod.POST:
-        router.post(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
+        router.post(meta.path, currentRouteMiddlewares, handler)
         break
       case RouteMethod.PUT:
-        router.put(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
+        router.put(meta.path, currentRouteMiddlewares, handler)
         break
       case RouteMethod.DELETE:
-        router.delete(meta.path, currentRouteMiddlewares, asyncWrapper(meta.handler.bind(controller.instance)))
+        router.delete(meta.path, currentRouteMiddlewares, handler)
         break
     }
   })

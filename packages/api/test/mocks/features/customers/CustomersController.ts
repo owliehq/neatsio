@@ -41,7 +41,7 @@ export default class CustomersController {
 
   @Get('/:id/download', { requestHandler: true })
   download() {
-    return (req: Request, res: Response) => {
+    return async (req: Request, res: Response) => {
       res.status(200).json({})
     }
   }
