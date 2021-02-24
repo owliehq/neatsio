@@ -81,7 +81,12 @@ export abstract class Uploader {
           stream.pipe(res)
         })
 
-      await promise()
+      try {
+        await promise()
+      } catch (err) {
+        console.log('An error has occured during downloading file...')
+        throw HttpError.UnprocessableEntity()
+      }
     }
 
     return asyncWrapper(handler)
