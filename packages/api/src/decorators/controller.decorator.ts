@@ -82,7 +82,11 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   if (params.model) {
     const neatsioRoutes = getNeatsioRoutesConfig(currentControllerClass)
 
-    const unauthorizedRoutes = params.unauthorizedRoutes || []
+    const unauthorizedRoutes = (params.unauthorizedRoutes || []).map(neatsioAction => {
+      const removeNeatsio = neatsioAction.substring(7)
+
+      return removeNeatsio[0].toLowerCase() + removeNeatsio.substring(1)
+    })
 
     const config = {
       ...buildNeatsioConfig(currentControllerClass, controllerMetadata, neatsioRoutes),
