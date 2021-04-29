@@ -80,7 +80,6 @@
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^23.3.14",
     "@types/mime-types": "^2.1.0",
-    "@types/mongoose": "^5.7.36",
     "@types/node": "^10.17.13",
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
