@@ -82,7 +82,12 @@ export const Controller = <T extends { new (...args: any[]): any }>(
   if (params.model) {
     const neatsioRoutes = getNeatsioRoutesConfig(currentControllerClass)
 
-    const config = buildNeatsioConfig(currentControllerClass, controllerMetadata, neatsioRoutes)
+    const unauthorizedRoutes = params.unauthorizedRoutes || []
+
+    const config = {
+      ...buildNeatsioConfig(currentControllerClass, controllerMetadata, neatsioRoutes),
+      unauthorizedRoutes
+    }
 
     neatsio.registerModel(params.model, config)
   } else {
@@ -187,4 +192,5 @@ interface ControllerParams {
   // TODO: care about Sequelize 6 migration
   model?: any //{ new (): Model } & typeof Model
   rights?: RightsManager
+  unauthorizedRoutes?: Array<NeatsioActions>
 }
