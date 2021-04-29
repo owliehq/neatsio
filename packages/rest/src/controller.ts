@@ -28,6 +28,7 @@ export class Controller {
     private middlewares: any,
     private customRoutes: any = [],
     private queryOptions: any,
+    private unauthorizedRoutes: Array<String> = [],
     private routeName?: string
   ) {
     //this.customRoutes = params.routes || []
@@ -46,7 +47,7 @@ export class Controller {
   ): InstanceType<T> {
     params = params || {}
 
-    const { middlewares, routes, queryOptions }: any = {
+    const { middlewares, routes, queryOptions, unauthorizedRoutes }: any = {
       middlewares: {
         before: [],
         after: [],
@@ -63,7 +64,7 @@ export class Controller {
       ...params
     }
 
-    return new this(service, router, middlewares, routes, queryOptions) as InstanceType<T>
+    return new this(service, router, middlewares, routes, queryOptions, unauthorizedRoutes) as InstanceType<T>
   }
 
   /**
@@ -73,17 +74,18 @@ export class Controller {
   public buildRoutes() {
     this.buildCustomBeforeMiddlewares()
     this.buildCustomRoutes()
-    this.buildCountRoute()
-    this.buildQueryRoute()
-    this.buildQueryCountRoute()
-    this.buildGetOneRoute()
-    this.buildGetManyRoute()
-    this.buildBulkPostRoute()
-    this.buildOnePostRoute()
-    this.buildBulkPutRoute()
-    this.buildOnePutRoute()
-    this.buildBulkDeleteRoute()
-    this.buildOneDeleteRoute()
+
+    if(!this.unauthorizedRoutes.includes('count')) this.buildCountRoute()
+    if(!this.unauthorizedRoutes.includes('query')) this.buildQueryRoute()
+    if(!this.unauthorizedRoutes.includes('queryCount')) this.buildQueryCountRoute()
+    if(!this.unauthorizedRoutes.includes('getOne')) this.buildGetOneRoute()
+    if(!this.unauthorizedRoutes.includes('getMany')) this.buildGetManyRoute()
+    if(!this.unauthorizedRoutes.includes('createBulk')) this.buildBulkPostRoute()
+    if(!this.unauthorizedRoutes.includes('createOne')) this.buildOnePostRoute()
+    if(!this.unauthorizedRoutes.includes('updateBulk')) this.buildBulkPutRoute()
+    if(!this.unauthorizedRoutes.includes('updateOne')) this.buildOnePutRoute()
+    if(!this.unauthorizedRoutes.includes('deleteBulk')) this.buildBulkDeleteRoute()
+    if(!this.unauthorizedRoutes.includes('deleteOne')) this.buildOneDeleteRoute()
 
     this.buildCustomAfterMiddlewares()
   }
