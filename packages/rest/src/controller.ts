@@ -75,17 +75,17 @@ export class Controller {
     this.buildCustomBeforeMiddlewares()
     this.buildCustomRoutes()
 
-    if(!this.unauthorizedRoutes.includes('count')) this.buildCountRoute()
-    if(!this.unauthorizedRoutes.includes('query')) this.buildQueryRoute()
-    if(!this.unauthorizedRoutes.includes('queryCount')) this.buildQueryCountRoute()
-    if(!this.unauthorizedRoutes.includes('getOne')) this.buildGetOneRoute()
-    if(!this.unauthorizedRoutes.includes('getMany')) this.buildGetManyRoute()
-    if(!this.unauthorizedRoutes.includes('createBulk')) this.buildBulkPostRoute()
-    if(!this.unauthorizedRoutes.includes('createOne')) this.buildOnePostRoute()
-    if(!this.unauthorizedRoutes.includes('updateBulk')) this.buildBulkPutRoute()
-    if(!this.unauthorizedRoutes.includes('updateOne')) this.buildOnePutRoute()
-    if(!this.unauthorizedRoutes.includes('deleteBulk')) this.buildBulkDeleteRoute()
-    if(!this.unauthorizedRoutes.includes('deleteOne')) this.buildOneDeleteRoute()
+    if (!this.unauthorizedRoutes.includes('count')) this.buildCountRoute()
+    if (!this.unauthorizedRoutes.includes('query')) this.buildQueryRoute()
+    if (!this.unauthorizedRoutes.includes('queryCount')) this.buildQueryCountRoute()
+    if (!this.unauthorizedRoutes.includes('getOne')) this.buildGetOneRoute()
+    if (!this.unauthorizedRoutes.includes('getMany')) this.buildGetManyRoute()
+    if (!this.unauthorizedRoutes.includes('createBulk')) this.buildBulkPostRoute()
+    if (!this.unauthorizedRoutes.includes('createOne')) this.buildOnePostRoute()
+    if (!this.unauthorizedRoutes.includes('updateBulk')) this.buildBulkPutRoute()
+    if (!this.unauthorizedRoutes.includes('updateOne')) this.buildOnePutRoute()
+    if (!this.unauthorizedRoutes.includes('deleteBulk')) this.buildBulkDeleteRoute()
+    if (!this.unauthorizedRoutes.includes('deleteOne')) this.buildOneDeleteRoute()
 
     this.buildCustomAfterMiddlewares()
   }
@@ -110,7 +110,20 @@ export class Controller {
   private buildCustomRoutes() {
     this.customRoutes.forEach((route: any) => {
       const middlewares = route.middlewares || []
-      this.router.use(this.mainRoute + route.path, middlewares, route.execute)
+      switch (route.method) {
+        case 'GET':
+          this.router.get(this.mainRoute + route.path, middlewares, route.execute)
+          break
+        case 'POST':
+          this.router.post(this.mainRoute + route.path, middlewares, route.execute)
+          break
+        case 'PUT':
+          this.router.put(this.mainRoute + route.path, middlewares, route.execute)
+          break
+        case 'DELETE':
+          this.router.delete(this.mainRoute + route.path, middlewares, route.execute)
+          break
+      }
     })
   }
 
