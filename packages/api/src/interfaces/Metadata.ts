@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express'
 
 export enum RouteMethod {
-  GET,
-  POST,
-  PUT,
-  DELETE
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE'
 }
 
 export interface RouteMetadata {

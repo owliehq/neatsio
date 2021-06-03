@@ -222,4 +222,26 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
         })
     })
   })
+
+  describe('Custom route section', () => {
+    let message: string
+
+    it('should return a message', async () => {
+      return request(app)
+        .post('/customers/test')
+        .send({ message: 'coucou' })
+        .expect(200)
+        .then(response => {
+          message = response.body.message
+          expect(response.body.message).toBeDefined()
+        })
+    })
+
+    it('should return a 404', async () => {
+      return request(app)
+        .delete('/customers/test')
+        .send({ message: 'coucou' })
+        .expect(404)
+    })
+  })
 })

@@ -9,7 +9,8 @@ import {
   NeatsioActions,
   AuthMiddleware,
   Get,
-  Params
+  Params,
+  Post
 } from '../../../../src'
 
 import { validationsCreateOne } from './CustomersValidations'
@@ -49,5 +50,10 @@ export default class CustomersController {
   @Get('/email/:email')
   async getEmail(@Params('email') email: string) {
     return this.customerService.findByEmail(email)
+  }
+
+  @Post('/test')
+  async sendMessage(@Params('message') message: string) {
+    return { message: 'TEST: ' + message }
   }
 }

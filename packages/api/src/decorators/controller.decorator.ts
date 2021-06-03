@@ -158,7 +158,7 @@ function prepareCustomRoutesForNeatsio(controller: any, controllerMetadata: any)
   if (!controllerMetadata.routes) return []
 
   return Object.entries(controllerMetadata.routes).map(([methodName, route]) => {
-    const { path, handler }: any = route
+    const { path, handler, method }: any = route
 
     const declaredMiddlewares = controllerMetadata.middlewares || {}
 
@@ -166,6 +166,7 @@ function prepareCustomRoutesForNeatsio(controller: any, controllerMetadata: any)
 
     return {
       path,
+      method,
       middlewares,
       execute: asyncWrapper(handler.bind(controller.instance))
     }
