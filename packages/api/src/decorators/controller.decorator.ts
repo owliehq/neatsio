@@ -88,9 +88,12 @@ export const Controller = <T extends { new (...args: any[]): any }>(
       return removeNeatsio[0].toLowerCase() + removeNeatsio.substring(1)
     })
 
+    const hiddenAttributes = params.hiddenAttributes || []
+
     const config = {
       ...buildNeatsioConfig(currentControllerClass, controllerMetadata, neatsioRoutes),
-      unauthorizedRoutes
+      unauthorizedRoutes,
+      hiddenAttributes
     }
 
     neatsio.registerModel(params.model, config)
@@ -193,9 +196,10 @@ function getNeatsioRoutesConfig<T extends { new (...args: any[]): any }>(control
     }, {})
 }
 
-interface ControllerParams {
+export interface ControllerParams {
   // TODO: care about Sequelize 6 migration
   model?: any //{ new (): Model } & typeof Model
   rights?: RightsManager
   unauthorizedRoutes?: Array<NeatsioActions>
+  hiddenAttributes?: Array<String>
 }
