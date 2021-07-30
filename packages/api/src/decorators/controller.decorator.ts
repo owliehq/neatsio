@@ -5,7 +5,7 @@ const neatsio = require('@owliehq/neatsio')
 
 import { asyncWrapper } from '@owliehq/async-wrapper'
 
-import { RouteMethod, RouteMetadata, MiddlewareMetadata } from '../interfaces/Metadata'
+import { RouteMethod, RouteMetadata } from '../interfaces/Metadata'
 import { MetadataManager } from '../MetadataManager'
 
 import { app } from '..'
