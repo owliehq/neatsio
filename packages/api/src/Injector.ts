@@ -4,7 +4,7 @@ import 'reflect-metadata'
 class Container {
   private providers: Map<string, any> = new Map()
 
-  resolve<T>(target: string | Class<T>): any {
+  resolve<T>(target: string | Class<T>): T {
     const name = typeof target === 'string' ? target : target.name
 
     const resolved = this.providers.get(name)
