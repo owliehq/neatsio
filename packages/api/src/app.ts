@@ -63,7 +63,7 @@ export class App {
   public get native() {
     const app = express()
 
-    app.use(this.beforeCommonMiddleware)
+    if(this.beforeCommonMiddleware.length) app.use(this.beforeCommonMiddleware)
     app.use(this.commonMiddlewares)
 
     if (this.beforeMiddlewares.length) app.use(this.beforeMiddlewares)
