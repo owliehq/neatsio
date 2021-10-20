@@ -10,4 +10,5 @@ export interface InitAppNativeOptions {
   tsEnv?: boolean
   port?: number
   useBeforeMiddlewares?: Array<RequestHandler>
+  useBeforeCommonMiddlewares?: Array<RequestHandler>
 }

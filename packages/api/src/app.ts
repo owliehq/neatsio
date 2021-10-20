@@ -30,6 +30,12 @@ export class App {
   /**
    *
    */
+  private beforeCommonMiddleware : RequestHandler[] = []
+
+
+  /**
+   *
+   */
   private get commonMiddlewares() {
     return [
       cors({ origin: true }),
@@ -57,6 +63,7 @@ export class App {
   public get native() {
     const app = express()
 
+    app.use(this.beforeCommonMiddleware)
     app.use(this.commonMiddlewares)
 
     if (this.beforeMiddlewares.length) app.use(this.beforeMiddlewares)
@@ -111,8 +118,9 @@ export class App {
    * @param beforeMiddlewares
    * @param afterMiddlewares
    */
-  private loadMiddlewares(beforeMiddlewares: Array<RequestHandler> = [], afterMiddlewares = []) {
+  private loadMiddlewares(beforeCommonMiddleware: Array<RequestHandler> = [],beforeMiddlewares: Array<RequestHandler> = [], afterMiddlewares = []) {
     this.beforeMiddlewares = beforeMiddlewares
+    this.beforeCommonMiddleware = beforeCommonMiddleware
   }
 
   /**
@@ -134,8 +142,8 @@ export class App {
       }
     }
 
-    if (options.useBeforeMiddlewares) {
-      this.loadMiddlewares(options.useBeforeMiddlewares)
+    if (options.useBeforeMiddlewares || options.useBeforeCommonMiddlewares) {
+      this.loadMiddlewares(options.useBeforeCommonMiddlewares, options.useBeforeMiddlewares)
     }
 
     const loadControllersOptions = {
