@@ -1,6 +1,4 @@
-import { Sequelize, Promise } from 'sequelize'
-
-global.Promise = Promise
+import { Sequelize } from 'sequelize'
 
 export default new Sequelize({
   dialect: 'sqlite',

@@ -1,4 +1,4 @@
-import { Op, fn, col, where, Model, IncludeOptions } from 'sequelize'
+import { Op, fn, col, where, Model, IncludeOptions, ModelStatic } from 'sequelize'
 import * as pluralize from 'pluralize'
 import * as dot from 'dot-prop'
 import { isPlainObject, normalizePath, deconstructPath } from '../utils'
@@ -182,7 +182,7 @@ export class SequelizeConverter extends Converter {
       const currentModel = modelCheck as { new (): Model } & typeof Model
 
       return Object.keys(tree).map(entry => {
-        let extractedModel: typeof Model | undefined
+        let extractedModel: ModelStatic<any> | undefined
         let associationType: string | undefined
 
         for (let [attribute, association] of Object.entries(currentModel.associations)) {
