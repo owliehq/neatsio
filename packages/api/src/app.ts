@@ -30,8 +30,7 @@ export class App {
   /**
    *
    */
-  private beforeCommonMiddleware : RequestHandler[] = []
-
+  private beforeCommonMiddleware: RequestHandler[] = []
 
   /**
    *
@@ -63,7 +62,7 @@ export class App {
   public get native() {
     const app = express()
 
-    if(this.beforeCommonMiddleware.length) app.use(this.beforeCommonMiddleware)
+    if (this.beforeCommonMiddleware.length) app.use(this.beforeCommonMiddleware)
     app.use(this.commonMiddlewares)
 
     if (this.beforeMiddlewares.length) app.use(this.beforeMiddlewares)
@@ -118,7 +117,11 @@ export class App {
    * @param beforeMiddlewares
    * @param afterMiddlewares
    */
-  private loadMiddlewares(beforeCommonMiddleware: Array<RequestHandler> = [],beforeMiddlewares: Array<RequestHandler> = [], afterMiddlewares = []) {
+  private loadMiddlewares(
+    beforeCommonMiddleware: Array<RequestHandler> = [],
+    beforeMiddlewares: Array<RequestHandler> = [],
+    afterMiddlewares = []
+  ) {
     this.beforeMiddlewares = beforeMiddlewares
     this.beforeCommonMiddleware = beforeCommonMiddleware
   }
@@ -175,8 +178,8 @@ export class App {
 
     return new Promise((resolve, reject) => {
       try {
-        app.listen(options?.port || 3000, () => {
-          resolve()
+        app.listen(options?.port || 3000, args => {
+          resolve(args)
         })
       } catch (err) {
         reject(err)

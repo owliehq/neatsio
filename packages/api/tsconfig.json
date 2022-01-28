@@ -14,7 +14,8 @@
     "declarationDir": "dist/types",
     "outDir": "dist/lib",
     "typeRoots": ["node_modules/@types"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowJs": true
   },
   "esModuleInterop": true,
   "include": ["src", "test"]

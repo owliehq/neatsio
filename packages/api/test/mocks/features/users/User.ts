@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt'
   tableName: 'users',
   timestamps: false
 })
-export default class User extends Model<User> {
+export default class User extends Model {
   @Column
   lastname: string
 

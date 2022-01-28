@@ -27,7 +27,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "start": "rollup -c rollup.config.ts -w",
-    "test": "jest --coverage --runInBand",
+    "test": "jest --coverage --runInBand --detectOpenHandles --forceExit",
     "test:nocoverage": "jest --runInBand",
     "test:watch": "jest --runInBand --watch",
     "test:prod": "npm run lint && npm run test:nocoverage -- --no-cache",
@@ -80,12 +80,12 @@
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^23.3.14",
     "@types/mime-types": "^2.1.0",
-    "@types/node": "^10.17.13",
+    "@types/node": "^10.17.60",
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/pluralize": "0.0.29",
     "@types/supertest": "^2.0.8",
-    "@types/validator": "^13.1.0",
+    "@types/validator": "^13.7.1",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "bcrypt": "^5.0.0",
@@ -108,7 +108,7 @@
     "rimraf": "^2.7.1",
     "rollup": "^1.32.0",
     "semantic-release": "^15.13.31",
-    "sequelize-typescript": "^1.1.0",
+    "sequelize-typescript": "^2.1.2",
     "shelljs": "^0.8.3",
     "sqlite3": "^5.0.0",
     "supertest": "^4.0.2",
@@ -116,7 +116,7 @@
     "ts-node": "^7.0.1",
     "ts-node-dev": "^1.0.0",
     "tslib": "^1.11.1",
-    "typescript": "^3.9.7"
+    "typescript": "^4.5.5"
   },
   "peerDependencies": {
     "passport": "^0.4.1"
@@ -124,7 +124,7 @@
   "dependencies": {
     "@owliehq/async-wrapper": "^1.1.0",
     "@owliehq/http-errors": "^1.4.0",
-    "@owliehq/neatsio": "^1.22.0",
+    "@owliehq/neatsio": "^1.23.0",
     "cors": "^2.8.5",
     "dot-prop": "^5.2.0",
     "express": "^4.17.1",
@@ -135,7 +135,7 @@
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "role-acl": "^4.5.4",
-    "sequelize": "^5.22.3",
+    "sequelize": "^6.14.1",
     "type-fest": "^0.20.2"
   }
 }

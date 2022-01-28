@@ -20,10 +20,11 @@ describe('Neatsio: Controller mixin Neatsio routes', () => {
 
     await sequelize.sync({ force: true })
 
-    app = await startServer()
-
+    app = await startServer(3002)
     done()
   })
+
+  afterAll(() => {})
 
   describe('GET /customers', () => {
     beforeAll(() => {

@@ -6,7 +6,8 @@ let app: Application
 
 describe('Server mocked', () => {
   beforeAll(async () => {
-    app = await startServer()
+    app = await startServer(3001)
+    const result = await request(app).get('/')
   })
 
   describe('GET /dealerships', () => {

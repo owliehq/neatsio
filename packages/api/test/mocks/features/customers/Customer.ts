@@ -6,7 +6,7 @@ import { CustomerService } from './CustomerService'
   tableName: 'customers',
   timestamps: false
 })
-export default class Customer extends Model<Customer> {
+export default class Customer extends Model {
   @Inject private customerService: CustomerService
 
   @Column

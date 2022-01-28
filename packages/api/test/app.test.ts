@@ -6,7 +6,7 @@ let app: Application
 
 describe('Server mocked', () => {
   beforeAll(async () => {
-    app = await startServer()
+    app = await startServer(3005)
   })
 
   describe('GET /onche', () => {
