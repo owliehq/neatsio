@@ -28,7 +28,7 @@
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage --runInBand --detectOpenHandles --forceExit",
-    "test:nocoverage": "jest --runInBand",
+    "test:nocoverage": "jest --runInBand --detectOpenHandles --forceExit",
     "test:watch": "jest --runInBand --watch",
     "test:prod": "npm run lint && npm run test:nocoverage -- --no-cache",
     "test:local": "jest --coverage --runInBand",
