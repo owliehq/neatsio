@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@owliehq/http-errors": "^1.2.1",
-    "@owliehq/neatsio": "^1.13.2",
+    "@owliehq/neatsio": "^1.23.0",
     "@rollup/plugin-json": "^4.0.2",
     "@rollup/plugin-typescript": "^2.1.0",
     "@semantic-release/git": "^7.0.18",
@@ -106,14 +106,14 @@
     "rimraf": "^2.7.1",
     "rollup": "^1.32.0",
     "semantic-release": "^15.13.31",
-    "sequelize": "^5.21.5",
+    "sequelize": "^6.14.1",
     "shelljs": "^0.8.3",
     "sqlite3": "^4.1.1",
     "supertest": "^4.0.2",
     "ts-jest": "^25.2.1",
     "ts-node": "^7.0.1",
     "tslib": "^1.11.1",
-    "typescript": "^3.7.5"
+    "typescript": "^4.5.5"
   },
   "dependencies": {
     "@owliehq/async-wrapper": "^1.1.0",
