@@ -393,7 +393,8 @@ describe('Mongoose: GET /api/cars & GET /api/users', () => {
 
     it('should get cars list with brand property populated', () => {
       const query = {
-        $populate: 'brand'
+        $populate: 'brand',
+        $sort: 'id'
       }
 
       return request(app)
