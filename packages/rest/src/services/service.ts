@@ -16,54 +16,54 @@ export default abstract class Service {
    * @param id
    * @param query
    */
-  abstract async findById(id: string, query?: QueryParser): Promise<any>
+  abstract findById(id: string, query?: QueryParser): Promise<any>
 
   /**
    *
    */
-  abstract async find(query?: QueryParser): Promise<any>
+  abstract find(query?: QueryParser): Promise<any>
 
   /**
    *
    */
-  abstract async count(query?: QueryParser): Promise<any>
-
-  /**
-   *
-   * @param body
-   */
-  abstract async createOne(body: any, query?: QueryParser): Promise<any>
+  abstract count(query?: QueryParser): Promise<any>
 
   /**
    *
    * @param body
    */
-  abstract async createBulk(body: any): Promise<any>
+  abstract createOne(body: any, query?: QueryParser): Promise<any>
 
   /**
    *
    * @param body
    */
-  abstract async updateOne(id: string, body: any, query?: QueryParser): Promise<any>
+  abstract createBulk(body: any): Promise<any>
+
+  /**
+   *
+   * @param body
+   */
+  abstract updateOne(id: string, body: any, query?: QueryParser): Promise<any>
 
   /**
    *
    * @param body
    * @param query
    */
-  abstract async updateBulk(body: any, query?: QueryParser): Promise<any>
+  abstract updateBulk(body: any, query?: QueryParser): Promise<any>
 
   /**
    *
    * @param id
    */
-  abstract async deleteOne(id: string): Promise<any>
+  abstract deleteOne(id: string): Promise<any>
 
   /**
    *
    * @param query
    */
-  abstract async deleteBulk(query?: QueryParser): Promise<any>
+  abstract deleteBulk(query?: QueryParser): Promise<any>
 
   /**
    *
