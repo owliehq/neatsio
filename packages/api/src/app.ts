@@ -38,7 +38,7 @@ export class App {
   private get commonMiddlewares() {
     return [
       cors({ origin: true }),
-      bodyParser.json(),
+      bodyParser.json({ limit: '10mb' }),
       bodyParser.urlencoded({ extended: false }),
       passport.initialize(),
       (req: Request, res: Response, next: NextFunction) => {
