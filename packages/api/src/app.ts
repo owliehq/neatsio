@@ -39,7 +39,7 @@ export class App {
     return [
       cors({ origin: true }),
       bodyParser.json({ limit: '10mb' }),
-      bodyParser.urlencoded({ extended: false }),
+      bodyParser.urlencoded({ extended: false, limit:'10mb' }),
       passport.initialize(),
       (req: Request, res: Response, next: NextFunction) => {
         res.removeHeader('X-Powered-By')
