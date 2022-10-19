@@ -9,6 +9,9 @@ import { Strategy } from 'passport'
 import { RightsManager } from './RightsManager'
 import { InitAppNativeOptions } from './interfaces/App'
 
+import { default as https } from 'https'
+import { default as http } from 'http'
+
 // WTF require is needed...
 const neatsio = require('@owliehq/neatsio')
 const cors = require('cors')
@@ -178,7 +181,13 @@ export class App {
 
     return new Promise((resolve, reject) => {
       try {
-        app.listen(options?.port || 3000, args => {
+        let server
+        if(options.credentials){
+          server = https.createServer(options.credentials, app)
+        } else {
+          server = http.createServer(app)
+        }
+        server.listen(options?.port || 3000, (args : any) => {
           resolve(args)
         })
       } catch (err) {

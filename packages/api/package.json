@@ -131,6 +131,8 @@
     "express-validator": "^6.6.1",
     "fast-glob": "^3.2.4",
     "fs-extra": "^8.1.0",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
     "passport": "^0.4.1",
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",

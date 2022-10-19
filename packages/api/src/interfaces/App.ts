@@ -11,4 +11,5 @@ export interface InitAppNativeOptions {
   port?: number
   useBeforeMiddlewares?: Array<RequestHandler>
   useBeforeCommonMiddlewares?: Array<RequestHandler>
+  credentials?: {key: string, cert: string}
 }
