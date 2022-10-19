@@ -9,8 +9,8 @@ import { Strategy } from 'passport'
 import { RightsManager } from './RightsManager'
 import { InitAppNativeOptions } from './interfaces/App'
 
-import { default as https } from 'https'
-import { default as http } from 'http'
+import * as https from 'https'
+import * as http  from 'http'
 
 // WTF require is needed...
 const neatsio = require('@owliehq/neatsio')
