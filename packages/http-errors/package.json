@@ -81,6 +81,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "express": "^4.17.1",
     "jest": "^24.9.0",
     "jest-config": "^24.9.0",
     "lint-staged": "^8.2.1",
@@ -98,12 +99,9 @@
     "semantic-release": "^15.13.31",
     "shelljs": "^0.8.3",
     "supertest": "^4.0.2",
+    "ts-custom-error": "3.3.0",
     "ts-jest": "^24.3.0",
     "ts-node": "^7.0.1",
-    "express": "^4.17.1",
     "typescript": "^3.7.5"
-  },
-  "dependencies": {
-    "ts-custom-error": "^3.2.0"
   }
 }
