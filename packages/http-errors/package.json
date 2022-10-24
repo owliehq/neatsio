@@ -1,6 +1,6 @@
 {
   "name": "@owliehq/http-errors",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Http Errors handler",
   "homepage": "https://github.com/owliehq/neatsio/tree/master/packages/http-errors",
   "keywords": [],
